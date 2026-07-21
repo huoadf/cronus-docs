@@ -11,8 +11,11 @@ PAGES = [
     {"id": "combos-timing", "title": "Combos & Timing", "group": "API Reference", "src": "combos-timing.md", "url": "combos-timing/index.html", "breadcrumb": "Combos & Timing"},
     {"id": "controller", "title": "Controller Hardware", "group": "API Reference", "src": "controller.md", "url": "controller/index.html", "breadcrumb": "Controller Hardware"},
     {"id": "math", "title": "Math & Utilities", "group": "API Reference", "src": "math.md", "url": "math/index.html", "breadcrumb": "Math & Utilities"},
+    {"id": "oled-display", "title": "OLED Display", "group": "API Reference", "src": "oled-display.md", "url": "oled-display/index.html", "breadcrumb": "OLED Display"},
+    {"id": "bitwise-storage", "title": "Bitwise & Storage", "group": "API Reference", "src": "bitwise-storage.md", "url": "bitwise-storage/index.html", "breadcrumb": "Bitwise & Storage"},
     {"id": "advanced-guides", "title": "Advanced Guides & Macros", "group": "Guides", "src": "advanced-guides.md", "url": "advanced-guides/index.html", "breadcrumb": "Advanced Guides & Macros"},
-    {"id": "troubleshooting", "title": "Troubleshooting & Limits", "group": "Guides", "src": "troubleshooting.md", "url": "troubleshooting/index.html", "breadcrumb": "Troubleshooting & Limits"}
+    {"id": "troubleshooting", "title": "Troubleshooting & Limits", "group": "Guides", "src": "troubleshooting.md", "url": "troubleshooting/index.html", "breadcrumb": "Troubleshooting & Limits"},
+    {"id": "studio-interop", "title": "Zen Studio Interop", "group": "Guides", "src": "studio-interop.md", "url": "studio-interop/index.html", "breadcrumb": "Zen Studio Interop"}
 ]
 
 # Load layout template
@@ -436,8 +439,11 @@ llms_summary = """# Cronus GPC Docs
 - [Combos & Timing](https://huoadf.github.io/cronus-docs/combos-timing/) - Writing combos, wait timers, state time measurements.
 - [Controller Hardware](https://huoadf.github.io/cronus-docs/controller/) - Rumble motors, color LEDs, controller button aliases.
 - [Math & Utilities](https://huoadf.github.io/cronus-docs/math/) - Clamp, absolute values, random generators, fixed-point math patterns.
+- [OLED Display](https://huoadf.github.io/cronus-docs/oled-display/) - Cls, drawing lines/rects/circles, formatting text strings via buffers.
+- [Bitwise & Storage](https://huoadf.github.io/cronus-docs/bitwise-storage/) - Bits functions, persistent variables (get_pvar/set_pvar), and bit-packing methods.
 - [Advanced Guides & Macros](https://huoadf.github.io/cronus-docs/advanced-guides/) - Progressive anti-recoil, adjustable rapid fire, slide cancellations, and CPU optimization.
 - [Troubleshooting & Limits](https://huoadf.github.io/cronus-docs/troubleshooting/) - Bytecode optimization, watchdog timeout crashes, input lag, and TRACE debugger.
+- [Zen Studio Interop](https://huoadf.github.io/cronus-docs/studio-interop/) - Windows Messages (WM_COPYDATA) integration, C# interop commands.
 
 For the full detailed documentation text, visit [llms-full.txt](https://huoadf.github.io/cronus-docs/llms-full.txt).
 """

@@ -3,8 +3,8 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Input & Output · Cronus GPC docs</title>
-  <meta name="description" content="Cronus Zen GPC scripting documentation - Input & Output">
+  <title>OLED Display · Cronus GPC docs</title>
+  <meta name="description" content="Cronus Zen GPC scripting documentation - OLED Display">
   <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%23050505'/%3E%3Ccircle cx='16' cy='16' r='6' fill='%2300f0ff'/%3E%3C/svg%3E">
   
   <!-- Fonts -->
@@ -91,11 +91,11 @@
         <a class="nav-item " href="../user-functions/">User Functions</a>
         
         <div class="nav-group">API Reference</div>
-        <a class="nav-item active" href="../input-output/">Input &amp; Output</a>
+        <a class="nav-item " href="../input-output/">Input &amp; Output</a>
         <a class="nav-item " href="../combos-timing/">Combos &amp; Timing</a>
         <a class="nav-item " href="../controller/">Controller Hardware</a>
         <a class="nav-item " href="../math/">Math &amp; Utilities</a>
-        <a class="nav-item " href="../oled-display/">OLED Display</a>
+        <a class="nav-item active" href="../oled-display/">OLED Display</a>
         <a class="nav-item " href="../bitwise-storage/">Bitwise &amp; Storage</a>
         
         <div class="nav-group">Guides</div>
@@ -110,154 +110,143 @@
         <div class="breadcrumb">
           <a href="../">Cronus GPC</a> 
           <span>/</span> 
-          Input & Output
+          OLED Display
         </div>
-        <h1 id="input-output" tabindex="-1">
-          Input & Output 
-          <a class="header-anchor" href="#input-output" aria-hidden="true">#</a>
+        <h1 id="oled-display" tabindex="-1">
+          OLED Display 
+          <a class="header-anchor" href="#oled-display" aria-hidden="true">#</a>
         </h1>
-        <h1 id="input-output-api" tabindex="-1">Input & Output API <a class="header-anchor" href="#input-output-api" aria-hidden="true">#</a></h1>
-<p>The core capability of GPC scripting is inspecting physical buttons and sticks, modifying their values, and outputting the results. This section details the functions used to interact with controller inputs.</p>
+        <h1 id="oled-display-api" tabindex="-1">OLED Display API <a class="header-anchor" href="#oled-display-api" aria-hidden="true">#</a></h1>
+<p>The Cronus Zen features a built-in 128x64 pixel monochrome OLED display. GPC scripts can draw text, shapes, and custom user interfaces directly onto this display.</p>
 <hr>
-<h2 id="reading-inputs" tabindex="-1">Reading Inputs <a class="header-anchor" href="#reading-inputs" aria-hidden="true">#</a></h2>
-<h3 id="get-val" tabindex="-1"><code>get_val</code> <a class="header-anchor" href="#get-val" aria-hidden="true">#</a></h3>
-<p>Reads the current value of a controller input.</p>
+<h2 id="screen-coordinates-colors" tabindex="-1">Screen Coordinates & Colors <a class="header-anchor" href="#screen-coordinates-colors" aria-hidden="true">#</a></h2>
+<p>The OLED display uses a grid system starting from the top-left corner:</p>
 <ul>
-<li><strong>Syntax</strong>: <code>get_val(<a href="identifier">identifier</a>)</code></li>
-<li><strong>Returns</strong>: An integer. For buttons and triggers, it returns <code>0</code> (released) to <code>100</code> (fully pressed). For analog sticks, it returns a value from <code>-100</code> to <code>100</code>.</li>
-<li><strong>Example</strong>:</li>
-<pre><code class="language-c">  main {
-      // Check if Right Stick Y-axis (vertical) is pushed down past 50%
-      if (get_val(XB1_RY) &gt; 50) {
-          // Do something
-      }
-  }</code></pre>
+<li><strong>Width</strong>: <code>128</code> pixels (X-axis: <code>0</code> to <code>127</code>)</li>
+<li><strong>Height</strong>: <code>64</code> pixels (Y-axis: <code>0</code> to <code>63</code>)</li>
 </ul>
-<h3 id="get-lval" tabindex="-1"><code>get_lval</code> <a class="header-anchor" href="#get-lval" aria-hidden="true">#</a></h3>
-<p>Reads the value of a controller input from the *previous* execution frame. Useful for detecting changes in analog stick positions or trigger changes.</p>
+<pre><code class="language-txt">(0,0) ------------------- (127,0)
+  |                         |
+  |      OLED SCREEN        |
+  |        128 x 64         |
+  |                         |
+(0,63) ----------------- (127,63)</code></pre>
 <ul>
-<li><strong>Syntax</strong>: <code>get_lval(<a href="identifier">identifier</a>)</code></li>
-<li><strong>Example</strong>:</li>
-<pre><code class="language-c">  main {
-      // Compare current stick value to previous frame
-      if (get_val(XB1_RX) != get_lval(XB1_RX)) {
-          // Right Stick X-axis is moving
-      }
-  }</code></pre>
+<li><strong>Colors</strong>:</li>
+<li><code>0</code> = Black (pixel off)</li>
+<li><code>1</code> = White (pixel on)</li>
 </ul>
 <hr>
-<h2 id="trigger-events" tabindex="-1">Trigger Events <a class="header-anchor" href="#trigger-events" aria-hidden="true">#</a></h2>
-<h3 id="event-press" tabindex="-1"><code>event_press</code> <a class="header-anchor" href="#event-press" aria-hidden="true">#</a></h3>
-<p>Detects if a button was pressed during the current frame. This function only returns <code>TRUE</code> once per button press event.</p>
+<h2 id="draw-functions" tabindex="-1">Draw Functions <a class="header-anchor" href="#draw-functions" aria-hidden="true">#</a></h2>
+<h3 id="cls-oled" tabindex="-1"><code>cls_oled</code> <a class="header-anchor" href="#cls-oled" aria-hidden="true">#</a></h3>
+<p>Clears the entire display to a single color.</p>
 <ul>
-<li><strong>Syntax</strong>: <code>event_press(<a href="identifier">identifier</a>)</code></li>
-<li><strong>Returns</strong>: <code>TRUE</code> (1) if the button transitioned from released to pressed in the current cycle, otherwise <code>FALSE</code> (0).</li>
+<li><strong>Syntax</strong>: <code>cls_oled(<a href="color">color</a>);</code></li>
 <li><strong>Example</strong>:</li>
-<pre><code class="language-c">  main {
-      // Toggle a feature when pressing the button once
-      if (event_press(XB1_Y)) {
-          toggleState = !toggleState;
-      }
+<pre><code class="language-c">  init {
+      cls_oled(0); // Clear screen to black at script startup
   }</code></pre>
 </ul>
-<h3 id="event-release" tabindex="-1"><code>event_release</code> <a class="header-anchor" href="#event-release" aria-hidden="true">#</a></h3>
-<p>Detects if a button was released during the current frame.</p>
+<h3 id="pixel-oled" tabindex="-1"><code>pixel_oled</code> <a class="header-anchor" href="#pixel-oled" aria-hidden="true">#</a></h3>
+<p>Illuminates a single pixel at a specific coordinate.</p>
 <ul>
-<li><strong>Syntax</strong>: <code>event_release(<a href="identifier">identifier</a>)</code></li>
-<li><strong>Returns</strong>: <code>TRUE</code> (1) if the button transitioned from pressed to released, otherwise <code>FALSE</code> (0).</li>
+<li><strong>Syntax</strong>: <code>pixel_oled(<a href="x">x</a>, <a href="y">y</a>, <a href="color">color</a>);</code></li>
+</ul>
+<h3 id="line-oled" tabindex="-1"><code>line_oled</code> <a class="header-anchor" href="#line-oled" aria-hidden="true">#</a></h3>
+<p>Draws a straight line from one coordinate to another.</p>
+<ul>
+<li><strong>Syntax</strong>: <code>line_oled(<a href="x1">x1</a>, <a href="y1">y1</a>, <a href="x2">x2</a>, <a href="y2">y2</a>, <a href="thickness">thickness</a>, <a href="color">color</a>);</code></li>
 <li><strong>Example</strong>:</li>
 <pre><code class="language-c">  main {
-      // Run reload macro when reloading button is released
-      if (event_release(XB1_X)) {
-          combo_run(ReloadMacro);
-      }
+      // Draw a horizontal line at the center
+      line_oled(0, 32, 127, 32, 1, 1);
   }</code></pre>
 </ul>
-<hr>
-<h2 id="overwriting-blocking-outputs" tabindex="-1">Overwriting & Blocking Outputs <a class="header-anchor" href="#overwriting-blocking-outputs" aria-hidden="true">#</a></h2>
-<h3 id="set-val" tabindex="-1"><code>set_val</code> <a class="header-anchor" href="#set-val" aria-hidden="true">#</a></h3>
-<p>Overrides the physical value of a button or stick and sends the new value to the console or PC.</p>
+<h3 id="rect-oled" tabindex="-1"><code>rect_oled</code> <a class="header-anchor" href="#rect-oled" aria-hidden="true">#</a></h3>
+<p>Draws a rectangle on the screen.</p>
 <ul>
-<li><strong>Syntax</strong>: <code>set_val(<a href="identifier">identifier</a>, <a href="value">value</a>)</code></li>
+<li><strong>Syntax</strong>: <code>rect_oled(<a href="x">x</a>, <a href="y">y</a>, <a href="width">width</a>, <a href="height">height</a>, <a href="fill_flag">fill_flag</a>, <a href="color">color</a>);</code></li>
 <li><strong>Parameters</strong>:</li>
-<li><code><a href="identifier">identifier</a></code>: The controller button/axis to override.</li>
-<li><code><a href="value">value</a></code>: The value to set (integer between <code>-100</code> and <code>100</code>).</li>
+<li><code><a href="fill_flag">fill_flag</a></code>: <code>0</code> for outline outline only, <code>1</code> to fill the rectangle.</li>
 <li><strong>Example</strong>:</li>
 <pre><code class="language-c">  main {
-      // Auto-sprint: If pushing Left Stick forward (negative Y values), force press LS button
-      if (get_val(XB1_LY) &lt;a href=" -90) {
-          set_val(XB1_LS, 100);
-      }
+      // Draw a filled white box on the left half of the screen
+      rect_oled(0, 0, 64, 64, 1, 1);
   }</code></pre>
 </ul>
-<h3 id="block" tabindex="-1"><code>block</code> <a class="header-anchor" href="#block" aria-hidden="true">#</a></h3>
-<p>Blocks output signals from a specific button from reaching the console for a specified duration.</p>
+<h3 id="circle-oled" tabindex="-1"><code>circle_oled</code> <a class="header-anchor" href="#circle-oled" aria-hidden="true">#</a></h3>
+<p>Draws a circle.</p>
 <ul>
-<li><strong>Syntax</strong>: `block(<identifier"> -90) {</li>
+<li><strong>Syntax</strong>: <code>circle_oled(<a href="x">x</a>, <a href="y">y</a>, <a href="radius">radius</a>, <a href="fill_flag">fill_flag</a>, <a href="color">color</a>);</code></li>
 </ul>
-<p>set_val(XB1_LS, 100);</p>
-<p>}</p>
-<p>}</p>
-<pre><code class="language-txt">
-### `block`
-Blocks output signals from a specific button from reaching the console for a specified duration.
-* **Syntax**: `block(&lt;identifier&lt;/a&gt;, &lt;a href="time_ms"&gt;time_ms&lt;/a&gt;)`
-* **Example**:</code></pre>
-<p>main {</p>
-<p>// If pressing Menu button, block the signal for 200ms to allow local script action</p>
-<p>if (event_press(XB1_MENU)) {</p>
-<p>block(XB1_MENU, 200);</p>
-<p>combo_run(LocalMenuLogic);</p>
-<p>}</p>
-<p>}</p>
-<pre><code class="language-txt">
-## Remapping &amp; Unmapping
+<hr>
+<h2 id="text-output-api" tabindex="-1">Text Output API <a class="header-anchor" href="#text-output-api" aria-hidden="true">#</a></h2>
+<p>Writing text to the OLED screen is a two-step process in GPC:</p>
+<ol>
+<li>Load characters into the Zen's text string buffer using <code>putc_oled()</code>.</li>
+<li>Render the string buffer to a specific position on the display using <code>puts_oled()</code>.</li>
+</ol>
+<h3 id="putc-oled" tabindex="-1"><code>putc_oled</code> <a class="header-anchor" href="#putc-oled" aria-hidden="true">#</a></h3>
+<p>Pushes a single ASCII character into the text buffer.</p>
+<ul>
+<li><strong>Syntax</strong>: <code>putc_oled(<a href="buffer_index">buffer_index</a>, <a href="char_code">char_code</a>);</code></li>
+<li><strong>Parameters</strong>:</li>
+<li><code><a href="buffer_index">buffer_index</a></code>: The index inside the text buffer array (usually incremented per character).</li>
+<li><code><a href="char_code">char_code</a></code>: The ASCII value or character constant.</li>
+</ul>
+<h3 id="puts-oled" tabindex="-1"><code>puts_oled</code> <a class="header-anchor" href="#puts-oled" aria-hidden="true">#</a></h3>
+<p>Draws the loaded text buffer onto the screen.</p>
+<ul>
+<li><strong>Syntax</strong>: <code>puts_oled(<a href="x">x</a>, <a href="y">y</a>, <a href="font_id">font_id</a>, <a href="num_chars">num_chars</a>, <a href="color">color</a>);</code></li>
+<li><strong>Fonts</strong>: <code>OLED_FONT_SMALL</code> (5x7 pixels) or <code>OLED_FONT_MEDIUM</code> (8x12 pixels).</li>
+</ul>
+<h3 id="example-displaying-a-status-string" tabindex="-1">Example: Displaying a Status String <a class="header-anchor" href="#example-displaying-a-status-string" aria-hidden="true">#</a></h3>
+<p>This example demonstrates how to build and write "ON" or "OFF" to the screen depending on script variables.</p>
+<pre><code class="language-c">define OLED_FONT_SMALL = 0;
+int rapid_fire_active = TRUE;
 
-Remapping changes how buttons are mapped from the controller to the console. GPC provides compile-time remappings and runtime modifications.
+main {
+    if (event_press(XB1_Y)) {
+        rapid_fire_active = !rapid_fire_active;
+        combo_run(UpdateDisplay);
+    }
+}
 
-### `remap`
-Assigns a controller button to a different output destination.
-* **Syntax**: `remap &lt;a href="physical_input"&gt;physical_input&lt;/a&gt; -&gt; &lt;a href="virtual_output"&gt;virtual_output&lt;/a&gt;;`
-* **Placement**: Must be placed at the **very beginning of the script** (before `init` and `main`).
-* **Behavior**: Remappings are processed at the *end* of each tick. Therefore, in your GPC script logic (like `get_val`), **always reference the physical button**, not the remapped button.
-</code></pre>
-<p>// Force physical Cross/A button to send Square/X signals to the console</p>
-<p>remap PS4_CROSS -> PS4_SQUARE;</p>
-<p>main {</p>
-<p>// If the physical CROSS button is pressed</p>
-<p>if (event_press(PS4_CROSS)) {</p>
-<p>// Run logic. The console will still receive PS4_SQUARE.</p>
-<p>}</p>
-<p>}</p>
-<pre><code class="language-txt">
-### `unmap`
-Disconnects a button's output channel so the console never registers it, although the GPC script can still read it using `get_val()`.
-* **Syntax**: `unmap &lt;a href="identifier"&gt;identifier&lt;/a&gt;;`
-* **Syntax (Clear all)**: `unmap ALL_REMAPS;` (clears all current script remappings).
-* **Example**:</code></pre>
-<p>init {</p>
-<p>// Disconnect the Back/View button from the console so we can use it as a custom script toggle</p>
-<p>unmap(XB1_VIEW);</p>
-<p>}</p>
-<pre><code class="language-txt">
-### `swap`
-Swaps the values of two controller buttons at the software layer.
-* **Syntax**: `swap(&lt;a href="button_1"&gt;button_1&lt;/a&gt;, &lt;a href="button_2"&gt;button_2&lt;/a&gt;);`
-* **Example**:</code></pre>
-<p>init {</p>
-<p>// Flipped layout: Swap bumpers and triggers</p>
-<p>swap(XB1_LB, XB1_LT);</p>
-<p>swap(XB1_RB, XB1_RT);</p>
-<p>}</p>
+combo UpdateDisplay {
+    cls_oled(0); // Clear screen first
+    
+    // Write static text header "STATUS:"
+    putc_oled(0, 'S');
+    putc_oled(1, 'T');
+    putc_oled(2, 'A');
+    putc_oled(3, 'T');
+    putc_oled(4, 'U');
+    putc_oled(5, 'S');
+    putc_oled(6, ':');
+    puts_oled(0, 0, OLED_FONT_SMALL, 7, 1); // Render header
+    
+    if (rapid_fire_active) {
+        putc_oled(0, 'O');
+        putc_oled(1, 'N');
+        puts_oled(50, 0, OLED_FONT_SMALL, 2, 1);
+    } else {
+        putc_oled(0, 'O');
+        putc_oled(1, 'F');
+        putc_oled(2, 'F');
+        puts_oled(50, 0, OLED_FONT_SMALL, 3, 1);
+    }
+}</code></pre>
+<div class="callout callout-warning"><span class="callout-ico" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3Z"/><path d="M12 9v4M12 17h.01"/></svg></span><div class="callout-body"><p><strong>CPU Optimization Notice</strong></p>
+<p>Updating the OLED display is a relatively heavy hardware operation. <strong>Never call display functions directly inside the <code>main</code> loop on every tick.</strong> Only trigger updates inside a conditional statement or timed <code>combo</code> when a setting changes.</p></div></div>
       </article>
       
       <nav class="pager">
-<a class="pager-link prev" href="../user-functions/">
+<a class="pager-link prev" href="../math/">
 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="transform: rotate(180deg)"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
-<span><em>Previous</em>User Functions</span>
+<span><em>Previous</em>Math & Utilities</span>
 </a>
-<a class="pager-link next" href="../combos-timing/">
-<span><em>Next</em>Combos & Timing</span>
+<a class="pager-link next" href="../bitwise-storage/">
+<span><em>Next</em>Bitwise & Storage</span>
 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
 </a>
 </nav>
@@ -266,15 +255,17 @@ Swaps the values of two controller buttons at the software layer.
     <aside class="toc">
       <div class="toc-title">On this page</div>
       <ul class="toc-list">
-<li class="toc-l2"><a href="#reading-inputs">Reading Inputs</a></li>
-<li class="toc-l3"><a href="#get-val">get_val</a></li>
-<li class="toc-l3"><a href="#get-lval">get_lval</a></li>
-<li class="toc-l2"><a href="#trigger-events">Trigger Events</a></li>
-<li class="toc-l3"><a href="#event-press">event_press</a></li>
-<li class="toc-l3"><a href="#event-release">event_release</a></li>
-<li class="toc-l2"><a href="#overwriting-blocking-outputs">Overwriting & Blocking Outputs</a></li>
-<li class="toc-l3"><a href="#set-val">set_val</a></li>
-<li class="toc-l3"><a href="#block">block</a></li>
+<li class="toc-l2"><a href="#screen-coordinates-colors">Screen Coordinates & Colors</a></li>
+<li class="toc-l2"><a href="#draw-functions">Draw Functions</a></li>
+<li class="toc-l3"><a href="#cls-oled">cls_oled</a></li>
+<li class="toc-l3"><a href="#pixel-oled">pixel_oled</a></li>
+<li class="toc-l3"><a href="#line-oled">line_oled</a></li>
+<li class="toc-l3"><a href="#rect-oled">rect_oled</a></li>
+<li class="toc-l3"><a href="#circle-oled">circle_oled</a></li>
+<li class="toc-l2"><a href="#text-output-api">Text Output API</a></li>
+<li class="toc-l3"><a href="#putc-oled">putc_oled</a></li>
+<li class="toc-l3"><a href="#puts-oled">puts_oled</a></li>
+<li class="toc-l3"><a href="#example-displaying-a-status-string">Example Displaying a Status String</a></li>
 </ul>
     </aside>
   </div>

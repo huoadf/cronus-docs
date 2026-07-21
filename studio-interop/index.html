@@ -3,8 +3,8 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Controller Hardware · Cronus GPC docs</title>
-  <meta name="description" content="Cronus Zen GPC scripting documentation - Controller Hardware">
+  <title>Zen Studio Interop · Cronus GPC docs</title>
+  <meta name="description" content="Cronus Zen GPC scripting documentation - Zen Studio Interop">
   <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%23050505'/%3E%3Ccircle cx='16' cy='16' r='6' fill='%2300f0ff'/%3E%3C/svg%3E">
   
   <!-- Fonts -->
@@ -93,7 +93,7 @@
         <div class="nav-group">API Reference</div>
         <a class="nav-item " href="../input-output/">Input &amp; Output</a>
         <a class="nav-item " href="../combos-timing/">Combos &amp; Timing</a>
-        <a class="nav-item active" href="../controller/">Controller Hardware</a>
+        <a class="nav-item " href="../controller/">Controller Hardware</a>
         <a class="nav-item " href="../math/">Math &amp; Utilities</a>
         <a class="nav-item " href="../oled-display/">OLED Display</a>
         <a class="nav-item " href="../bitwise-storage/">Bitwise &amp; Storage</a>
@@ -101,7 +101,7 @@
         <div class="nav-group">Guides</div>
         <a class="nav-item " href="../advanced-guides/">Advanced Guides &amp; Macros</a>
         <a class="nav-item " href="../troubleshooting/">Troubleshooting &amp; Limits</a>
-        <a class="nav-item " href="../studio-interop/">Zen Studio Interop</a>
+        <a class="nav-item active" href="../studio-interop/">Zen Studio Interop</a>
       </div>
     </nav>
     
@@ -110,77 +110,149 @@
         <div class="breadcrumb">
           <a href="../">Cronus GPC</a> 
           <span>/</span> 
-          Controller Hardware
+          Zen Studio Interop
         </div>
-        <h1 id="controller" tabindex="-1">
-          Controller Hardware 
-          <a class="header-anchor" href="#controller" aria-hidden="true">#</a>
+        <h1 id="studio-interop" tabindex="-1">
+          Zen Studio Interop 
+          <a class="header-anchor" href="#studio-interop" aria-hidden="true">#</a>
         </h1>
-        <h1 id="controller-hardware" tabindex="-1">Controller Hardware <a class="header-anchor" href="#controller-hardware" aria-hidden="true">#</a></h1>
-<p>GPC scripts can control hardware feedback features on the controller and Cronus Zen, including rumble motors and LED indicators. This section covers hardware interaction APIs and the standard layout constants.</p>
+        <h1 id="zen-studio-interop" tabindex="-1">Zen Studio Interop <a class="header-anchor" href="#zen-studio-interop" aria-hidden="true">#</a></h1>
+<p>External desktop applications (e.g. customized compiler helper tools, configuration UI launchers) can communicate directly with Zen Studio using the Win32 API. This page documents the integration protocol for inter-process communication.</p>
 <hr>
-<h2 id="rumble-control" tabindex="-1">Rumble Control <a class="header-anchor" href="#rumble-control" aria-hidden="true">#</a></h2>
-<p>You can trigger the controller's internal vibration motors (rumble) to provide tactile feedback to the user when they toggle script options.</p>
-<h3 id="set-rumble" tabindex="-1"><code>set_rumble</code> <a class="header-anchor" href="#set-rumble" aria-hidden="true">#</a></h3>
-<p>Triggers one of the controller's rumble motors.</p>
+<h2 id="inter-process-messaging-protocol" tabindex="-1">Inter-Process Messaging Protocol <a class="header-anchor" href="#inter-process-messaging-protocol" aria-hidden="true">#</a></h2>
+<p>Zen Studio intercepts the standard Windows <code>WM_COPYDATA</code> (0x004A) messaging signal. This enables external apps to send code blocks or triggers to Zen Studio.</p>
+<pre><code class="language-mermaid">graph LR
+    App[External App] --&gt;|WM_COPYDATA 0x4A| Studio[Zen Studio]
+    Studio --&gt;|Compiles &amp; Runs| Zen[Cronus Zen Hardware]</code></pre>
+<h3 id="windows-message-definition" tabindex="-1">Windows Message Definition <a class="header-anchor" href="#windows-message-definition" aria-hidden="true">#</a></h3>
 <ul>
-<li><strong>Syntax</strong>: <code>set_rumble(<a href="rumble_id">rumble_id</a>, <a href="strength">strength</a>)</code></li>
-<li><strong>Parameters</strong>:</li>
-<li><code><a href="rumble_id">rumble_id</a></code>: <code>RUMBLE_A</code> (Large/heavy motor) or <code>RUMBLE_B</code> (Small/high-frequency motor).</li>
-<li><code><a href="strength">strength</a></code>: Vibration speed percentage (integer between <code>0</code> and <code>100</code>).</li>
-<li><strong>Example</strong>:</li>
-<pre><code class="language-c">  combo RumbleFeedback {
-      set_rumble(RUMBLE_A, 40); // Turn heavy motor on at 40% strength
-      wait(150);                // Vibrate for 150ms
-      reset_rumble();           // Turn off motors
-  }</code></pre>
-</ul>
-<h3 id="reset-rumble" tabindex="-1"><code>reset_rumble</code> <a class="header-anchor" href="#reset-rumble" aria-hidden="true">#</a></h3>
-<p>Turns off all active rumble motors immediately.</p>
-<ul>
-<li><strong>Syntax</strong>: <code>reset_rumble()</code></li>
+<li><strong>Message ID</strong>: <code>WM_COPYDATA = 0x4A</code></li>
+<li><strong>lParam Struct</strong>: A pointer to a standard <code>COPYDATASTRUCT</code> layout containing the commands and payload.</li>
 </ul>
 <hr>
-<h2 id="led-control" tabindex="-1">LED Control <a class="header-anchor" href="#led-control" aria-hidden="true">#</a></h2>
-<p>You can change the color of the Cronus Zen's backlight or the controller's built-in lightbar (e.g. PlayStation Lightbar).</p>
-<h3 id="set-led" tabindex="-1"><code>set_led</code> <a class="header-anchor" href="#set-led" aria-hidden="true">#</a></h3>
-<p>Modifies the state of an individual color channel.</p>
+<h2 id="data-layout-commands" tabindex="-1">Data Layout & Commands <a class="header-anchor" href="#data-layout-commands" aria-hidden="true">#</a></h2>
+<p>The interop maps commands through the <code>dwData</code> flag of the copy structure.</p>
+<h3 id="remotecmd-enums" tabindex="-1"><code>REMOTECMD</code> Enums <a class="header-anchor" href="#remotecmd-enums" aria-hidden="true">#</a></h3>
 <ul>
-<li><strong>Syntax</strong>: <code>set_led(<a href="led_id">led_id</a>, <a href="state">state</a>)</code></li>
-<li><strong>Parameters</strong>:</li>
-<li><code><a href="led_id">led_id</a></code>: <code>LED_1</code> (Blue), <code>LED_2</code> (Red), <code>LED_3</code> (Green), <code>LED_4</code> (Yellow).</li>
-<li><code><a href="state">state</a></code>: <code>0</code> (Off) or <code>1</code> (On).</li>
-<li><strong>Example</strong>:</li>
-<pre><code class="language-c">  main {
-      if (rapid_fire_active) {
-          set_led(LED_3, 1); // Turn Green LED on
-          set_led(LED_2, 0); // Turn Red LED off
-      } else {
-          set_led(LED_3, 0); // Turn Green LED off
-          set_led(LED_2, 1); // Turn Red LED on
-      }
-  }</code></pre>
+<li><strong><code>GpcTab = 1</code></strong>: Opens a new tab inside the Zen Studio Compiler containing the GPC code sent in the text payload.</li>
+<li><strong><code>BuildAndRun = 2</code></strong>: Opens a new tab with the GPC code, compiles it immediately, and runs it on the connected Cronus Zen device.</li>
 </ul>
-<h3 id="reset-leds" tabindex="-1"><code>reset_leds</code> <a class="header-anchor" href="#reset-leds" aria-hidden="true">#</a></h3>
-<p>Resets LEDs to their default system behaviors.</p>
-<ul>
-<li><strong>Syntax</strong>: <code>reset_leds()</code></li>
-</ul>
+<h3 id="copydatastruct-structure-layout" tabindex="-1">COPYDATASTRUCT Structure Layout <a class="header-anchor" href="#copydatastruct-structure-layout" aria-hidden="true">#</a></h3>
+<p>To match Win32 memory alignments, the marshalled structure must be formatted sequentially:</p>
+<pre><code class="language-csharp">[StructLayout(LayoutKind.Sequential)]
+struct COPYDATASTRUCT {
+    public REMOTECMD dwData; // Action Command ID (1 or 2)
+    public int cbData;       // Length of the text payload in bytes
+    public IntPtr lpData;    // Pointer to the text string in memory
+}</code></pre>
 <hr>
-<h2 id="button-mappings-reference" tabindex="-1">Button Mappings Reference <a class="header-anchor" href="#button-mappings-reference" aria-hidden="true">#</a></h2>
-<p>The Cronus Zen maps inputs to platform-agnostic integer constants. Zen Studio understands the following button mappings automatically.</p>
-<table><thead><tr><th>Index</th><th>Xbox Identity</th><th>PlayStation Identity</th></tr></thead><tbody><tr><td><code>0</code></td><td><code>XB1_HOME</code></td><td><code>PS4_PS</code></td></tr><tr><td><code>1</code></td><td><code>XB1_VIEW</code></td><td><code>PS4_SHARE</code></td></tr><tr><td><code>2</code></td><td><code>XB1_MENU</code></td><td><code>PS4_OPTIONS</code></td></tr><tr><td><code>3</code></td><td><code>XB1_RB</code></td><td><code>PS4_R1</code></td></tr><tr><td><code>4</code></td><td><code>XB1_RT</code></td><td><code>PS4_R2</code></td></tr><tr><td><code>5</code></td><td><code>XB1_RS</code></td><td><code>PS4_R3</code></td></tr><tr><td><code>6</code></td><td><code>XB1_LB</code></td><td><code>PS4_L1</code></td></tr><tr><td><code>7</code></td><td><code>XB1_LT</code></td><td><code>PS4_L2</code></td></tr><tr><td><code>8</code></td><td><code>XB1_LS</code></td><td><code>PS4_L3</code></td></tr><tr><td><code>9</code></td><td><code>XB1_RX</code></td><td><code>PS4_RX</code></td></tr><tr><td><code>10</code></td><td><code>XB1_RY</code></td><td><code>PS4_RY</code></td></tr><tr><td><code>11</code></td><td><code>XB1_LX</code></td><td><code>PS4_LX</code></td></tr><tr><td><code>12</code></td><td><code>XB1_LY</code></td><td><code>PS4_LY</code></td></tr><tr><td><code>13</code></td><td><code>XB1_UP</code></td><td><code>PS4_UP</code></td></tr><tr><td><code>14</code></td><td><code>XB1_DOWN</code></td><td><code>PS4_DOWN</code></td></tr><tr><td><code>15</code></td><td><code>XB1_LEFT</code></td><td><code>PS4_LEFT</code></td></tr><tr><td><code>16</code></td><td><code>XB1_RIGHT</code></td><td><code>PS4_RIGHT</code></td></tr><tr><td><code>17</code></td><td><code>XB1_Y</code></td><td><code>PS4_TRIANGLE</code></td></tr><tr><td><code>18</code></td><td><code>XB1_B</code></td><td><code>PS4_CIRCLE</code></td></tr><tr><td><code>19</code></td><td><code>XB1_A</code></td><td><code>PS4_CROSS</code></td></tr><tr><td><code>20</code></td><td><code>XB1_X</code></td><td><code>PS4_SQUARE</code></td></tr></tbody></table>
-<div class="callout callout-info"><span class="callout-ico" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 16v-4M12 8h.01"/></svg></span><div class="callout-body"><p>In GPC, <code>XB1_</code> and <code>PS4_</code> labels are aliases pointing to the same index. E.g., <code>XB1_RT</code> and <code>PS4_R2</code> are compiled to the exact same value (<code>4</code>). Scripts written with <code>XB1_RT</code> work perfectly on PlayStation consoles, and vice versa.</p></div></div>
+<h2 id="c-implementation-example" tabindex="-1">C# Implementation Example <a class="header-anchor" href="#c-implementation-example" aria-hidden="true">#</a></h2>
+<p>Below is a complete C# program showing how to interface with Zen Studio. It searches for the active Zen Studio process, hooks into its window handle, wraps a custom GPC script string into a Win32 copy data payload, and triggers a compiler load.</p>
+<pre><code class="language-csharp">using System;
+using System.Diagnostics;
+using System.Runtime.InteropServices;
+using System.Text;
+
+namespace SendMsgAppSample
+{
+    class Program
+    {
+        private const int WM_COPYDATA = 0x4A;
+
+        public enum REMOTECMD
+        {
+            GpcTab = 1,
+            BuildAndRun = 2
+        }
+
+        [StructLayout(LayoutKind.Sequential)]
+        struct COPYDATASTRUCT
+        {
+            public REMOTECMD dwData;
+            public int cbData;
+            public IntPtr lpData;
+        }
+
+        [DllImport("user32.dll", CharSet = CharSet.Auto)]
+        private static extern IntPtr SendMessage(IntPtr hWnd, int Msg, IntPtr wParam, ref COPYDATASTRUCT lParam);
+
+        static void Main(string[] args)
+        {
+            // 1. A GPC script to run
+            string gpcScript = @"
+define RAPID_FIRE_RATE = 50;
+main {
+    if (get_val(XB1_RT)) {
+        combo_run(RapidFire);
+    }
+}
+combo RapidFire {
+    set_val(XB1_RT, 100);
+    wait(RAPID_FIRE_RATE);
+    set_val(XB1_RT, 0);
+    wait(RAPID_FIRE_RATE);
+}
+";
+
+            // 2. Find Zen Studio process
+            Process[] processes = Process.GetProcessesByName("Zen Studio");
+            if (processes.Length == 0)
+            {
+                Console.WriteLine("Error: Zen Studio is not running!");
+                return;
+            }
+
+            IntPtr studioHandle = processes[0].MainWindowHandle;
+            if (studioHandle == IntPtr.Zero)
+            {
+                Console.WriteLine("Error: Found Zen Studio but couldn't acquire window handle.");
+                return;
+            }
+
+            // 3. Prepare the script text as byte buffer (Null-terminated ASCII)
+            byte[] textBytes = Encoding.ASCII.GetBytes(gpcScript + "\0");
+            IntPtr allocatedMemory = Marshal.AllocHGlobal(textBytes.Length);
+            Marshal.Copy(textBytes, 0, allocatedMemory, textBytes.Length);
+
+            // 4. Assemble the Win32 payload
+            COPYDATASTRUCT payload = new COPYDATASTRUCT
+            {
+                dwData = REMOTECMD.BuildAndRun, // Compile and run on Zen instantly
+                cbData = textBytes.Length,
+                lpData = allocatedMemory
+            };
+
+            // 5. Send message (Blocks until Zen Studio receives it)
+            Console.WriteLine("Sending GPC script to Zen Studio...");
+            SendMessage(studioHandle, WM_COPYDATA, IntPtr.Zero, ref payload);
+
+            // 6. Free unmanaged memory allocation
+            Marshal.FreeHGlobal(allocatedMemory);
+            Console.WriteLine("Sent successfully!");
+        }
+    }
+}</code></pre>
+<hr>
+<h2 id="security-execution-contexts" tabindex="-1">Security & Execution Contexts <a class="header-anchor" href="#security-execution-contexts" aria-hidden="true">#</a></h2>
+<p>If your SendMessage calls are failing or returning <code>0</code> without action, check the following system contexts:</p>
+<ol>
+<li><strong>UAC Elevation Matching (UIPI restriction)</strong>:</li>
+</ol>
+<p>Windows prevents processes running at lower integrity levels from sending messages to higher integrity level processes. If <strong>Zen Studio</strong> is running as <strong>Administrator</strong>, your C# interop application <strong>must also be run as Administrator</strong>.</p>
+<ol>
+<li><strong>Handle Validation</strong>:</li>
+</ol>
+<p><code>processes[0].MainWindowHandle</code> can sometimes return <code>0</code> if Zen Studio is minimized to the system tray. Make sure the application is open and visible on screen.</p>
+<ol>
+<li><strong>Null-Termination</strong>:</li>
+</ol>
+<p>Always append a null terminator (<code>\0</code>) to your string payload before getting its byte length, otherwise the Zen Studio GPC compiler will read trash bytes at the end of the text.</p>
       </article>
       
       <nav class="pager">
-<a class="pager-link prev" href="../combos-timing/">
+<a class="pager-link prev" href="../troubleshooting/">
 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="transform: rotate(180deg)"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
-<span><em>Previous</em>Combos & Timing</span>
-</a>
-<a class="pager-link next" href="../math/">
-<span><em>Next</em>Math & Utilities</span>
-<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+<span><em>Previous</em>Troubleshooting & Limits</span>
 </a>
 </nav>
     </main>
@@ -188,13 +260,13 @@
     <aside class="toc">
       <div class="toc-title">On this page</div>
       <ul class="toc-list">
-<li class="toc-l2"><a href="#rumble-control">Rumble Control</a></li>
-<li class="toc-l3"><a href="#set-rumble">set_rumble</a></li>
-<li class="toc-l3"><a href="#reset-rumble">reset_rumble</a></li>
-<li class="toc-l2"><a href="#led-control">LED Control</a></li>
-<li class="toc-l3"><a href="#set-led">set_led</a></li>
-<li class="toc-l3"><a href="#reset-leds">reset_leds</a></li>
-<li class="toc-l2"><a href="#button-mappings-reference">Button Mappings Reference</a></li>
+<li class="toc-l2"><a href="#inter-process-messaging-protocol">Inter-Process Messaging Protocol</a></li>
+<li class="toc-l3"><a href="#windows-message-definition">Windows Message Definition</a></li>
+<li class="toc-l2"><a href="#data-layout-commands">Data Layout & Commands</a></li>
+<li class="toc-l3"><a href="#remotecmd-enums">REMOTECMD Enums</a></li>
+<li class="toc-l3"><a href="#copydatastruct-structure-layout">COPYDATASTRUCT Structure Layout</a></li>
+<li class="toc-l2"><a href="#c-implementation-example">C# Implementation Example</a></li>
+<li class="toc-l2"><a href="#security-execution-contexts">Security & Execution Contexts</a></li>
 </ul>
     </aside>
   </div>
