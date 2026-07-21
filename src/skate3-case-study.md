@@ -6,7 +6,7 @@ This page provides a deep-dive analysis of a real-world GPC script used to autom
 
 ## Calibrated Script Source
 
-Below is the verified working script. It has been corrected to use decimal ASCII values, ensuring it compiles with **0 errors and 0 warnings** in the GPC compiler.
+Below is the verified working script. It has been corrected to declare variables globally and use 1-based index numbers for OLED string buffers, ensuring it compiles with **0 errors and 0 warnings** in the GPC compiler.
 
 ```c
 // Skate 3 Speed Glitch Suite
@@ -40,6 +40,13 @@ int screen_saver_timer = Screen_Saver_Time;
 
 // Calibration Offsets (Adjust timing on the fly for lag / FPS calibration)
 int timing_offset = 0; // Managed via D-pad UP/DOWN (e.g. +10ms, -20ms)
+
+// HUD Calculation Variables (Declared globally because GPC requires all variables at top level)
+int hud_sign;
+int hud_abs_val;
+int hud_hundred;
+int hud_ten;
+int hud_unit;
 
 init {
     cls_oled(OLED_BLACK);
@@ -425,29 +432,30 @@ function draw_hud() {
     print(10, 20, OLED_FONT_MEDIUM, OLED_WHITE, Modnames[activeMod]);
     
     // 2. Draw Calibrated Offset HUD indicator (Line 44)
-    // ASCII values: 67 = 'C', 65 = 'A', 76 = 'L', 58 = ':', 32 = ' '
-    putc_oled(0, 67); putc_oled(1, 65); putc_oled(2, 76); putc_oled(3, 58);
-    putc_oled(4, 32);
+    // putc_oled buffers are 1-based (GPC Compiler Rule)
+    // ASCII codes: 67 = 'C', 65 = 'A', 76 = 'L', 58 = ':', 32 = ' '
+    putc_oled(1, 67); putc_oled(2, 65); putc_oled(3, 76); putc_oled(4, 58);
+    putc_oled(5, 32);
     
-    int sign = 32;
+    hud_sign = 32; // space
     if(timing_offset < 0) {
-        sign = 45; // '-'
+        hud_sign = 45; // '-'
     } else if(timing_offset > 0) {
-        sign = 43; // '+'
+        hud_sign = 43; // '+'
     }
-    putc_oled(5, sign);
+    putc_oled(6, hud_sign);
     
     // Deconstruct offset integer to characters for putc formatting
-    int abs_val = abs(timing_offset);
-    int hundred = (abs_val / 100) + 48;       // Hundreds column character code
-    int ten = ((abs_val % 100) / 10) + 48;    // Tens column
-    int unit = (abs_val % 10) + 48;           // Units column
+    hud_abs_val = abs(timing_offset);
+    hud_hundred = (hud_abs_val / 100) + 48;       // Hundreds column character code
+    hud_ten = ((hud_abs_val % 100) / 10) + 48;    // Tens column
+    hud_unit = (hud_abs_val % 10) + 48;           // Units column
     
-    putc_oled(6, hundred);
-    putc_oled(7, ten);
-    putc_oled(8, unit);
-    // ASCII values: 109 = 'm', 115 = 's'
-    putc_oled(9, 109); putc_oled(10, 115);
+    putc_oled(7, hud_hundred);
+    putc_oled(8, hud_ten);
+    putc_oled(9, hud_unit);
+    // ASCII codes: 109 = 'm', 115 = 's'
+    putc_oled(10, 109); putc_oled(11, 115);
     
     puts_oled(10, 44, OLED_FONT_SMALL, 11, OLED_WHITE);
 }
@@ -470,7 +478,16 @@ function center_x(f_chars, f_font) {
 
 This script demonstrates several highly sophisticated GPC scripting techniques:
 
-### 1. Enumerated Selection States
+### 1. Global Variable Scope Constraint
+GPC does not support local variables inside functions or conditional blocks. Declaring variables inline like `int sign = 32;` inside `draw_hud()` will prompt compiler errors. All calculation variables must be declared in the global scope at the top level of the script (e.g. `hud_sign`, `hud_hundred`).
+
+### 2. 1-Based Buffer Indexing for `putc_oled`
+The Zen Studio compiler treats the first argument of `putc_oled()` as a 1-based index limit. Writing `putc_oled(0, ...)` will fail compilation. Characters must be loaded starting from slot `1` to slot `20`:
+```c
+putc_oled(1, 67); // First character in screen buffer
+```
+
+### 3. Enumerated Selection States
 Instead of using random integers to track active mods, the script uses an `enum {}` block. This assigns index numbers `0` to `5` to labels:
 ```c
 enum {
@@ -484,7 +501,7 @@ enum {
 ```
 This enables readable checks like `if(activeMod == AUTO_THROW)` instead of `if(activeMod == 0)`.
 
-### 2. Auto-Centering OLED String Logic
+### 4. Auto-Centering OLED String Logic
 The custom function `center_x()` calculates coordinate offsets to center string headers perfectly on the 128-pixel display, regardless of string size or font width:
 ```c
 function center_x(f_chars, f_font) {
@@ -496,7 +513,7 @@ When used inside `init`, it computes:
 * Offsets = `(128 - total width) / 2`.
 This is passed directly as the `X` parameter inside `print()`.
 
-### 3. Non-Blocking Screen Saver
+### 5. Non-Blocking Screen Saver
 To prevent pixel burn-in on the Zen's OLED display, the script monitors a timer:
 ```c
 if(screen_saver_timer) {
@@ -508,10 +525,7 @@ if(screen_saver_timer) {
 ```
 This loop decrements by the actual execution cycle runtime (`get_rtime()`) on every frame. When 15 seconds (`Screen_Saver_Time`) elapse without user profile changes, the display is cleared to black.
 
-### 4. Interactive LED Notifications
-When switching modes, the script calls `colorled()` to swap LED colors on the controller, providing instant visual feedback on active presets (e.g. Red for NoThrow, Blue for AutoThrow).
-
-### 5. Multi-Step Asynchronous Combos
+### 6. Multi-Step Asynchronous Combos
 The `foward` and `cannon` combos show the power of asynchronous execution. By daisy-chaining `set_val()` and `wait(10)` instructions, the script simulates fluid, precise analog stick movements (e.g., rotating the stick sequentially from `-23` to `-100` deflection in 10ms intervals) to execute the glitch, while the `main` thread remains active to process button releases or watchdog safety checks.
 
 ---

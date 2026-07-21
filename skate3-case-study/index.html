@@ -128,7 +128,7 @@
 <p>This page provides a deep-dive analysis of a real-world GPC script used to automate speed glitches in *Skate 3* (Version 2.00 by Void Vids, upgraded with timing calibration). It integrates almost every GPC concept — including screen management, multi-mode profiles, LED controls, screen savers, complex stick-movement combos, and custom layout functions.</p>
 <hr>
 <h2 id="calibrated-script-source" tabindex="-1">Calibrated Script Source <a class="header-anchor" href="#calibrated-script-source" aria-hidden="true">#</a></h2>
-<p>Below is the verified working script. It has been corrected to use decimal ASCII values, ensuring it compiles with <strong>0 errors and 0 warnings</strong> in the GPC compiler.</p>
+<p>Below is the verified working script. It has been corrected to declare variables globally and use 1-based index numbers for OLED string buffers, ensuring it compiles with <strong>0 errors and 0 warnings</strong> in the GPC compiler.</p>
 <pre><code class="language-c">// Skate 3 Speed Glitch Suite
 // Version: 2.00 (Calibrated)
 // Features: Auto-Centering OLED, Calibration HUD, Burn-in Screen Saver, Cross-Platform Support
@@ -160,6 +160,13 @@ int screen_saver_timer = Screen_Saver_Time;
 
 // Calibration Offsets (Adjust timing on the fly for lag / FPS calibration)
 int timing_offset = 0; // Managed via D-pad UP/DOWN (e.g. +10ms, -20ms)
+
+// HUD Calculation Variables (Declared globally because GPC requires all variables at top level)
+int hud_sign;
+int hud_abs_val;
+int hud_hundred;
+int hud_ten;
+int hud_unit;
 
 init {
     cls_oled(OLED_BLACK);
@@ -545,13 +552,14 @@ function draw_hud() {
     print(10, 20, OLED_FONT_MEDIUM, OLED_WHITE, Modnames[activeMod]);
     
     // 2. Draw Calibrated Offset HUD indicator (Line 44)
-    // ASCII values: 67 = 'C', 65 = 'A', 76 = 'L', 58 = ':', 32 = ' '
-    putc_oled(0, 67); putc_oled(1, 65); putc_oled(2, 76); putc_oled(3, 58);
-    putc_oled(4, 32);
+    // putc_oled buffers are 1-based (GPC Compiler Rule)
+    // ASCII codes: 67 = 'C', 65 = 'A', 76 = 'L', 58 = ':', 32 = ' '
+    putc_oled(1, 67); putc_oled(2, 65); putc_oled(3, 76); putc_oled(4, 58);
+    putc_oled(5, 32);
     
-    int sign = 32;
+    hud_sign = 32; // space
     if(timing_offset &lt; 0) {
-        sign = 45; // '-'
+        hud_sign = 45; // '-'
     } else if(timing_offset "&gt;= get_rtime()) {
             cls_oled(OLED_BLACK);
         }
@@ -867,29 +875,30 @@ function draw_hud() {
     print(10, 20, OLED_FONT_MEDIUM, OLED_WHITE, Modnames[activeMod]);
     
     // 2. Draw Calibrated Offset HUD indicator (Line 44)
-    // ASCII values: 67 = 'C', 65 = 'A', 76 = 'L', 58 = ':', 32 = ' '
-    putc_oled(0, 67); putc_oled(1, 65); putc_oled(2, 76); putc_oled(3, 58);
-    putc_oled(4, 32);
+    // putc_oled buffers are 1-based (GPC Compiler Rule)
+    // ASCII codes: 67 = 'C', 65 = 'A', 76 = 'L', 58 = ':', 32 = ' '
+    putc_oled(1, 67); putc_oled(2, 65); putc_oled(3, 76); putc_oled(4, 58);
+    putc_oled(5, 32);
     
-    int sign = 32;
+    hud_sign = 32; // space
     if(timing_offset &lt; 0) {
-        sign = 45; // '-'
+        hud_sign = 45; // '-'
     } else if(timing_offset &lt;/a&gt; 0) {
-        sign = 43; // '+'
+        hud_sign = 43; // '+'
     }
-    putc_oled(5, sign);
+    putc_oled(6, hud_sign);
     
     // Deconstruct offset integer to characters for putc formatting
-    int abs_val = abs(timing_offset);
-    int hundred = (abs_val / 100) + 48;       // Hundreds column character code
-    int ten = ((abs_val % 100) / 10) + 48;    // Tens column
-    int unit = (abs_val % 10) + 48;           // Units column
+    hud_abs_val = abs(timing_offset);
+    hud_hundred = (hud_abs_val / 100) + 48;       // Hundreds column character code
+    hud_ten = ((hud_abs_val % 100) / 10) + 48;    // Tens column
+    hud_unit = (hud_abs_val % 10) + 48;           // Units column
     
-    putc_oled(6, hundred);
-    putc_oled(7, ten);
-    putc_oled(8, unit);
-    // ASCII values: 109 = 'm', 115 = 's'
-    putc_oled(9, 109); putc_oled(10, 115);
+    putc_oled(7, hud_hundred);
+    putc_oled(8, hud_ten);
+    putc_oled(9, hud_unit);
+    // ASCII codes: 109 = 'm', 115 = 's'
+    putc_oled(10, 109); putc_oled(11, 115);
     
     puts_oled(10, 44, OLED_FONT_SMALL, 11, OLED_WHITE);
 }
@@ -907,7 +916,12 @@ function center_x(f_chars, f_font) {
 <hr>
 <h2 id="architectural-breakdown-code-analysis" tabindex="-1">Architectural Breakdown & Code Analysis <a class="header-anchor" href="#architectural-breakdown-code-analysis" aria-hidden="true">#</a></h2>
 <p>This script demonstrates several highly sophisticated GPC scripting techniques:</p>
-<h3 id="1-enumerated-selection-states" tabindex="-1">1. Enumerated Selection States <a class="header-anchor" href="#1-enumerated-selection-states" aria-hidden="true">#</a></h3>
+<h3 id="1-global-variable-scope-constraint" tabindex="-1">1. Global Variable Scope Constraint <a class="header-anchor" href="#1-global-variable-scope-constraint" aria-hidden="true">#</a></h3>
+<p>GPC does not support local variables inside functions or conditional blocks. Declaring variables inline like <code>int sign = 32;</code> inside <code>draw_hud()</code> will prompt compiler errors. All calculation variables must be declared in the global scope at the top level of the script (e.g. <code>hud_sign</code>, <code>hud_hundred</code>).</p>
+<h3 id="2-1-based-buffer-indexing-for-putc-oled" tabindex="-1">2. 1-Based Buffer Indexing for <code>putc_oled</code> <a class="header-anchor" href="#2-1-based-buffer-indexing-for-putc-oled" aria-hidden="true">#</a></h3>
+<p>The Zen Studio compiler treats the first argument of <code>putc_oled()</code> as a 1-based index limit. Writing <code>putc_oled(0, ...)</code> will fail compilation. Characters must be loaded starting from slot <code>1</code> to slot <code>20</code>:</p>
+<pre><code class="language-c">putc_oled(1, 67); // First character in screen buffer</code></pre>
+<h3 id="3-enumerated-selection-states" tabindex="-1">3. Enumerated Selection States <a class="header-anchor" href="#3-enumerated-selection-states" aria-hidden="true">#</a></h3>
 <p>Instead of using random integers to track active mods, the script uses an <code>enum {}</code> block. This assigns index numbers <code>0</code> to <code>5</code> to labels:</p>
 <pre><code class="language-c">enum {
     AUTO_THROW, // = 0
@@ -918,7 +932,7 @@ function center_x(f_chars, f_font) {
     OFF         // = 5
 }</code></pre>
 <p>This enables readable checks like <code>if(activeMod == AUTO_THROW)</code> instead of <code>if(activeMod == 0)</code>.</p>
-<h3 id="2-auto-centering-oled-string-logic" tabindex="-1">2. Auto-Centering OLED String Logic <a class="header-anchor" href="#2-auto-centering-oled-string-logic" aria-hidden="true">#</a></h3>
+<h3 id="4-auto-centering-oled-string-logic" tabindex="-1">4. Auto-Centering OLED String Logic <a class="header-anchor" href="#4-auto-centering-oled-string-logic" aria-hidden="true">#</a></h3>
 <p>The custom function <code>center_x()</code> calculates coordinate offsets to center string headers perfectly on the 128-pixel display, regardless of string size or font width:</p>
 <pre><code class="language-c">function center_x(f_chars, f_font) {
     return (OLED_WIDTH / 2) - ((f_chars * f_font) / 2);
@@ -929,7 +943,7 @@ function center_x(f_chars, f_font) {
 <li>Offsets = <code>(128 - total width) / 2</code>.</li>
 </ul>
 <p>This is passed directly as the <code>X</code> parameter inside <code>print()</code>.</p>
-<h3 id="3-non-blocking-screen-saver" tabindex="-1">3. Non-Blocking Screen Saver <a class="header-anchor" href="#3-non-blocking-screen-saver" aria-hidden="true">#</a></h3>
+<h3 id="5-non-blocking-screen-saver" tabindex="-1">5. Non-Blocking Screen Saver <a class="header-anchor" href="#5-non-blocking-screen-saver" aria-hidden="true">#</a></h3>
 <p>To prevent pixel burn-in on the Zen's OLED display, the script monitors a timer:</p>
 <pre><code class="language-c">if(screen_saver_timer) {
     if(screen_saver_timer &lt;a href="= get_rtime()) {
@@ -938,9 +952,7 @@ function center_x(f_chars, f_font) {
     screen_saver_timer = max(0, screen_saver_timer - get_rtime());
 }</code></pre>
 <p>This loop decrements by the actual execution cycle runtime (<code>get_rtime()</code>) on every frame. When 15 seconds (<code>Screen_Saver_Time</code>) elapse without user profile changes, the display is cleared to black.</p>
-<h3 id="4-interactive-led-notifications" tabindex="-1">4. Interactive LED Notifications <a class="header-anchor" href="#4-interactive-led-notifications" aria-hidden="true">#</a></h3>
-<p>When switching modes, the script calls <code>colorled()</code> to swap LED colors on the controller, providing instant visual feedback on active presets (e.g. Red for NoThrow, Blue for AutoThrow).</p>
-<h3 id="5-multi-step-asynchronous-combos" tabindex="-1">5. Multi-Step Asynchronous Combos <a class="header-anchor" href="#5-multi-step-asynchronous-combos" aria-hidden="true">#</a></h3>
+<h3 id="6-multi-step-asynchronous-combos" tabindex="-1">6. Multi-Step Asynchronous Combos <a class="header-anchor" href="#6-multi-step-asynchronous-combos" aria-hidden="true">#</a></h3>
 <p>The <code>foward</code> and <code>cannon</code> combos show the power of asynchronous execution. By daisy-chaining <code>set_val()</code> and <code>wait(10)</code> instructions, the script simulates fluid, precise analog stick movements (e.g., rotating the stick sequentially from <code>-23</code> to <code>-100</code> deflection in 10ms intervals) to execute the glitch, while the <code>main</code> thread remains active to process button releases or watchdog safety checks.</p>
 <hr>
 <h2 id="compiler-constraints-avoid-character-literals" tabindex="-1">Compiler Constraints: Avoid Character Literals <a class="header-anchor" href="#compiler-constraints-avoid-character-literals" aria-hidden="true">#</a></h2>
@@ -968,11 +980,12 @@ function center_x(f_chars, f_font) {
       <ul class="toc-list">
 <li class="toc-l2"><a href="#calibrated-script-source">Calibrated Script Source</a></li>
 <li class="toc-l2"><a href="#architectural-breakdown-code-analysis">Architectural Breakdown & Code Analysis</a></li>
-<li class="toc-l3"><a href="#1-enumerated-selection-states">1. Enumerated Selection States</a></li>
-<li class="toc-l3"><a href="#2-auto-centering-oled-string-logic">2. Auto-Centering OLED String Logic</a></li>
-<li class="toc-l3"><a href="#3-non-blocking-screen-saver">3. Non-Blocking Screen Saver</a></li>
-<li class="toc-l3"><a href="#4-interactive-led-notifications">4. Interactive LED Notifications</a></li>
-<li class="toc-l3"><a href="#5-multi-step-asynchronous-combos">5. Multi-Step Asynchronous Combos</a></li>
+<li class="toc-l3"><a href="#1-global-variable-scope-constraint">1. Global Variable Scope Constraint</a></li>
+<li class="toc-l3"><a href="#2-1-based-buffer-indexing-for-putc-oled">2. 1-Based Buffer Indexing for putc_oled</a></li>
+<li class="toc-l3"><a href="#3-enumerated-selection-states">3. Enumerated Selection States</a></li>
+<li class="toc-l3"><a href="#4-auto-centering-oled-string-logic">4. Auto-Centering OLED String Logic</a></li>
+<li class="toc-l3"><a href="#5-non-blocking-screen-saver">5. Non-Blocking Screen Saver</a></li>
+<li class="toc-l3"><a href="#6-multi-step-asynchronous-combos">6. Multi-Step Asynchronous Combos</a></li>
 <li class="toc-l2"><a href="#compiler-constraints-avoid-character-literals">Compiler Constraints Avoid Character Literals</a></li>
 </ul>
     </aside>
