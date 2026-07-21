@@ -69,36 +69,41 @@ combo ShowConfigMenu {
     cls_oled(0); // Clear screen
     
     // Draw Title: "SELECT LAYOUT"
-    putc_oled(0, 'S'); putc_oled(1, 'E'); putc_oled(2, 'L'); putc_oled(3, 'E'); 
-    putc_oled(4, 'C'); putc_oled(5, 'T'); putc_oled(6, ' '); putc_oled(7, 'L');
-    putc_oled(8, 'A'); putc_oled(9, 'Y'); putc_oled(10, 'O'); putc_oled(11, 'U');
-    putc_oled(12, 'T');
+    // ASCII codes: 83 = 'S', 69 = 'E', 76 = 'L', 67 = 'C', 84 = 'T', 32 = ' ', 65 = 'A', 89 = 'Y', 79 = 'O', 85 = 'U'
+    putc_oled(0, 83); putc_oled(1, 69); putc_oled(2, 76); putc_oled(3, 69); 
+    putc_oled(4, 67); putc_oled(5, 84); putc_oled(6, 32); putc_oled(7, 76);
+    putc_oled(8, 65); putc_oled(9, 89); putc_oled(10, 79); putc_oled(11, 85);
+    putc_oled(12, 84);
     puts_oled(10, 0, OLED_FONT_SMALL, 13, 1);
     
     // Draw visual button prompt icons: Up & Down Arrows
+    // ASCII codes: 47 = '/', 32 = ' ', 67 = 'C', 104 = 'h', 97 = 'a', 110 = 'n', 103 = 'g', 101 = 'e'
     putc_oled(0, GLYPH_UP);
-    putc_oled(1, '/');
+    putc_oled(1, 47);
     putc_oled(2, GLYPH_DOWN);
-    putc_oled(3, ' ');
-    putc_oled(4, 'C'); putc_oled(5, 'h'); putc_oled(6, 'a'); putc_oled(7, 'n');
-    putc_oled(8, 'g'); putc_oled(9, 'e');
+    putc_oled(3, 32);
+    putc_oled(4, 67); putc_oled(5, 104); putc_oled(6, 97); putc_oled(7, 110);
+    putc_oled(8, 103); putc_oled(9, 101);
     puts_oled(10, 20, OLED_FONT_SMALL, 10, 1);
     
     // Display the selected layout string
     if (current_layout == 0) {
-        putc_oled(0, '>'); putc_oled(1, 'S'); putc_oled(2, 't'); putc_oled(3, 'a');
-        putc_oled(4, 'n'); putc_oled(5, 'd'); putc_oled(6, 'a'); putc_oled(7, 'r');
-        putc_oled(8, 'd');
+        // ASCII codes: 62 = '>', 83 = 'S', 116 = 't', 97 = 'a', 110 = 'n', 100 = 'd', 114 = 'r'
+        putc_oled(0, 62); putc_oled(1, 83); putc_oled(2, 116); putc_oled(3, 97);
+        putc_oled(4, 110); putc_oled(5, 100); putc_oled(6, 97); putc_oled(7, 114);
+        putc_oled(8, 100);
         puts_oled(10, 40, OLED_FONT_SMALL, 9, 1);
     } else if (current_layout == 1) {
-        putc_oled(0, '>'); putc_oled(1, 'T'); putc_oled(2, 'a'); putc_oled(3, 'c');
-        putc_oled(4, 't'); putc_oled(5, 'i'); putc_oled(6, 'c'); putc_oled(7, 'a');
-        putc_oled(8, 'l');
+        // ASCII codes: 62 = '>', 84 = 'T', 97 = 'a', 99 = 'c', 116 = 't', 105 = 'i', 108 = 'l'
+        putc_oled(0, 62); putc_oled(1, 84); putc_oled(2, 97); putc_oled(3, 99);
+        putc_oled(4, 116); putc_oled(5, 105); putc_oled(6, 99); putc_oled(7, 97);
+        putc_oled(8, 108);
         puts_oled(10, 40, OLED_FONT_SMALL, 9, 1);
     } else {
-        putc_oled(0, '>'); putc_oled(1, 'B'); putc_oled(2, 'u'); putc_oled(3, 'm');
-        putc_oled(4, 'p'); putc_oled(5, 'e'); putc_oled(6, 'r'); putc_oled(7, 'J');
-        putc_oled(8, 'm'); putc_oled(9, 'p');
+        // ASCII codes: 62 = '>', 66 = 'B', 117 = 'u', 109 = 'm', 112 = 'p', 101 = 'e', 114 = 'r', 74 = 'J'
+        putc_oled(0, 62); putc_oled(1, 66); putc_oled(2, 117); putc_oled(3, 109);
+        putc_oled(4, 112); putc_oled(5, 101); putc_oled(6, 114); putc_oled(7, 74);
+        putc_oled(8, 109); putc_oled(9, 112);
         puts_oled(10, 40, OLED_FONT_SMALL, 10, 1);
     }
 }

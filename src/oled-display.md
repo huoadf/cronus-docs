@@ -108,23 +108,27 @@ combo UpdateDisplay {
     cls_oled(0); // Clear screen first
     
     // Write static text header "STATUS:"
-    putc_oled(0, 'S');
-    putc_oled(1, 'T');
-    putc_oled(2, 'A');
-    putc_oled(3, 'T');
-    putc_oled(4, 'U');
-    putc_oled(5, 'S');
-    putc_oled(6, ':');
+    // Write static text header "STATUS:"
+    // ASCII codes: 83 = 'S', 84 = 'T', 65 = 'A', 85 = 'U', 58 = ':'
+    putc_oled(0, 83);
+    putc_oled(1, 84);
+    putc_oled(2, 65);
+    putc_oled(3, 84);
+    putc_oled(4, 85);
+    putc_oled(5, 83);
+    putc_oled(6, 58);
     puts_oled(0, 0, OLED_FONT_SMALL, 7, 1); // Render header
     
     if (rapid_fire_active) {
-        putc_oled(0, 'O');
-        putc_oled(1, 'N');
+        // ASCII codes: 79 = 'O', 78 = 'N'
+        putc_oled(0, 79);
+        putc_oled(1, 78);
         puts_oled(50, 0, OLED_FONT_SMALL, 2, 1);
     } else {
-        putc_oled(0, 'O');
-        putc_oled(1, 'F');
-        putc_oled(2, 'F');
+        // ASCII codes: 79 = 'O', 70 = 'F'
+        putc_oled(0, 79);
+        putc_oled(1, 70);
+        putc_oled(2, 70);
         puts_oled(50, 0, OLED_FONT_SMALL, 3, 1);
     }
 }

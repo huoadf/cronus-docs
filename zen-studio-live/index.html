@@ -3,8 +3,8 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Zen Studio Interop · Cronus GPC docs</title>
-  <meta name="description" content="Cronus Zen GPC scripting documentation - Zen Studio Interop">
+  <title>Zen Studio Live (Web IDE) · Cronus GPC docs</title>
+  <meta name="description" content="Cronus Zen GPC scripting documentation - Zen Studio Live (Web IDE)">
   <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%23050505'/%3E%3Ccircle cx='16' cy='16' r='6' fill='%2300f0ff'/%3E%3C/svg%3E">
   
   <!-- Fonts -->
@@ -92,7 +92,7 @@
         <a class="nav-item " href="../user-functions/">User Functions</a>
         <a class="nav-item " href="../constants/">System Constants</a>
         <a class="nav-item " href="../identifiers/">Controller Identifiers</a>
-        <a class="nav-item " href="../zen-studio-live/">Zen Studio Live (Web IDE)</a>
+        <a class="nav-item active" href="../zen-studio-live/">Zen Studio Live (Web IDE)</a>
         
         <div class="nav-group">API Reference</div>
         <a class="nav-item " href="../input-output/">Input &amp; Output</a>
@@ -109,7 +109,7 @@
         <a class="nav-item " href="../skate3-case-study/">Case Study: Skate 3 Glitch</a>
         <a class="nav-item " href="../api-samples/">API Samples</a>
         <a class="nav-item " href="../troubleshooting/">Troubleshooting &amp; Limits</a>
-        <a class="nav-item active" href="../studio-interop/">Zen Studio Interop</a>
+        <a class="nav-item " href="../studio-interop/">Zen Studio Interop</a>
       </div>
     </nav>
     
@@ -118,149 +118,84 @@
         <div class="breadcrumb">
           <a href="../">Cronus GPC</a> 
           <span>/</span> 
-          Zen Studio Interop
+          Zen Studio Live (Web IDE)
         </div>
-        <h1 id="studio-interop" tabindex="-1">
-          Zen Studio Interop 
-          <a class="header-anchor" href="#studio-interop" aria-hidden="true">#</a>
+        <h1 id="zen-studio-live" tabindex="-1">
+          Zen Studio Live (Web IDE) 
+          <a class="header-anchor" href="#zen-studio-live" aria-hidden="true">#</a>
         </h1>
-        <h1 id="zen-studio-interop" tabindex="-1">Zen Studio Interop <a class="header-anchor" href="#zen-studio-interop" aria-hidden="true">#</a></h1>
-<p>External desktop applications (e.g. customized compiler helper tools, configuration UI launchers) can communicate directly with Zen Studio using the Win32 API. This page documents the integration protocol for inter-process communication.</p>
+        <h1 id="zen-studio-live-web-ide" tabindex="-1">Zen Studio Live (Web IDE) <a class="header-anchor" href="#zen-studio-live-web-ide" aria-hidden="true">#</a></h1>
+<p>Collective Minds has introduced <strong>Zen Studio Live</strong>, a full web-based IDE that runs directly in your web browser. This tool eliminates the need to install a Windows executable, making Cronus Zen scripting and device configuration accessible across multiple operating systems.</p>
 <hr>
-<h2 id="inter-process-messaging-protocol" tabindex="-1">Inter-Process Messaging Protocol <a class="header-anchor" href="#inter-process-messaging-protocol" aria-hidden="true">#</a></h2>
-<p>Zen Studio intercepts the standard Windows <code>WM_COPYDATA</code> (0x004A) messaging signal. This enables external apps to send code blocks or triggers to Zen Studio.</p>
-<pre><code class="language-mermaid">graph LR
-    App[External App] --&gt;|WM_COPYDATA 0x4A| Studio[Zen Studio]
-    Studio --&gt;|Compiles &amp; Runs| Zen[Cronus Zen Hardware]</code></pre>
-<h3 id="windows-message-definition" tabindex="-1">Windows Message Definition <a class="header-anchor" href="#windows-message-definition" aria-hidden="true">#</a></h3>
+<h2 id="accessing-the-web-ide" tabindex="-1">Accessing the Web IDE <a class="header-anchor" href="#accessing-the-web-ide" aria-hidden="true">#</a></h2>
 <ul>
-<li><strong>Message ID</strong>: <code>WM_COPYDATA = 0x4A</code></li>
-<li><strong>lParam Struct</strong>: A pointer to a standard <code>COPYDATASTRUCT</code> layout containing the commands and payload.</li>
+<li><strong>Official Portal</strong>: <a href="https://zenstudio.collectivemindsstore.com/">https://zenstudio.collectivemindsstore.com/</a></li>
+<li><strong>Supported Browsers</strong>: Any Chromium-based browser (Google Chrome, Microsoft Edge, Opera, Brave).</li>
+<li><strong>Cross-Platform Compatibility</strong>: Rebuilt to run on <strong>Windows, macOS, Linux, and ChromeOS</strong> (Chromebooks).</li>
+</ul>
+<pre><code class="language-txt">  [ Browser (Chrome/Edge) ]
+             |
+             +---&gt; Uses WebHID / WebUSB API
+             |
+  [ Cronus Zen Device ] (Programmed directly from browser!)</code></pre>
+<hr>
+<h2 id="core-features" tabindex="-1">Core Features <a class="header-anchor" href="#core-features" aria-hidden="true">#</a></h2>
+<h3 id="1-browser-to-device-programmer" tabindex="-1">1. Browser-to-Device Programmer <a class="header-anchor" href="#1-browser-to-device-programmer" aria-hidden="true">#</a></h3>
+<p>Using the browser's native <strong>WebHID</strong> and <strong>WebUSB</strong> APIs, Zen Studio Live establishes direct communication with the Cronus Zen hardware.</p>
+<ul>
+<li>No local service drivers or bridge tools are required to be running.</li>
+<li>You can connect your device via the <strong>PROG</strong> port, click "Connect", and write GPC compile scripts directly into the Zen's physical memory slots (<code>1</code> to <code>8</code>) from the page.</li>
+</ul>
+<h3 id="2-modern-gpc-editor-with-git-version-control" tabindex="-1">2. Modern GPC Editor with Git Version Control <a class="header-anchor" href="#2-modern-gpc-editor-with-git-version-control" aria-hidden="true">#</a></h3>
+<p>The Web IDE features a code editor optimized for the GPC compiler:</p>
+<ul>
+<li><strong>Built-in Compiler</strong>: Compiles your GPC scripts in the browser to detect syntax errors before flashing.</li>
+<li><strong>Git Version Control</strong>: Integrates directly with Git repositories, allowing you to track code changes, save file histories, and back up scripts to online platforms (like GitHub) directly from the IDE interface.</li>
+</ul>
+<h3 id="3-oled-message-screen-studio" tabindex="-1">3. OLED Message Screen Studio <a class="header-anchor" href="#3-oled-message-screen-studio" aria-hidden="true">#</a></h3>
+<p>Designing layouts for the Zen's 128x64 display is significantly simplified in the Web IDE:</p>
+<ul>
+<li><strong>Visual Designer</strong>: Drag-and-drop layer management, drawing shapes, and layout alignment tools.</li>
+<li><strong>Text Generator</strong>: Render text blocks using any system font files.</li>
+<li><strong>Image Dithering Import</strong>: Upload png/jpg images, dither them automatically to monochrome (1-bit black and white), and click <strong>Export GPC</strong> to generate the corresponding byte-array coordinates.</li>
+</ul>
+<h3 id="4-ballistic-mk-curve-editor" tabindex="-1">4. Ballistic MK Curve Editor <a class="header-anchor" href="#4-ballistic-mk-curve-editor" aria-hidden="true">#</a></h3>
+<p>For Mouse & Keyboard configurations, Zen Studio Live includes a visual Ballistic Curve editor:</p>
+<ul>
+<li>Adjust translation scaling curves to fine-tune mouse acceleration.</li>
+<li>Configure keybind translation layouts.</li>
+</ul>
+<h3 id="5-installable-pwa-offline-support" tabindex="-1">5. Installable PWA (Offline Support) <a class="header-anchor" href="#5-installable-pwa-offline-support" aria-hidden="true">#</a></h3>
+<p>Zen Studio Live is built as a Progressive Web App (PWA):</p>
+<ul>
+<li>You can install it as a desktop shortcut (click the install icon in the Chrome address bar).</li>
+<li>Once installed, it <strong>works offline</strong> without an active internet connection.</li>
+<li>When online, updates to compiler drivers and features are applied automatically in the background.</li>
 </ul>
 <hr>
-<h2 id="data-layout-commands" tabindex="-1">Data Layout & Commands <a class="header-anchor" href="#data-layout-commands" aria-hidden="true">#</a></h2>
-<p>The interop maps commands through the <code>dwData</code> flag of the copy structure.</p>
-<h3 id="remotecmd-enums" tabindex="-1"><code>REMOTECMD</code> Enums <a class="header-anchor" href="#remotecmd-enums" aria-hidden="true">#</a></h3>
+<h2 id="browser-requirements-troubleshooting" tabindex="-1">Browser Requirements & Troubleshooting <a class="header-anchor" href="#browser-requirements-troubleshooting" aria-hidden="true">#</a></h2>
+<h3 id="webhid-webusb-permission-requests" tabindex="-1">WebHID & WebUSB Permission Requests <a class="header-anchor" href="#webhid-webusb-permission-requests" aria-hidden="true">#</a></h3>
+<p>When connecting your device for the first time, your browser will trigger a device permission prompt:</p>
+<pre><code class="language-txt">  zenstudio.collectivemindsstore.com wants to connect to a HID device:
+  [ Cronus Zen ] [ Connect ] [ Cancel ]</code></pre>
 <ul>
-<li><strong><code>GpcTab = 1</code></strong>: Opens a new tab inside the Zen Studio Compiler containing the GPC code sent in the text payload.</li>
-<li><strong><code>BuildAndRun = 2</code></strong>: Opens a new tab with the GPC code, compiles it immediately, and runs it on the connected Cronus Zen device.</li>
+<li><strong>Fix</strong>: Ensure your Zen is connected via the <strong>PROG</strong> micro-USB port (on the side of the device) to your computer. Click the device in the browser list and select <strong>Connect</strong>.</li>
 </ul>
-<h3 id="copydatastruct-structure-layout" tabindex="-1">COPYDATASTRUCT Structure Layout <a class="header-anchor" href="#copydatastruct-structure-layout" aria-hidden="true">#</a></h3>
-<p>To match Win32 memory alignments, the marshalled structure must be formatted sequentially:</p>
-<pre><code class="language-csharp">[StructLayout(LayoutKind.Sequential)]
-struct COPYDATASTRUCT {
-    public REMOTECMD dwData; // Action Command ID (1 or 2)
-    public int cbData;       // Length of the text payload in bytes
-    public IntPtr lpData;    // Pointer to the text string in memory
-}</code></pre>
-<hr>
-<h2 id="c-implementation-example" tabindex="-1">C# Implementation Example <a class="header-anchor" href="#c-implementation-example" aria-hidden="true">#</a></h2>
-<p>Below is a complete C# program showing how to interface with Zen Studio. It searches for the active Zen Studio process, hooks into its window handle, wraps a custom GPC script string into a Win32 copy data payload, and triggers a compiler load.</p>
-<pre><code class="language-csharp">using System;
-using System.Diagnostics;
-using System.Runtime.InteropServices;
-using System.Text;
-
-namespace SendMsgAppSample
-{
-    class Program
-    {
-        private const int WM_COPYDATA = 0x4A;
-
-        public enum REMOTECMD
-        {
-            GpcTab = 1,
-            BuildAndRun = 2
-        }
-
-        [StructLayout(LayoutKind.Sequential)]
-        struct COPYDATASTRUCT
-        {
-            public REMOTECMD dwData;
-            public int cbData;
-            public IntPtr lpData;
-        }
-
-        [DllImport("user32.dll", CharSet = CharSet.Auto)]
-        private static extern IntPtr SendMessage(IntPtr hWnd, int Msg, IntPtr wParam, ref COPYDATASTRUCT lParam);
-
-        static void Main(string[] args)
-        {
-            // 1. A GPC script to run
-            string gpcScript = @"
-define RAPID_FIRE_RATE = 50;
-main {
-    if (get_val(XB1_RT)) {
-        combo_run(RapidFire);
-    }
-}
-combo RapidFire {
-    set_val(XB1_RT, 100);
-    wait(RAPID_FIRE_RATE);
-    set_val(XB1_RT, 0);
-    wait(RAPID_FIRE_RATE);
-}
-";
-
-            // 2. Find Zen Studio process
-            Process[] processes = Process.GetProcessesByName("Zen Studio");
-            if (processes.Length == 0)
-            {
-                Console.WriteLine("Error: Zen Studio is not running!");
-                return;
-            }
-
-            IntPtr studioHandle = processes[0].MainWindowHandle;
-            if (studioHandle == IntPtr.Zero)
-            {
-                Console.WriteLine("Error: Found Zen Studio but couldn't acquire window handle.");
-                return;
-            }
-
-            // 3. Prepare the script text as byte buffer (Null-terminated ASCII)
-            byte[] textBytes = Encoding.ASCII.GetBytes(gpcScript + "\0");
-            IntPtr allocatedMemory = Marshal.AllocHGlobal(textBytes.Length);
-            Marshal.Copy(textBytes, 0, allocatedMemory, textBytes.Length);
-
-            // 4. Assemble the Win32 payload
-            COPYDATASTRUCT payload = new COPYDATASTRUCT
-            {
-                dwData = REMOTECMD.BuildAndRun, // Compile and run on Zen instantly
-                cbData = textBytes.Length,
-                lpData = allocatedMemory
-            };
-
-            // 5. Send message (Blocks until Zen Studio receives it)
-            Console.WriteLine("Sending GPC script to Zen Studio...");
-            SendMessage(studioHandle, WM_COPYDATA, IntPtr.Zero, ref payload);
-
-            // 6. Free unmanaged memory allocation
-            Marshal.FreeHGlobal(allocatedMemory);
-            Console.WriteLine("Sent successfully!");
-        }
-    }
-}</code></pre>
-<hr>
-<h2 id="security-execution-contexts" tabindex="-1">Security & Execution Contexts <a class="header-anchor" href="#security-execution-contexts" aria-hidden="true">#</a></h2>
-<p>If your SendMessage calls are failing or returning <code>0</code> without action, check the following system contexts:</p>
-<ol>
-<li><strong>UAC Elevation Matching (UIPI restriction)</strong>:</li>
-</ol>
-<p>Windows prevents processes running at lower integrity levels from sending messages to higher integrity level processes. If <strong>Zen Studio</strong> is running as <strong>Administrator</strong>, your C# interop application <strong>must also be run as Administrator</strong>.</p>
-<ol>
-<li><strong>Handle Validation</strong>:</li>
-</ol>
-<p><code>processes[0].MainWindowHandle</code> can sometimes return <code>0</code> if Zen Studio is minimized to the system tray. Make sure the application is open and visible on screen.</p>
-<ol>
-<li><strong>Null-Termination</strong>:</li>
-</ol>
-<p>Always append a null terminator (<code>\0</code>) to your string payload before getting its byte length, otherwise the Zen Studio GPC compiler will read trash bytes at the end of the text.</p>
+<h3 id="unsupported-browser-notice" tabindex="-1">Unsupported Browser Notice <a class="header-anchor" href="#unsupported-browser-notice" aria-hidden="true">#</a></h3>
+<p>If you load the site on <strong>Firefox</strong> or <strong>Safari</strong>, the hardware connection will be disabled.</p>
+<ul>
+<li><strong>Reason</strong>: WebHID and WebUSB are security-restricted and are currently unsupported by Mozilla Firefox and Apple Safari. You must use a Chromium-based browser (Chrome, Edge, or Brave) to transfer scripts.</li>
+</ul>
       </article>
       
       <nav class="pager">
-<a class="pager-link prev" href="../troubleshooting/">
+<a class="pager-link prev" href="../identifiers/">
 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="transform: rotate(180deg)"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
-<span><em>Previous</em>Troubleshooting & Limits</span>
+<span><em>Previous</em>Controller Identifiers</span>
+</a>
+<a class="pager-link next" href="../input-output/">
+<span><em>Next</em>Input & Output</span>
+<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
 </a>
 </nav>
     </main>
@@ -268,13 +203,16 @@ combo RapidFire {
     <aside class="toc">
       <div class="toc-title">On this page</div>
       <ul class="toc-list">
-<li class="toc-l2"><a href="#inter-process-messaging-protocol">Inter-Process Messaging Protocol</a></li>
-<li class="toc-l3"><a href="#windows-message-definition">Windows Message Definition</a></li>
-<li class="toc-l2"><a href="#data-layout-commands">Data Layout & Commands</a></li>
-<li class="toc-l3"><a href="#remotecmd-enums">REMOTECMD Enums</a></li>
-<li class="toc-l3"><a href="#copydatastruct-structure-layout">COPYDATASTRUCT Structure Layout</a></li>
-<li class="toc-l2"><a href="#c-implementation-example">C# Implementation Example</a></li>
-<li class="toc-l2"><a href="#security-execution-contexts">Security & Execution Contexts</a></li>
+<li class="toc-l2"><a href="#accessing-the-web-ide">Accessing the Web IDE</a></li>
+<li class="toc-l2"><a href="#core-features">Core Features</a></li>
+<li class="toc-l3"><a href="#1-browser-to-device-programmer">1. Browser-to-Device Programmer</a></li>
+<li class="toc-l3"><a href="#2-modern-gpc-editor-with-git-version-control">2. Modern GPC Editor with Git Version Control</a></li>
+<li class="toc-l3"><a href="#3-oled-message-screen-studio">3. OLED Message Screen Studio</a></li>
+<li class="toc-l3"><a href="#4-ballistic-mk-curve-editor">4. Ballistic MK Curve Editor</a></li>
+<li class="toc-l3"><a href="#5-installable-pwa-offline-support">5. Installable PWA (Offline Support)</a></li>
+<li class="toc-l2"><a href="#browser-requirements-troubleshooting">Browser Requirements & Troubleshooting</a></li>
+<li class="toc-l3"><a href="#webhid-webusb-permission-requests">WebHID & WebUSB Permission Requests</a></li>
+<li class="toc-l3"><a href="#unsupported-browser-notice">Unsupported Browser Notice</a></li>
 </ul>
     </aside>
   </div>

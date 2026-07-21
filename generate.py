@@ -10,6 +10,7 @@ PAGES = [
     {"id": "user-functions", "title": "User Functions", "group": "Scripting Basics", "src": "user-functions.md", "url": "user-functions/index.html", "breadcrumb": "User Functions"},
     {"id": "constants", "title": "System Constants", "group": "Scripting Basics", "src": "constants.md", "url": "constants/index.html", "breadcrumb": "System Constants"},
     {"id": "identifiers", "title": "Controller Identifiers", "group": "Scripting Basics", "src": "identifiers.md", "url": "identifiers/index.html", "breadcrumb": "Controller Identifiers"},
+    {"id": "zen-studio-live", "title": "Zen Studio Live (Web IDE)", "group": "Scripting Basics", "src": "zen-studio-live.md", "url": "zen-studio-live/index.html", "breadcrumb": "Zen Studio Live (Web IDE)"},
     {"id": "input-output", "title": "Input & Output", "group": "API Reference", "src": "input-output.md", "url": "input-output/index.html", "breadcrumb": "Input & Output"},
     {"id": "combos-timing", "title": "Combos & Timing", "group": "API Reference", "src": "combos-timing.md", "url": "combos-timing/index.html", "breadcrumb": "Combos & Timing"},
     {"id": "controller", "title": "Controller Hardware", "group": "API Reference", "src": "controller.md", "url": "controller/index.html", "breadcrumb": "Controller Hardware"},
@@ -445,6 +446,7 @@ llms_summary = """# Cronus GPC Docs
 - [User Functions](https://huoadf.github.io/cronus-docs/user-functions/) - Declaring functions with user parameters, scoping, recursion bans.
 - [System Constants](https://huoadf.github.io/cronus-docs/constants/) - General display, OLED button prompt glyphs, ASCII values, and PIO console/controller profiles.
 - [Controller Identifiers](https://huoadf.github.io/cronus-docs/identifiers/) - PlayStation 5, Xbox Series X/S, Switch cross-compatibility mappings and KBM inputs.
+- [Zen Studio Live (Web IDE)](https://huoadf.github.io/cronus-docs/zen-studio-live/) - Running the compiler and flashing slots directly in Google Chrome / Microsoft Edge.
 - [Input & Output](https://huoadf.github.io/cronus-docs/input-output/) - Reading inputs, setting values, press and release events, blocking.
 - [Combos & Timing](https://huoadf.github.io/cronus-docs/combos-timing/) - Writing combos, wait timers, state time measurements.
 - [Controller Hardware](https://huoadf.github.io/cronus-docs/controller/) - Rumble motors, color LEDs, controller button aliases.
