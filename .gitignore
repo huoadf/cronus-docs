@@ -1,0 +1,13 @@
+# Compiled search files
+search-index.json
+
+# LLM exports
+llms.txt
+llms-full.txt
+
+# Local HTML output (generated pages)
+# To allow committing generated pages to GitHub pages, do not ignore .html files here.
+# Only ignore python caches
+__pycache__/
+*.pyc
+.DS_Store

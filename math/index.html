@@ -1,0 +1,296 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Math & Utilities · Cronus GPC docs</title>
+  <meta name="description" content="Cronus Zen GPC scripting documentation - Math & Utilities">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%23050505'/%3E%3Ccircle cx='16' cy='16' r='6' fill='%2300f0ff'/%3E%3C/svg%3E">
+  
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap">
+  
+  <!-- Theme CSS -->
+  <link rel="stylesheet" href="../assets/main.css">
+  <style>:root{--accent:#00f0ff}</style>
+  
+  <script>
+    (function(){try{var t=localStorage.getItem("wd-theme");if(t)document.documentElement.dataset.theme=t;}catch(e){}})();
+  </script>
+</head>
+<body data-project="cronus" data-search-path="../search-index.json">
+  <header class="topbar">
+    <button class="iconbtn menu-btn" data-menu aria-label="Open navigation">
+      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M4 6h16M4 12h16M4 18h16"/>
+      </svg>
+    </button>
+    <a class="brand" href="../">
+      <span class="brand-dot" style="background:#00f0ff"></span>Cronus GPC docs
+    </a>
+    <div class="switcher">
+      <button class="switcher-btn" data-switcher aria-haspopup="true" aria-expanded="false">
+        Cronus GPC
+        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="14" height="14">
+          <path d="m6 9 6 6 6-6"/>
+        </svg>
+      </button>
+      <div class="switcher-menu" data-switcher-menu hidden>
+        <a href="../" class="switcher-item active">
+          <span>Cronus GPC</span>
+          <em>Zen Scripting documentation</em>
+        </a>
+      </div>
+    </div>
+    
+    <div class="topbar-spacer"></div>
+    
+    <button class="searchbtn" data-search-open>
+      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <circle cx="11" cy="11" r="7"/>
+        <path d="m21 21-4.3-4.3"/>
+      </svg>
+      <span>Search</span>
+      <kbd>⌘K</kbd>
+    </button>
+    
+    <button class="connectbtn" data-connect-open aria-label="Connect to AI">
+      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M9 2v6M15 2v6"/>
+        <path d="M6 8h12v2a6 6 0 0 1-6 6 6 6 0 0 1-6-6z"/>
+        <path d="M12 16v6"/>
+      </svg>
+      <span>Connect</span>
+    </button>
+    
+    <button class="iconbtn" data-theme-toggle aria-label="Toggle theme">
+      <span class="theme-sun">
+        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="12" cy="12" r="4"/>
+          <path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/>
+        </svg>
+      </span>
+      <span class="theme-moon">
+        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/>
+        </svg>
+      </span>
+    </button>
+  </header>
+  
+  <div class="layout">
+    <div class="scrim" data-scrim></div>
+    <nav class="sidebar" data-sidebar>
+      <div class="sidebar-inner">
+        <a class="nav-item " href="../">Getting started</a>
+        
+        <div class="nav-group">Scripting Basics</div>
+        <a class="nav-item " href="../syntax/">Syntax basics</a>
+        <a class="nav-item " href="../user-functions/">User Functions</a>
+        
+        <div class="nav-group">API Reference</div>
+        <a class="nav-item " href="../input-output/">Input &amp; Output</a>
+        <a class="nav-item " href="../combos-timing/">Combos &amp; Timing</a>
+        <a class="nav-item " href="../controller/">Controller Hardware</a>
+        <a class="nav-item active" href="../math/">Math &amp; Utilities</a>
+        
+        <div class="nav-group">Guides</div>
+        <a class="nav-item " href="../advanced-guides/">Advanced Guides &amp; Macros</a>
+      </div>
+    </nav>
+    
+    <main class="content">
+      <article class="prose">
+        <div class="breadcrumb">
+          <a href="../">Cronus GPC</a> 
+          <span>/</span> 
+          Math & Utilities
+        </div>
+        <h1 id="math" tabindex="-1">
+          Math & Utilities 
+          <a class="header-anchor" href="#math" aria-hidden="true">#</a>
+        </h1>
+        <h1 id="math-utilities" tabindex="-1">Math & Utilities <a class="header-anchor" href="#math-utilities" aria-hidden="true">#</a></h1>
+<p>Because GPC is designed for low-power embedded microcontrollers, standard decimal math (floating points) is unsupported. GPC includes built-in functions to keep operations fast, safe, and bound within controller limits.</p>
+<hr>
+<h2 id="utility-functions" tabindex="-1">Utility Functions <a class="header-anchor" href="#utility-functions" aria-hidden="true">#</a></h2>
+<h3 id="clamp" tabindex="-1"><code>clamp</code> <a class="header-anchor" href="#clamp" aria-hidden="true">#</a></h3>
+<p>Constrains a value between a minimum and maximum limit. This is critical for preventing controller inputs from sending values beyond expected boundaries (like <code>-100</code> or <code>100</code>), which can cause unintended visual glitches in games.</p>
+<ul>
+<li><strong>Syntax</strong>: <code>clamp(<a href="value">value</a>, <a href="min">min</a>, <a href="max">max</a>)</code></li>
+<li><strong>Example</strong>:</li>
+<pre><code class="language-c">  main {
+      // Limit Right Stick Y-axis input to a max of 80% strength
+      int stick_y = get_val(XB1_RY);
+      int restricted_y = clamp(stick_y, -80, 80);
+      set_val(XB1_RY, restricted_y);
+  }</code></pre>
+</ul>
+<h3 id="abs" tabindex="-1"><code>abs</code> <a class="header-anchor" href="#abs" aria-hidden="true">#</a></h3>
+<p>Returns the absolute (positive) value of an integer.</p>
+<ul>
+<li><strong>Syntax</strong>: <code>abs(<a href="value">value</a>)</code></li>
+<li><strong>Example</strong>:</li>
+<pre><code class="language-c">  main {
+      // Calculate how far stick is pushed from center, ignoring direction
+      int drift_x = abs(get_val(XB1_RX));
+      if (drift_x &gt; 10) {
+          // Input is outside deadzone
+      }
+  }</code></pre>
+</ul>
+<h3 id="random" tabindex="-1"><code>random</code> <a class="header-anchor" href="#random" aria-hidden="true">#</a></h3>
+<p>Generates a pseudo-random integer between a minimum and maximum range (inclusive).</p>
+<ul>
+<li><strong>Syntax</strong>: <code>random(<a href="min">min</a>, <a href="max">max</a>)</code></li>
+<li><strong>Use Case</strong>: Frequently used to randomize timing to prevent detection by anti-cheat systems analyzing for static delays.</li>
+<li><strong>Example</strong>:</li>
+<pre><code class="language-c">  combo RandomizedRapidFire {
+      set_val(XB1_RT, 100);
+      // Wait for a random duration between 35ms and 55ms
+      wait(random(35, 55));
+      
+      set_val(XB1_RT, 0);
+      wait(random(35, 55));
+  }</code></pre>
+</ul>
+<h3 id="inv" tabindex="-1"><code>inv</code> <a class="header-anchor" href="#inv" aria-hidden="true">#</a></h3>
+<p>Inverts the sign of an integer. This is a shortcut for multiplying a variable by <code>-1</code>.</p>
+<ul>
+<li><strong>Syntax</strong>: <code>inv(<a href="value">value</a>)</code></li>
+<li><strong>Example</strong>:</li>
+<pre><code class="language-c">  main {
+      // Invert stick behavior (invert Y-axis control)
+      set_val(XB1_RY, inv(get_val(XB1_RY)));
+  }</code></pre>
+</ul>
+<hr>
+<h2 id="fixed-point-math-patterns" tabindex="-1">Fixed-Point Math Patterns <a class="header-anchor" href="#fixed-point-math-patterns" aria-hidden="true">#</a></h2>
+<p>Without floats, calculations like dividing a value by <code>2.5</code> must be structured differently.</p>
+<h3 id="pattern-1-scaling-up" tabindex="-1">Pattern 1: Scaling up <a class="header-anchor" href="#pattern-1-scaling-up" aria-hidden="true">#</a></h3>
+<p>Multiply your numbers by <code>10</code>, <code>100</code>, or <code>1000</code> to simulate decimal places, perform calculations, and divide at the end.</p>
+<ul>
+<li><strong>Problem</strong>: You want to reduce stick sensitivity to exactly <code>85.5%</code> (<code>0.855</code>).</li>
+<li><strong>Solution</strong>:</li>
+<pre><code class="language-c">  main {
+      int stick_x = get_val(XB1_RX);
+      // Multiply by 855 (representing 85.5% scaled by 1000)
+      int reduced = (stick_x * 855) / 1000;
+      set_val(XB1_RX, reduced);
+  }</code></pre>
+</ul>
+<h3 id="pattern-2-rounding-division" tabindex="-1">Pattern 2: Rounding division <a class="header-anchor" href="#pattern-2-rounding-division" aria-hidden="true">#</a></h3>
+<p>By default, dividing in GPC truncates the decimal component (e.g. <code>5 / 2 = 2</code>). To round to the nearest whole integer:</p>
+<ul>
+<li>Add half of the divisor before dividing for positive values.</li>
+<li>Subtract half of the divisor for negative values.</li>
+</ul>
+<pre><code class="language-c">// Normal truncation: (5 / 2) = 2
+// Rounding logic: (5 + 1) / 2 = 3
+int rounded_value = (numerator + (denominator / 2)) / denominator;</code></pre>
+      </article>
+      
+      <nav class="pager">
+<a class="pager-link prev" href="../controller/">
+<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="transform: rotate(180deg)"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+<span><em>Previous</em>Controller Hardware</span>
+</a>
+<a class="pager-link next" href="../advanced-guides/">
+<span><em>Next</em>Advanced Guides & Macros</span>
+<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+</a>
+</nav>
+    </main>
+    
+    <aside class="toc">
+      <div class="toc-title">On this page</div>
+      <ul class="toc-list">
+<li class="toc-l2"><a href="#utility-functions">Utility Functions</a></li>
+<li class="toc-l3"><a href="#clamp">clamp</a></li>
+<li class="toc-l3"><a href="#abs">abs</a></li>
+<li class="toc-l3"><a href="#random">random</a></li>
+<li class="toc-l3"><a href="#inv">inv</a></li>
+<li class="toc-l2"><a href="#fixed-point-math-patterns">Fixed-Point Math Patterns</a></li>
+<li class="toc-l3"><a href="#pattern-1-scaling-up">Pattern 1 Scaling up</a></li>
+<li class="toc-l3"><a href="#pattern-2-rounding-division">Pattern 2 Rounding division</a></li>
+</ul>
+    </aside>
+  </div>
+  
+  <!-- Search Overlay -->
+  <div class="search-overlay" data-search-overlay hidden>
+    <div class="search-panel">
+      <div class="search-head">
+        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="11" cy="11" r="7"/>
+          <path d="m21 21-4.3-4.3"/>
+        </svg>
+        <input type="search" placeholder="Search Cronus GPC docs" data-search-input autocomplete="off" spellcheck="false">
+        <kbd>Esc</kbd>
+      </div>
+      <div class="search-results" data-search-results></div>
+    </div>
+  </div>
+  
+  <!-- Connect Overlay -->
+  <div class="connect-overlay" data-connect-overlay hidden>
+    <div class="connect-panel">
+      <div class="connect-head">
+        <div>
+          <h2 class="connect-title">Connect Cronus GPC docs to your AI</h2>
+          <p class="connect-sub">Give any MCP-capable agent live search &amp; read access to these docs.</p>
+        </div>
+        <button class="iconbtn connect-close" type="button" data-connect-close aria-label="Close">✕</button>
+      </div>
+      <div class="connect-url-label">MCP server URL</div>
+      <div class="connect-url">
+        <code>https://huoadf.github.io/cronus-docs/mcp</code>
+        <button class="copy-btn" type="button">Copy</button>
+      </div>
+      <div class="tabs connect-tabs" data-tabs>
+        <div class="tab-panel" data-tab="Claude Code">
+          <p class="connect-note">Run in your terminal:</p>
+          <div class="connect-snippet">
+            <pre><code>claude mcp add --transport http cronus-docs https://huoadf.github.io/cronus-docs/mcp</code></pre>
+            <button class="copy-btn" type="button">Copy</button>
+          </div>
+        </div>
+        <div class="tab-panel" data-tab="Cursor">
+          <p class="connect-note">Add to <code>.cursor/mcp.json</code>:</p>
+          <div class="connect-snippet">
+            <pre><code>{
+  &quot;mcpServers&quot;: {
+    &quot;cronus-docs&quot;: {
+      &quot;url&quot;: &quot;https://huoadf.github.io/cronus-docs/mcp&quot;
+    }
+  }
+}</code></pre>
+            <button class="copy-btn" type="button">Copy</button>
+          </div>
+        </div>
+        <div class="tab-panel" data-tab="VS Code">
+          <p class="connect-note">Add to <code>.vscode/mcp.json</code>:</p>
+          <div class="connect-snippet">
+            <pre><code>{
+  &quot;servers&quot;: {
+    &quot;cronus-docs&quot;: {
+      &quot;type&quot;: &quot;http&quot;,
+      &quot;url&quot;: &quot;https://huoadf.github.io/cronus-docs/mcp&quot;
+    }
+  }
+}</code></pre>
+            <button class="copy-btn" type="button">Copy</button>
+          </div>
+        </div>
+      </div>
+      <p class="connect-foot">No setup? Point any agent at <code>llms.txt</code> or <code>llms-full.txt</code>.</p>
+    </div>
+  </div>
+  
+  <!-- Scripts -->
+  <script src="../assets/highlight.min.js"></script>
+  <script src="../assets/client.js" defer></script>
+</body>
+</html>

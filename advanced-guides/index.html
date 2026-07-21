@@ -1,0 +1,328 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Advanced Guides & Macros · Cronus GPC docs</title>
+  <meta name="description" content="Cronus Zen GPC scripting documentation - Advanced Guides & Macros">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%23050505'/%3E%3Ccircle cx='16' cy='16' r='6' fill='%2300f0ff'/%3E%3C/svg%3E">
+  
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap">
+  
+  <!-- Theme CSS -->
+  <link rel="stylesheet" href="../assets/main.css">
+  <style>:root{--accent:#00f0ff}</style>
+  
+  <script>
+    (function(){try{var t=localStorage.getItem("wd-theme");if(t)document.documentElement.dataset.theme=t;}catch(e){}})();
+  </script>
+</head>
+<body data-project="cronus" data-search-path="../search-index.json">
+  <header class="topbar">
+    <button class="iconbtn menu-btn" data-menu aria-label="Open navigation">
+      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M4 6h16M4 12h16M4 18h16"/>
+      </svg>
+    </button>
+    <a class="brand" href="../">
+      <span class="brand-dot" style="background:#00f0ff"></span>Cronus GPC docs
+    </a>
+    <div class="switcher">
+      <button class="switcher-btn" data-switcher aria-haspopup="true" aria-expanded="false">
+        Cronus GPC
+        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="14" height="14">
+          <path d="m6 9 6 6 6-6"/>
+        </svg>
+      </button>
+      <div class="switcher-menu" data-switcher-menu hidden>
+        <a href="../" class="switcher-item active">
+          <span>Cronus GPC</span>
+          <em>Zen Scripting documentation</em>
+        </a>
+      </div>
+    </div>
+    
+    <div class="topbar-spacer"></div>
+    
+    <button class="searchbtn" data-search-open>
+      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <circle cx="11" cy="11" r="7"/>
+        <path d="m21 21-4.3-4.3"/>
+      </svg>
+      <span>Search</span>
+      <kbd>⌘K</kbd>
+    </button>
+    
+    <button class="connectbtn" data-connect-open aria-label="Connect to AI">
+      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M9 2v6M15 2v6"/>
+        <path d="M6 8h12v2a6 6 0 0 1-6 6 6 6 0 0 1-6-6z"/>
+        <path d="M12 16v6"/>
+      </svg>
+      <span>Connect</span>
+    </button>
+    
+    <button class="iconbtn" data-theme-toggle aria-label="Toggle theme">
+      <span class="theme-sun">
+        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="12" cy="12" r="4"/>
+          <path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/>
+        </svg>
+      </span>
+      <span class="theme-moon">
+        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/>
+        </svg>
+      </span>
+    </button>
+  </header>
+  
+  <div class="layout">
+    <div class="scrim" data-scrim></div>
+    <nav class="sidebar" data-sidebar>
+      <div class="sidebar-inner">
+        <a class="nav-item " href="../">Getting started</a>
+        
+        <div class="nav-group">Scripting Basics</div>
+        <a class="nav-item " href="../syntax/">Syntax basics</a>
+        <a class="nav-item " href="../user-functions/">User Functions</a>
+        
+        <div class="nav-group">API Reference</div>
+        <a class="nav-item " href="../input-output/">Input &amp; Output</a>
+        <a class="nav-item " href="../combos-timing/">Combos &amp; Timing</a>
+        <a class="nav-item " href="../controller/">Controller Hardware</a>
+        <a class="nav-item " href="../math/">Math &amp; Utilities</a>
+        
+        <div class="nav-group">Guides</div>
+        <a class="nav-item active" href="../advanced-guides/">Advanced Guides &amp; Macros</a>
+      </div>
+    </nav>
+    
+    <main class="content">
+      <article class="prose">
+        <div class="breadcrumb">
+          <a href="../">Cronus GPC</a> 
+          <span>/</span> 
+          Advanced Guides & Macros
+        </div>
+        <h1 id="advanced-guides" tabindex="-1">
+          Advanced Guides & Macros 
+          <a class="header-anchor" href="#advanced-guides" aria-hidden="true">#</a>
+        </h1>
+        <h1 id="advanced-guides-macros" tabindex="-1">Advanced Guides & Macros <a class="header-anchor" href="#advanced-guides-macros" aria-hidden="true">#</a></h1>
+<p>This section covers practical design patterns and common scripts used in gaming macros, along with instructions on maintaining high device performance.</p>
+<hr>
+<h2 id="cpu-load-management" tabindex="-1">CPU Load Management <a class="header-anchor" href="#cpu-load-management" aria-hidden="true">#</a></h2>
+<p>The Cronus Zen has a limited microprocessor. If your GPC script executes too many complex calculations in a single tick, the processor load will exceed <strong>80%</strong>, causing input lag, dropped button presses, or script crashes.</p>
+<h3 id="rules-for-efficient-code" tabindex="-1">Rules for Efficient Code <a class="header-anchor" href="#rules-for-efficient-code" aria-hidden="true">#</a></h3>
+<ul>
+<li><strong>Avoid Nested Loops</strong>: Never write <code>while</code> or <code>for</code> loops inside the <code>main</code> block.</li>
+<li><strong>Minimize Floating Point Conversions</strong>: Keep fixed-point math minimal. Only perform calculations when buttons are pressed, rather than continuously.</li>
+<li><strong>Keep Combos Clean</strong>: Do not run multiple combos at the same time if they are writing to the exact same buttons. This causes resource contention.</li>
+</ul>
+<hr>
+<h2 id="pattern-1-progressive-anti-recoil" tabindex="-1">Pattern 1: Progressive Anti-Recoil <a class="header-anchor" href="#pattern-1-progressive-anti-recoil" aria-hidden="true">#</a></h2>
+<p>Standard anti-recoil pulls the right stick down at a static rate. Progressive anti-recoil increases or decreases the pull force over time to counteract weapons that kick harder the longer you hold the trigger.</p>
+<pre><code class="language-c">define START_RECOIL = 20;     // Initial pull force
+define END_RECOIL = 42;       // Final pull force
+define PROGRESS_TIME = 2000;  // Milliseconds to reach final force
+
+int active_recoil_force;
+int time_held;
+
+main {
+    // If holding Aim Down Sights (LT) and Fire (RT)
+    if (get_val(XB1_LT) &amp;&amp; get_val(XB1_RT)) {
+        // Track how long the user has been firing
+        time_held = get_ptime(XB1_RT);
+        
+        if (time_held &lt; PROGRESS_TIME) {
+            // Linearly interpolate between START_RECOIL and END_RECOIL
+            active_recoil_force = START_RECOIL + (((END_RECOIL - START_RECOIL) * time_held) / PROGRESS_TIME);
+        } else {
+            active_recoil_force = END_RECOIL;
+        }
+        
+        // Run the anti-recoil combo
+        combo_run(ApplyAntiRecoil);
+    } else {
+        combo_stop(ApplyAntiRecoil);
+    }
+}
+
+combo ApplyAntiRecoil {
+    // Inject vertical stick downward pull
+    set_val(XB1_RY, clamp(get_val(XB1_RY) + active_recoil_force, -100, 100));
+    wait(10);
+}</code></pre>
+<hr>
+<h2 id="pattern-2-rapid-fire-with-adjustable-rate" tabindex="-1">Pattern 2: Rapid Fire with Adjustable Rate <a class="header-anchor" href="#pattern-2-rapid-fire-with-adjustable-rate" aria-hidden="true">#</a></h2>
+<p>This script allows you to adjust the fire rate speed directly from your controller on-the-fly without plugging it into a PC.</p>
+<ul>
+<li><strong>Controls</strong>: Hold <strong>LT/L2</strong> + <strong>D-PAD Left</strong> to slow down, or <strong>D-PAD Right</strong> to speed up.</li>
+</ul>
+<pre><code class="language-c">int hold_delay = 40; // Initial delay of 40ms between shots
+
+main {
+    // Adjust rate of fire: Hold ADS and press D-pad
+    if (get_val(XB1_LT)) {
+        if (event_press(XB1_RIGHT)) {
+            // Decrease delay (increases fire speed)
+            hold_delay = clamp(hold_delay - 5, 20, 200);
+            combo_run(RumbleFast);
+        }
+        if (event_press(XB1_LEFT)) {
+            // Increase delay (decreases fire speed)
+            hold_delay = clamp(hold_delay + 5, 20, 200);
+            combo_run(RumbleSlow);
+        }
+    }
+
+    // Trigger rapid fire
+    if (get_val(XB1_RT)) {
+        combo_run(AdjustableRapidFire);
+    }
+}
+
+combo AdjustableRapidFire {
+    set_val(XB1_RT, 100);
+    wait(hold_delay);
+    set_val(XB1_RT, 0);
+    wait(hold_delay);
+}
+
+combo RumbleFast {
+    set_rumble(RUMBLE_A, 30);
+    wait(80);
+    reset_rumble();
+}
+
+combo RumbleSlow {
+    set_rumble(RUMBLE_A, 15);
+    wait(160);
+    reset_rumble();
+}</code></pre>
+<hr>
+<h2 id="pattern-3-modern-warfare-slide-cancel-macro" tabindex="-1">Pattern 3: Modern Warfare Slide Cancel Macro <a class="header-anchor" href="#pattern-3-modern-warfare-slide-cancel-macro" aria-hidden="true">#</a></h2>
+<p>A classic macro sequence. Performs a double slide followed by a jump crouch-cancel when you hold the sprint button or press a designated paddle.</p>
+<pre><code class="language-c">main {
+    // Trigger Slide Cancel macro when pressing Slide/Crouch (B) while moving forward
+    if (get_val(XB1_LY) &lt; -80 &amp;&amp; event_press(XB1_B)) {
+        combo_run(SlideCancel);
+    }
+}
+
+combo SlideCancel {
+    set_val(XB1_B, 100);    // Slide 1
+    wait(60);
+    set_val(XB1_B, 0);
+    wait(60);
+    set_val(XB1_B, 100);    // Slide 2
+    wait(60);
+    set_val(XB1_B, 0);
+    wait(40);
+    set_val(XB1_A, 100);    // Jump to stand up
+    wait(60);
+    set_val(XB1_A, 0);
+    wait(20);
+}</code></pre>
+      </article>
+      
+      <nav class="pager">
+<a class="pager-link prev" href="../math/">
+<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="transform: rotate(180deg)"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+<span><em>Previous</em>Math & Utilities</span>
+</a>
+</nav>
+    </main>
+    
+    <aside class="toc">
+      <div class="toc-title">On this page</div>
+      <ul class="toc-list">
+<li class="toc-l2"><a href="#cpu-load-management">CPU Load Management</a></li>
+<li class="toc-l3"><a href="#rules-for-efficient-code">Rules for Efficient Code</a></li>
+<li class="toc-l2"><a href="#pattern-1-progressive-anti-recoil">Pattern 1 Progressive Anti-Recoil</a></li>
+<li class="toc-l2"><a href="#pattern-2-rapid-fire-with-adjustable-rate">Pattern 2 Rapid Fire with Adjustable Rate</a></li>
+<li class="toc-l2"><a href="#pattern-3-modern-warfare-slide-cancel-macro">Pattern 3 Modern Warfare Slide Cancel Macro</a></li>
+</ul>
+    </aside>
+  </div>
+  
+  <!-- Search Overlay -->
+  <div class="search-overlay" data-search-overlay hidden>
+    <div class="search-panel">
+      <div class="search-head">
+        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="11" cy="11" r="7"/>
+          <path d="m21 21-4.3-4.3"/>
+        </svg>
+        <input type="search" placeholder="Search Cronus GPC docs" data-search-input autocomplete="off" spellcheck="false">
+        <kbd>Esc</kbd>
+      </div>
+      <div class="search-results" data-search-results></div>
+    </div>
+  </div>
+  
+  <!-- Connect Overlay -->
+  <div class="connect-overlay" data-connect-overlay hidden>
+    <div class="connect-panel">
+      <div class="connect-head">
+        <div>
+          <h2 class="connect-title">Connect Cronus GPC docs to your AI</h2>
+          <p class="connect-sub">Give any MCP-capable agent live search &amp; read access to these docs.</p>
+        </div>
+        <button class="iconbtn connect-close" type="button" data-connect-close aria-label="Close">✕</button>
+      </div>
+      <div class="connect-url-label">MCP server URL</div>
+      <div class="connect-url">
+        <code>https://huoadf.github.io/cronus-docs/mcp</code>
+        <button class="copy-btn" type="button">Copy</button>
+      </div>
+      <div class="tabs connect-tabs" data-tabs>
+        <div class="tab-panel" data-tab="Claude Code">
+          <p class="connect-note">Run in your terminal:</p>
+          <div class="connect-snippet">
+            <pre><code>claude mcp add --transport http cronus-docs https://huoadf.github.io/cronus-docs/mcp</code></pre>
+            <button class="copy-btn" type="button">Copy</button>
+          </div>
+        </div>
+        <div class="tab-panel" data-tab="Cursor">
+          <p class="connect-note">Add to <code>.cursor/mcp.json</code>:</p>
+          <div class="connect-snippet">
+            <pre><code>{
+  &quot;mcpServers&quot;: {
+    &quot;cronus-docs&quot;: {
+      &quot;url&quot;: &quot;https://huoadf.github.io/cronus-docs/mcp&quot;
+    }
+  }
+}</code></pre>
+            <button class="copy-btn" type="button">Copy</button>
+          </div>
+        </div>
+        <div class="tab-panel" data-tab="VS Code">
+          <p class="connect-note">Add to <code>.vscode/mcp.json</code>:</p>
+          <div class="connect-snippet">
+            <pre><code>{
+  &quot;servers&quot;: {
+    &quot;cronus-docs&quot;: {
+      &quot;type&quot;: &quot;http&quot;,
+      &quot;url&quot;: &quot;https://huoadf.github.io/cronus-docs/mcp&quot;
+    }
+  }
+}</code></pre>
+            <button class="copy-btn" type="button">Copy</button>
+          </div>
+        </div>
+      </div>
+      <p class="connect-foot">No setup? Point any agent at <code>llms.txt</code> or <code>llms-full.txt</code>.</p>
+    </div>
+  </div>
+  
+  <!-- Scripts -->
+  <script src="../assets/highlight.min.js"></script>
+  <script src="../assets/client.js" defer></script>
+</body>
+</html>

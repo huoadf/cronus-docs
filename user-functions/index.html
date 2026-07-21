@@ -1,0 +1,284 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>User Functions · Cronus GPC docs</title>
+  <meta name="description" content="Cronus Zen GPC scripting documentation - User Functions">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%23050505'/%3E%3Ccircle cx='16' cy='16' r='6' fill='%2300f0ff'/%3E%3C/svg%3E">
+  
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap">
+  
+  <!-- Theme CSS -->
+  <link rel="stylesheet" href="../assets/main.css">
+  <style>:root{--accent:#00f0ff}</style>
+  
+  <script>
+    (function(){try{var t=localStorage.getItem("wd-theme");if(t)document.documentElement.dataset.theme=t;}catch(e){}})();
+  </script>
+</head>
+<body data-project="cronus" data-search-path="../search-index.json">
+  <header class="topbar">
+    <button class="iconbtn menu-btn" data-menu aria-label="Open navigation">
+      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M4 6h16M4 12h16M4 18h16"/>
+      </svg>
+    </button>
+    <a class="brand" href="../">
+      <span class="brand-dot" style="background:#00f0ff"></span>Cronus GPC docs
+    </a>
+    <div class="switcher">
+      <button class="switcher-btn" data-switcher aria-haspopup="true" aria-expanded="false">
+        Cronus GPC
+        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="14" height="14">
+          <path d="m6 9 6 6 6-6"/>
+        </svg>
+      </button>
+      <div class="switcher-menu" data-switcher-menu hidden>
+        <a href="../" class="switcher-item active">
+          <span>Cronus GPC</span>
+          <em>Zen Scripting documentation</em>
+        </a>
+      </div>
+    </div>
+    
+    <div class="topbar-spacer"></div>
+    
+    <button class="searchbtn" data-search-open>
+      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <circle cx="11" cy="11" r="7"/>
+        <path d="m21 21-4.3-4.3"/>
+      </svg>
+      <span>Search</span>
+      <kbd>⌘K</kbd>
+    </button>
+    
+    <button class="connectbtn" data-connect-open aria-label="Connect to AI">
+      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M9 2v6M15 2v6"/>
+        <path d="M6 8h12v2a6 6 0 0 1-6 6 6 6 0 0 1-6-6z"/>
+        <path d="M12 16v6"/>
+      </svg>
+      <span>Connect</span>
+    </button>
+    
+    <button class="iconbtn" data-theme-toggle aria-label="Toggle theme">
+      <span class="theme-sun">
+        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="12" cy="12" r="4"/>
+          <path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/>
+        </svg>
+      </span>
+      <span class="theme-moon">
+        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/>
+        </svg>
+      </span>
+    </button>
+  </header>
+  
+  <div class="layout">
+    <div class="scrim" data-scrim></div>
+    <nav class="sidebar" data-sidebar>
+      <div class="sidebar-inner">
+        <a class="nav-item " href="../">Getting started</a>
+        
+        <div class="nav-group">Scripting Basics</div>
+        <a class="nav-item " href="../syntax/">Syntax basics</a>
+        <a class="nav-item active" href="../user-functions/">User Functions</a>
+        
+        <div class="nav-group">API Reference</div>
+        <a class="nav-item " href="../input-output/">Input &amp; Output</a>
+        <a class="nav-item " href="../combos-timing/">Combos &amp; Timing</a>
+        <a class="nav-item " href="../controller/">Controller Hardware</a>
+        <a class="nav-item " href="../math/">Math &amp; Utilities</a>
+        
+        <div class="nav-group">Guides</div>
+        <a class="nav-item " href="../advanced-guides/">Advanced Guides &amp; Macros</a>
+      </div>
+    </nav>
+    
+    <main class="content">
+      <article class="prose">
+        <div class="breadcrumb">
+          <a href="../">Cronus GPC</a> 
+          <span>/</span> 
+          User Functions
+        </div>
+        <h1 id="user-functions" tabindex="-1">
+          User Functions 
+          <a class="header-anchor" href="#user-functions" aria-hidden="true">#</a>
+        </h1>
+        <h1 id="user-functions" tabindex="-1">User Functions <a class="header-anchor" href="#user-functions" aria-hidden="true">#</a></h1>
+<p>In GPC scripting, you can define your own custom functions. Custom functions help you write cleaner, modular code, reduce repetition, and save bytecode space in your Cronus Zen memory slots.</p>
+<hr>
+<h2 id="defining-a-function" tabindex="-1">Defining a Function <a class="header-anchor" href="#defining-a-function" aria-hidden="true">#</a></h2>
+<p>User-defined functions are created using the <code>function</code> keyword. They must accept only integer arguments and can optionally return an integer value using the <code>return</code> statement.</p>
+<h3 id="syntax" tabindex="-1">Syntax <a class="header-anchor" href="#syntax" aria-hidden="true">#</a></h3>
+<pre><code class="language-c">function function_name(parameter_1, parameter_2) {
+    // Logic and calculations
+    int result = parameter_1 * parameter_2;
+    
+    return result; // Exit function and return the value
+}</code></pre>
+<div class="callout callout-important"><span class="callout-ico" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 16v-4M12 8h.01"/></svg></span><div class="callout-body"><p><strong>Placement Constraint</strong></p>
+<p>In GPC scripts, user-defined functions <strong>must be defined at the very end of your script</strong> — after the <code>main {}</code> block and after all <code>combo {}</code> blocks. Placing them at the beginning or middle of the script will cause compiler errors.</p></div></div>
+<hr>
+<h2 id="function-guidelines-rules" tabindex="-1">Function Guidelines & Rules <a class="header-anchor" href="#function-guidelines-rules" aria-hidden="true">#</a></h2>
+<h3 id="1-unified-data-types" tabindex="-1">1. Unified Data Types <a class="header-anchor" href="#1-unified-data-types" aria-hidden="true">#</a></h3>
+<p>Unlike standard C, GPC is dynamically integer-typed for functions.</p>
+<ul>
+<li>All arguments are implicitly signed 16-bit integers (<code>int</code>). You do not need to specify <code>int</code> before argument names in the function signature (e.g. use <code>function add(a, b)</code>, not <code>function add(int a, int b)</code>).</li>
+<li>The return value is also an <code>int</code>. If your function does not contain a <code>return</code> statement, it will return <code>0</code> by default.</li>
+</ul>
+<h3 id="2-passed-by-value" tabindex="-1">2. Passed by Value <a class="header-anchor" href="#2-passed-by-value" aria-hidden="true">#</a></h3>
+<p>All variables passed to a function are <strong>passed by value</strong>, not by reference. This means the function receives a copy of the variable's value. If you modify an argument's value inside the function, it will not change the value of the original variable outside the function.</p>
+<pre><code class="language-c">int score = 10;
+
+main {
+    double_value(score);
+    // score is STILL 10, because it was passed by value!
+}
+
+function double_value(val) {
+    val = val * 2;
+    return val;
+}</code></pre>
+<h3 id="3-global-scope" tabindex="-1">3. Global Scope <a class="header-anchor" href="#3-global-scope" aria-hidden="true">#</a></h3>
+<p>All user-defined functions have a global scope and can be called from anywhere in the script — inside the <code>init</code> block, the <code>main</code> block, or inside combos.</p>
+<h3 id="4-no-recursion" tabindex="-1">4. No Recursion <a class="header-anchor" href="#4-no-recursion" aria-hidden="true">#</a></h3>
+<p>GPC does not support recursive function calls (a function calling itself). Attempting to do so will result in compile-time errors or stack overflows on the Cronus Zen microprocessor.</p>
+<hr>
+<h2 id="code-example-deadzone-correction-function" tabindex="-1">Code Example: Deadzone Correction Function <a class="header-anchor" href="#code-example-deadzone-correction-function" aria-hidden="true">#</a></h2>
+<p>A common application of functions is correcting analog stick inputs. The function below checks if a stick's deflection is within a specific deadzone, and if not, scales it appropriately.</p>
+<pre><code class="language-c">int stick_x;
+int stick_y;
+
+main {
+    // Call the custom deadzone check function for both stick axes
+    stick_x = apply_deadzone(get_val(XB1_LX), 12);
+    stick_y = apply_deadzone(get_val(XB1_LY), 12);
+    
+    set_val(XB1_LX, stick_x);
+    set_val(XB1_LY, stick_y);
+}
+
+// Function defined at the very end of the GPC script
+function apply_deadzone(raw_value, deadzone_limit) {
+    int absolute_val = abs(raw_value);
+    
+    // If stick deflection is smaller than the deadzone, center it to 0
+    if (absolute_val &lt; deadzone_limit) {
+        return 0;
+    }
+    
+    // Otherwise, return the original value
+    return raw_value;
+}</code></pre>
+      </article>
+      
+      <nav class="pager">
+<a class="pager-link prev" href="../syntax/">
+<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="transform: rotate(180deg)"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+<span><em>Previous</em>Syntax basics</span>
+</a>
+<a class="pager-link next" href="../input-output/">
+<span><em>Next</em>Input & Output</span>
+<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+</a>
+</nav>
+    </main>
+    
+    <aside class="toc">
+      <div class="toc-title">On this page</div>
+      <ul class="toc-list">
+<li class="toc-l2"><a href="#defining-a-function">Defining a Function</a></li>
+<li class="toc-l3"><a href="#syntax">Syntax</a></li>
+<li class="toc-l2"><a href="#function-guidelines-rules">Function Guidelines & Rules</a></li>
+<li class="toc-l3"><a href="#1-unified-data-types">1. Unified Data Types</a></li>
+<li class="toc-l3"><a href="#2-passed-by-value">2. Passed by Value</a></li>
+<li class="toc-l3"><a href="#3-global-scope">3. Global Scope</a></li>
+<li class="toc-l3"><a href="#4-no-recursion">4. No Recursion</a></li>
+<li class="toc-l2"><a href="#code-example-deadzone-correction-function">Code Example Deadzone Correction Function</a></li>
+</ul>
+    </aside>
+  </div>
+  
+  <!-- Search Overlay -->
+  <div class="search-overlay" data-search-overlay hidden>
+    <div class="search-panel">
+      <div class="search-head">
+        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="11" cy="11" r="7"/>
+          <path d="m21 21-4.3-4.3"/>
+        </svg>
+        <input type="search" placeholder="Search Cronus GPC docs" data-search-input autocomplete="off" spellcheck="false">
+        <kbd>Esc</kbd>
+      </div>
+      <div class="search-results" data-search-results></div>
+    </div>
+  </div>
+  
+  <!-- Connect Overlay -->
+  <div class="connect-overlay" data-connect-overlay hidden>
+    <div class="connect-panel">
+      <div class="connect-head">
+        <div>
+          <h2 class="connect-title">Connect Cronus GPC docs to your AI</h2>
+          <p class="connect-sub">Give any MCP-capable agent live search &amp; read access to these docs.</p>
+        </div>
+        <button class="iconbtn connect-close" type="button" data-connect-close aria-label="Close">✕</button>
+      </div>
+      <div class="connect-url-label">MCP server URL</div>
+      <div class="connect-url">
+        <code>https://huoadf.github.io/cronus-docs/mcp</code>
+        <button class="copy-btn" type="button">Copy</button>
+      </div>
+      <div class="tabs connect-tabs" data-tabs>
+        <div class="tab-panel" data-tab="Claude Code">
+          <p class="connect-note">Run in your terminal:</p>
+          <div class="connect-snippet">
+            <pre><code>claude mcp add --transport http cronus-docs https://huoadf.github.io/cronus-docs/mcp</code></pre>
+            <button class="copy-btn" type="button">Copy</button>
+          </div>
+        </div>
+        <div class="tab-panel" data-tab="Cursor">
+          <p class="connect-note">Add to <code>.cursor/mcp.json</code>:</p>
+          <div class="connect-snippet">
+            <pre><code>{
+  &quot;mcpServers&quot;: {
+    &quot;cronus-docs&quot;: {
+      &quot;url&quot;: &quot;https://huoadf.github.io/cronus-docs/mcp&quot;
+    }
+  }
+}</code></pre>
+            <button class="copy-btn" type="button">Copy</button>
+          </div>
+        </div>
+        <div class="tab-panel" data-tab="VS Code">
+          <p class="connect-note">Add to <code>.vscode/mcp.json</code>:</p>
+          <div class="connect-snippet">
+            <pre><code>{
+  &quot;servers&quot;: {
+    &quot;cronus-docs&quot;: {
+      &quot;type&quot;: &quot;http&quot;,
+      &quot;url&quot;: &quot;https://huoadf.github.io/cronus-docs/mcp&quot;
+    }
+  }
+}</code></pre>
+            <button class="copy-btn" type="button">Copy</button>
+          </div>
+        </div>
+      </div>
+      <p class="connect-foot">No setup? Point any agent at <code>llms.txt</code> or <code>llms-full.txt</code>.</p>
+    </div>
+  </div>
+  
+  <!-- Scripts -->
+  <script src="../assets/highlight.min.js"></script>
+  <script src="../assets/client.js" defer></script>
+</body>
+</html>
