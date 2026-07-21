@@ -19,6 +19,7 @@ PAGES = [
     {"id": "api-functions", "title": "Built-in GPC Functions", "group": "API Reference", "src": "api-functions.md", "url": "api-functions/index.html", "breadcrumb": "Built-in GPC Functions"},
     {"id": "advanced-guides", "title": "Advanced Guides & Macros", "group": "Guides", "src": "advanced-guides.md", "url": "advanced-guides/index.html", "breadcrumb": "Advanced Guides & Macros"},
     {"id": "custom-oled-buttons", "title": "Custom OLED Button Prompts", "group": "Guides", "src": "custom-oled-buttons.md", "url": "custom-oled-buttons/index.html", "breadcrumb": "Custom OLED Button Prompts"},
+    {"id": "skate3-case-study", "title": "Case Study: Skate 3 Glitch", "group": "Guides", "src": "skate3-case-study.md", "url": "skate3-case-study/index.html", "breadcrumb": "Case Study: Skate 3 Glitch"},
     {"id": "api-samples", "title": "API Samples", "group": "Guides", "src": "api-samples.md", "url": "api-samples/index.html", "breadcrumb": "API Samples"},
     {"id": "troubleshooting", "title": "Troubleshooting & Limits", "group": "Guides", "src": "troubleshooting.md", "url": "troubleshooting/index.html", "breadcrumb": "Troubleshooting & Limits"},
     {"id": "studio-interop", "title": "Zen Studio Interop", "group": "Guides", "src": "studio-interop.md", "url": "studio-interop/index.html", "breadcrumb": "Zen Studio Interop"}
@@ -453,6 +454,7 @@ llms_summary = """# Cronus GPC Docs
 - [Built-in GPC Functions](https://huoadf.github.io/cronus-docs/api-functions/) - Alphabetical reference guide to all GPC API functions.
 - [Advanced Guides & Macros](https://huoadf.github.io/cronus-docs/advanced-guides/) - Progressive anti-recoil, adjustable rapid fire, slide cancellations, and CPU optimization.
 - [Custom OLED Button Prompts](https://huoadf.github.io/cronus-docs/custom-oled-buttons/) - Interfacing D-pad arrows and console buttons directly on the Zen screen.
+- [Case Study: Skate 3 Glitch](https://huoadf.github.io/cronus-docs/skate3-case-study/) - Breakdown of multi-mode profiles, screensaver timers, LEDs, and analog stick rotating macros.
 - [API Samples](https://huoadf.github.io/cronus-docs/api-samples/) - Code snippets for double-taps, menu wrappers, and packed profiles.
 - [Troubleshooting & Limits](https://huoadf.github.io/cronus-docs/troubleshooting/) - Bytecode optimization, watchdog timeout crashes, input lag, and TRACE debugger.
 - [Zen Studio Interop](https://huoadf.github.io/cronus-docs/studio-interop/) - Windows Messages (WM_COPYDATA) integration, C# interop commands.

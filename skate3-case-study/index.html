@@ -1,0 +1,658 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Case Study: Skate 3 Glitch · Cronus GPC docs</title>
+  <meta name="description" content="Cronus Zen GPC scripting documentation - Case Study: Skate 3 Glitch">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%23050505'/%3E%3Ccircle cx='16' cy='16' r='6' fill='%2300f0ff'/%3E%3C/svg%3E">
+  
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap">
+  
+  <!-- Theme CSS -->
+  <link rel="stylesheet" href="../assets/main.css">
+  <style>:root{--accent:#00f0ff}</style>
+  
+  <script>
+    (function(){try{var t=localStorage.getItem("wd-theme");if(t)document.documentElement.dataset.theme=t;}catch(e){}})();
+  </script>
+</head>
+<body data-project="cronus" data-search-path="../search-index.json">
+  <header class="topbar">
+    <button class="iconbtn menu-btn" data-menu aria-label="Open navigation">
+      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M4 6h16M4 12h16M4 18h16"/>
+      </svg>
+    </button>
+    <a class="brand" href="../">
+      <span class="brand-dot" style="background:#00f0ff"></span>Cronus GPC docs
+    </a>
+    <div class="switcher">
+      <button class="switcher-btn" data-switcher aria-haspopup="true" aria-expanded="false">
+        Cronus GPC
+        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="14" height="14">
+          <path d="m6 9 6 6 6-6"/>
+        </svg>
+      </button>
+      <div class="switcher-menu" data-switcher-menu hidden>
+        <a href="../" class="switcher-item active">
+          <span>Cronus GPC</span>
+          <em>Zen Scripting documentation</em>
+        </a>
+      </div>
+    </div>
+    
+    <div class="topbar-spacer"></div>
+    
+    <button class="searchbtn" data-search-open>
+      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <circle cx="11" cy="11" r="7"/>
+        <path d="m21 21-4.3-4.3"/>
+      </svg>
+      <span>Search</span>
+      <kbd>⌘K</kbd>
+    </button>
+    
+    <button class="connectbtn" data-connect-open aria-label="Connect to AI">
+      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M9 2v6M15 2v6"/>
+        <path d="M6 8h12v2a6 6 0 0 1-6 6 6 6 0 0 1-6-6z"/>
+        <path d="M12 16v6"/>
+      </svg>
+      <span>Connect</span>
+    </button>
+    
+    <button class="iconbtn" data-theme-toggle aria-label="Toggle theme">
+      <span class="theme-sun">
+        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="12" cy="12" r="4"/>
+          <path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/>
+        </svg>
+      </span>
+      <span class="theme-moon">
+        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/>
+        </svg>
+      </span>
+    </button>
+  </header>
+  
+  <div class="layout">
+    <div class="scrim" data-scrim></div>
+    <nav class="sidebar" data-sidebar>
+      <div class="sidebar-inner">
+        <a class="nav-item " href="../">Getting started</a>
+        
+        <div class="nav-group">Scripting Basics</div>
+        <a class="nav-item " href="../syntax/">Syntax basics</a>
+        <a class="nav-item " href="../new-32bit-updates/">32-bit VM Updates</a>
+        <a class="nav-item " href="../user-functions/">User Functions</a>
+        <a class="nav-item " href="../constants/">System Constants</a>
+        <a class="nav-item " href="../identifiers/">Controller Identifiers</a>
+        
+        <div class="nav-group">API Reference</div>
+        <a class="nav-item " href="../input-output/">Input &amp; Output</a>
+        <a class="nav-item " href="../combos-timing/">Combos &amp; Timing</a>
+        <a class="nav-item " href="../controller/">Controller Hardware</a>
+        <a class="nav-item " href="../math/">Math &amp; Utilities</a>
+        <a class="nav-item " href="../oled-display/">OLED Display</a>
+        <a class="nav-item " href="../bitwise-storage/">Bitwise &amp; Storage</a>
+        <a class="nav-item " href="../api-functions/">Built-in GPC Functions</a>
+        
+        <div class="nav-group">Guides</div>
+        <a class="nav-item " href="../advanced-guides/">Advanced Guides &amp; Macros</a>
+        <a class="nav-item " href="../custom-oled-buttons/">Custom OLED Button Prompts</a>
+        <a class="nav-item active" href="../skate3-case-study/">Case Study: Skate 3 Glitch</a>
+        <a class="nav-item " href="../api-samples/">API Samples</a>
+        <a class="nav-item " href="../troubleshooting/">Troubleshooting &amp; Limits</a>
+        <a class="nav-item " href="../studio-interop/">Zen Studio Interop</a>
+      </div>
+    </nav>
+    
+    <main class="content">
+      <article class="prose">
+        <div class="breadcrumb">
+          <a href="../">Cronus GPC</a> 
+          <span>/</span> 
+          Case Study: Skate 3 Glitch
+        </div>
+        <h1 id="skate3-case-study" tabindex="-1">
+          Case Study: Skate 3 Glitch 
+          <a class="header-anchor" href="#skate3-case-study" aria-hidden="true">#</a>
+        </h1>
+        <h1 id="case-study-skate-3-speed-glitch" tabindex="-1">Case Study: Skate 3 Speed Glitch <a class="header-anchor" href="#case-study-skate-3-speed-glitch" aria-hidden="true">#</a></h1>
+<p>This page provides a deep-dive analysis of a real-world GPC script used to automate speed glitches in *Skate 3* (Version 1.10 by Void Vids). It integrates almost every GPC concept — including screen management, multi-mode profiles, LED controls, screen savers, complex stick-movement combos, and custom layout functions.</p>
+<hr>
+<h2 id="complete-script-source" tabindex="-1">Complete Script Source <a class="header-anchor" href="#complete-script-source" aria-hidden="true">#</a></h2>
+<p>Below is the verified working script. Save this as a <code>.gpc</code> file in Zen Studio to compile and run it.</p>
+<pre><code class="language-c">// GPC Online Library
+// skate_3_speed_glitch
+// Version: 1.10
+// Author: Void Vids
+// Link: https://gpclib.cmindapi.com/gpc-library/10116
+
+enum {
+    AUTO_THROW,
+    NO_THROW,
+    FOWARD,
+    CANNON,
+    OFF
+}
+
+const string Title1 = "Void's";
+const string Title2 = "Skate 3 Script";
+
+const string Modnames[] = {
+    "AutoThrow",
+    "NoThrow",
+    "Fowardman",
+    "Cannon",
+    "Off"
+}
+
+define Screen_Saver_Time = 15000;
+
+int activeMod;
+int screen_saver_timer = Screen_Saver_Time;
+
+init {
+    cls_oled(OLED_BLACK);
+    print(center_x(sizeof(Title1) - 1, OLED_FONT_LARGE_WIDTH), 10, OLED_FONT_LARGE, OLED_WHITE, Title1[0]);
+    print(center_x(sizeof(Title2) - 1, OLED_FONT_SMALL_WIDTH), 40, OLED_FONT_SMALL, OLED_WHITE, Title2[0]);
+}
+
+main {
+    // Cycle active mods: Hold L2 and press D-pad RIGHT
+    if(get_val(PS3_L2) &amp;&amp; event_press(PS3_RIGHT)) {
+        activeMod++;
+        combo_run(RumbleNotifier);
+        if(activeMod &gt;= 5) {
+            activeMod = 0;
+        }
+        cls_oled(OLED_BLACK);
+        print(16, 22, OLED_FONT_MEDIUM, OLED_WHITE, Modnames[activeMod]);
+        print(center_x(sizeof(Title2) - 1, OLED_FONT_SMALL_WIDTH), 40, OLED_FONT_SMALL, OLED_WHITE, Title2[0]);
+        screen_saver_timer = Screen_Saver_Time;
+    }
+
+    // Run active mod logic
+    if(activeMod == AUTO_THROW) {
+        colorled(0, 0, 1, 0); // Blue LED
+        if (get_val(PS3_LEFT)) {
+            combo_run(throw);
+        }
+    }
+
+    if(activeMod == NO_THROW) {
+        colorled(0, 1, 0, 0); // Red LED
+        if (get_val(PS3_LEFT)) {
+            combo_run(nothrow);
+        }
+    }
+
+    if(activeMod == FOWARD) {
+        colorled(1, 1, 0, 0); // Pink/Purple LED
+        if (get_val(PS3_LEFT)) {
+            combo_run(foward);
+        }
+    }
+    
+    if(activeMod == CANNON) {
+        colorled(1, 0, 1, 0); // Cyan/Teal LED
+        if (get_val(PS3_LEFT)) {
+            combo_run(cannon);
+        }
+    }
+
+    if(activeMod == OFF) {
+        colorled(0, 0, 0, 0); // Turn LEDs off
+    }
+
+    // Screen Saver: Clear screen after 15 seconds of inactivity to prevent burn-in
+    if(screen_saver_timer) {
+        if(screen_saver_timer &lt;= get_rtime()) {
+            cls_oled(OLED_BLACK);
+        }
+        screen_saver_timer = max(0, screen_saver_timer - get_rtime());
+    }
+}
+
+// --- COMBOS (Speed Glitch Macros) ---
+
+combo throw {
+    set_val(PS3_R2, 100);
+    wait(220);
+    set_val(PS3_R2, 0);
+    wait(50);
+    set_val(PS3_SQUARE, 100);
+    wait(470);
+    set_val(PS3_R1, 100);
+    set_val(PS3_SQUARE, 0);
+    wait(110);
+    set_val(PS3_R1, 0);
+    wait(40);
+    set_val(PS3_TRIANGLE, 100);
+    wait(120);
+    set_val(PS3_TRIANGLE, 0);
+}
+
+combo nothrow {
+    set_val(PS3_SQUARE, 100);
+    wait(470);
+    set_val(PS3_R1, 100);
+    set_val(PS3_SQUARE, 0);
+    wait(110);
+    set_val(PS3_R1, 0);
+    wait(40);
+    set_val(PS3_TRIANGLE, 100);
+    wait(120);
+    set_val(PS3_TRIANGLE, 0);
+}
+
+combo foward {
+    set_val(PS3_R2, 100);
+    wait(160);
+    set_val(PS3_R2, 0);
+    wait(10);
+    set_val(PS3_LY, -20);
+    wait(10);
+    set_val(PS3_LY, -35);
+    wait(10);
+    set_val(PS3_LY, -55);
+    wait(10);
+    set_val(PS3_LY, -70);
+    wait(10);
+    set_val(PS3_R1, 100);
+    set_val(PS3_LY, -84);
+    wait(10);
+    set_val(PS3_R1, 100);
+    set_val(PS3_LY, -95);
+    wait(10);
+    set_val(PS3_R1, 100);
+    set_val(PS3_LY, -100);
+    wait(70);
+    set_val(PS3_R1, 100);
+    set_val(PS3_LY, -100);
+    set_val(PS3_CROSS, 100);
+    wait(990);
+    set_val(PS3_R1, 100);
+    set_val(PS3_LY, -100);
+    set_val(PS3_CROSS, 100);
+    set_val(PS3_SQUARE, 100);
+    wait(30);
+    set_val(PS3_R1, 100);
+    set_val(PS3_LY, -100);
+    set_val(PS3_CROSS, 0);
+    set_val(PS3_SQUARE, 100);
+    wait(130);
+    
+    // Smooth Right Stick rotation logic to execute the glitch
+    set_val(PS3_R1, 100);
+    set_val(PS3_RX, -23);
+    set_val(PS3_RY, 27);
+    set_val(PS3_LY, -100);
+    set_val(PS3_SQUARE, 100);
+    wait(10);
+    set_val(PS3_R1, 100);
+    set_val(PS3_RX, -34);
+    set_val(PS3_RY, 41);
+    set_val(PS3_LY, -100);
+    set_val(PS3_SQUARE, 100);
+    wait(10);
+    set_val(PS3_R1, 100);
+    set_val(PS3_RX, -45);
+    set_val(PS3_RY, 56);
+    set_val(PS3_LY, -100);
+    set_val(PS3_SQUARE, 100);
+    wait(10);
+    set_val(PS3_R1, 100);
+    set_val(PS3_RX, -53);
+    set_val(PS3_RY, 69);
+    set_val(PS3_LY, -100);
+    set_val(PS3_SQUARE, 100);
+    wait(10);
+    set_val(PS3_R1, 100);
+    set_val(PS3_RX, -64);
+    set_val(PS3_RY, 85);
+    set_val(PS3_LY, -100);
+    set_val(PS3_SQUARE, 100);
+    wait(10);
+    set_val(PS3_R1, 100);
+    set_val(PS3_RX, -70);
+    set_val(PS3_RY, 97);
+    set_val(PS3_LY, -100);
+    set_val(PS3_SQUARE, 100);
+    wait(10);
+    set_val(PS3_R1, 100);
+    set_val(PS3_RX, -71);
+    set_val(PS3_RY, 100);
+    set_val(PS3_LY, -100);
+    set_val(PS3_SQUARE, 100);
+    wait(10);
+    set_val(PS3_R1, 100);
+    set_val(PS3_RX, -70);
+    set_val(PS3_RY, 100);
+    set_val(PS3_LY, -100);
+    set_val(PS3_SQUARE, 0);
+    wait(90);
+    set_val(PS3_R1, 100);
+    set_val(PS3_RX, -70);
+    set_val(PS3_RY, 100);
+    set_val(PS3_LY, 0);
+    wait(40);
+    set_val(PS3_R1, 0);
+    set_val(PS3_RX, -70);
+    set_val(PS3_RY, 100);
+    wait(40);
+    set_val(PS3_RX, -74);
+    set_val(PS3_RY, 100);
+    wait(10);
+    set_val(PS3_RX, -78);
+    set_val(PS3_RY, 100);
+    wait(10);
+    set_val(PS3_RX, -82);
+    set_val(PS3_RY, 100);
+    wait(20);
+    set_val(PS3_RX, -82);
+    set_val(PS3_RY, 94);
+    wait(10);
+    set_val(PS3_RX, -85);
+    set_val(PS3_RY, 92);
+    wait(10);
+    set_val(PS3_RX, -87);
+    set_val(PS3_RY, 90);
+    wait(10);
+    set_val(PS3_RX, -89);
+    set_val(PS3_RY, 86);
+    wait(10);
+    set_val(PS3_RX, -96);
+    set_val(PS3_RY, 81);
+    wait(10);
+    set_val(PS3_RX, -96);
+    set_val(PS3_RY, 72);
+    wait(10);
+    set_val(PS3_RX, -100);
+    set_val(PS3_RY, 69);
+    wait(10);
+    set_val(PS3_RX, -100);
+    set_val(PS3_RY, 67);
+    wait(10);
+    set_val(PS3_RX, -98);
+    set_val(PS3_RY, 52);
+    wait(10);
+    set_val(PS3_RX, -76);
+    set_val(PS3_RY, 26);
+    wait(10);
+    set_val(PS3_RX, -44);
+    set_val(PS3_RY, 0);
+    wait(10);
+    set_val(PS3_RX, 0);
+    wait(40);
+    
+    // Jump cancel sequence
+    set_val(PS3_TRIANGLE, 100);
+    wait(100);
+    set_val(PS3_DOWN, 100);
+    set_val(PS3_TRIANGLE, 100);
+    wait(30);
+    set_val(PS3_DOWN, 100);
+    set_val(PS3_TRIANGLE, 0);
+    wait(70);
+    set_val(PS3_DOWN, 0);
+}
+
+combo cannon {
+    set_val(PS3_R2, 22);
+    wait(10);
+    set_val(PS3_R2, 30);
+    wait(10);
+    set_val(PS3_R2, 40);
+    wait(10);
+    set_val(PS3_R2, 48);
+    wait(10);
+    set_val(PS3_R2, 57);
+    wait(10);
+    set_val(PS3_R2, 69);
+    wait(10);
+    set_val(PS3_R2, 86);
+    wait(10);
+    set_val(PS3_R2, 100);
+    wait(140);
+    set_val(PS3_R2, 70);
+    set_val(PS3_LY, -20);
+    wait(10);
+    set_val(PS3_R2, 43);
+    set_val(PS3_LY, -26);
+    wait(10);
+    set_val(PS3_R2, 25);
+    set_val(PS3_LY, -35);
+    wait(10);
+    set_val(PS3_R2, 0);
+    set_val(PS3_LY, -42);
+    wait(10);
+    set_val(PS3_LY, -54);
+    wait(10);
+    set_val(PS3_LY, -56);
+    wait(10);
+    set_val(PS3_LY, -67);
+    wait(10);
+    set_val(PS3_LY, -74);
+    wait(10);
+    set_val(PS3_LY, -76); 
+    wait(10);
+    set_val(PS3_LY, -85);
+    set_val(PS3_CROSS, 100);
+    wait(10);
+    set_val(PS3_LY, -92);
+    set_val(PS3_CROSS, 100);
+    wait(10);
+    set_val(PS3_LY, -100);
+    set_val(PS3_CROSS, 100);
+    wait(1270);
+    set_val(PS3_LY, -100);
+    set_val(PS3_CROSS, 100);
+    set_val(PS3_SQUARE, 100);
+    wait(40);
+    set_val(PS3_LY, -100);
+    set_val(PS3_CROSS, 0);
+    set_val(PS3_SQUARE, 100);
+    wait(70);
+    set_val(PS3_LY, -100);
+    set_val(PS3_SQUARE, 0);
+    wait(120);
+    set_val(PS3_RY, -36);
+    set_val(PS3_LY, -100);
+    wait(10);
+    set_val(PS3_RY, -63);
+    set_val(PS3_LY, -100);
+    wait(10);
+    set_val(PS3_RY, -94);
+    set_val(PS3_LY, -100);
+    wait(10);
+    set_val(PS3_RY, -100);
+    set_val(PS3_LY, -88);
+    wait(10);
+    set_val(PS3_RY, -100);
+    set_val(PS3_LY, 42);
+    wait(10);
+    set_val(PS3_RY, -100);
+    set_val(PS3_LY, 0);
+    wait(250);
+    set_val(PS3_RY, -73);
+    wait(10);
+    set_val(PS3_RY, 49);
+    wait(10);
+    set_val(PS3_RY, -24);
+    wait(10);
+    set_val(PS3_RY, 0);
+    wait(10);
+    set_val(PS3_TRIANGLE, 100);
+    wait(60);
+    set_val(PS3_DOWN, 100);
+    set_val(PS3_TRIANGLE, 100);
+    wait(100);
+    set_val(PS3_DOWN, 100);
+    set_val(PS3_TRIANGLE, 0);
+    wait(40);
+    set_val(PS3_DOWN, 0);
+}
+
+combo RumbleNotifier {
+    set_rumble(RUMBLE_A, 100);
+    wait(300);
+    reset_rumble();
+}
+
+function colorled(a,b,c,d) {
+    set_led(LED_1, a);
+    set_led(LED_2, b);
+    set_led(LED_3, c);
+    set_led(LED_4, d);
+}
+
+function center_x(f_chars, f_font) {
+    return (OLED_WIDTH / 2) - ((f_chars * f_font) / 2);
+}</code></pre>
+<hr>
+<h2 id="architectural-breakdown-code-analysis" tabindex="-1">Architectural Breakdown & Code Analysis <a class="header-anchor" href="#architectural-breakdown-code-analysis" aria-hidden="true">#</a></h2>
+<p>This script demonstrates several highly sophisticated GPC scripting techniques:</p>
+<h3 id="1-enumerated-selection-states" tabindex="-1">1. Enumerated Selection States <a class="header-anchor" href="#1-enumerated-selection-states" aria-hidden="true">#</a></h3>
+<p>Instead of using random integers to track active mods, the script uses an <code>enum {}</code> block. This assigns index numbers <code>0</code> to <code>4</code> to labels:</p>
+<pre><code class="language-c">enum {
+    AUTO_THROW, // = 0
+    NO_THROW,   // = 1
+    FOWARD,     // = 2
+    CANNON,     // = 3
+    OFF         // = 4
+}</code></pre>
+<p>This enables readable checks like <code>if(activeMod == AUTO_THROW)</code> instead of <code>if(activeMod == 0)</code>.</p>
+<h3 id="2-auto-centering-oled-string-logic" tabindex="-1">2. Auto-Centering OLED String Logic <a class="header-anchor" href="#2-auto-centering-oled-string-logic" aria-hidden="true">#</a></h3>
+<p>The custom function <code>center_x()</code> calculates coordinate offsets to center string headers perfectly on the 128-pixel display, regardless of string size or font width:</p>
+<pre><code class="language-c">function center_x(f_chars, f_font) {
+    return (OLED_WIDTH / 2) - ((f_chars * f_font) / 2);
+}</code></pre>
+<p>When used inside <code>init</code>, it computes:</p>
+<ul>
+<li>Total text width = <code>number of characters * font pixel width</code>.</li>
+<li>Offsets = <code>(128 - total width) / 2</code>.</li>
+</ul>
+<p>This is passed directly as the <code>X</code> parameter inside <code>print()</code>.</p>
+<h3 id="3-non-blocking-screen-saver" tabindex="-1">3. Non-Blocking Screen Saver <a class="header-anchor" href="#3-non-blocking-screen-saver" aria-hidden="true">#</a></h3>
+<p>To prevent pixel burn-in on the Zen's OLED display, the script monitors a timer:</p>
+<pre><code class="language-c">if(screen_saver_timer) {
+    if(screen_saver_timer &lt;= get_rtime()) {
+        cls_oled(OLED_BLACK); // Turn screen black
+    }
+    screen_saver_timer = max(0, screen_saver_timer - get_rtime());
+}</code></pre>
+<p>This loop decrements by the actual execution cycle runtime (<code>get_rtime()</code>) on every frame. When 15 seconds (<code>Screen_Saver_Time</code>) elapse without user profile changes, the display is cleared to black.</p>
+<h3 id="4-interactive-led-notifications" tabindex="-1">4. Interactive LED Notifications <a class="header-anchor" href="#4-interactive-led-notifications" aria-hidden="true">#</a></h3>
+<p>When switching modes, the script calls <code>colorled()</code> to swap LED colors on the controller, providing instant visual feedback on active presets (e.g. Red for NoThrow, Blue for AutoThrow).</p>
+<h3 id="5-multi-step-asynchronous-combos" tabindex="-1">5. Multi-Step Asynchronous Combos <a class="header-anchor" href="#5-multi-step-asynchronous-combos" aria-hidden="true">#</a></h3>
+<p>The <code>foward</code> and <code>cannon</code> combos show the power of asynchronous execution. By daisy-chaining <code>set_val()</code> and <code>wait(10)</code> instructions, the script simulates fluid, precise analog stick movements (e.g., rotating the stick sequentially from <code>-23</code> to <code>-100</code> deflection in 10ms intervals) to execute the glitch, while the <code>main</code> thread remains active to process button releases or watchdog safety checks.</p>
+      </article>
+      
+      <nav class="pager">
+<a class="pager-link prev" href="../custom-oled-buttons/">
+<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="transform: rotate(180deg)"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+<span><em>Previous</em>Custom OLED Button Prompts</span>
+</a>
+<a class="pager-link next" href="../api-samples/">
+<span><em>Next</em>API Samples</span>
+<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+</a>
+</nav>
+    </main>
+    
+    <aside class="toc">
+      <div class="toc-title">On this page</div>
+      <ul class="toc-list">
+<li class="toc-l2"><a href="#complete-script-source">Complete Script Source</a></li>
+<li class="toc-l2"><a href="#architectural-breakdown-code-analysis">Architectural Breakdown & Code Analysis</a></li>
+<li class="toc-l3"><a href="#1-enumerated-selection-states">1. Enumerated Selection States</a></li>
+<li class="toc-l3"><a href="#2-auto-centering-oled-string-logic">2. Auto-Centering OLED String Logic</a></li>
+<li class="toc-l3"><a href="#3-non-blocking-screen-saver">3. Non-Blocking Screen Saver</a></li>
+<li class="toc-l3"><a href="#4-interactive-led-notifications">4. Interactive LED Notifications</a></li>
+<li class="toc-l3"><a href="#5-multi-step-asynchronous-combos">5. Multi-Step Asynchronous Combos</a></li>
+</ul>
+    </aside>
+  </div>
+  
+  <!-- Search Overlay -->
+  <div class="search-overlay" data-search-overlay hidden>
+    <div class="search-panel">
+      <div class="search-head">
+        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="11" cy="11" r="7"/>
+          <path d="m21 21-4.3-4.3"/>
+        </svg>
+        <input type="search" placeholder="Search Cronus GPC docs" data-search-input autocomplete="off" spellcheck="false">
+        <kbd>Esc</kbd>
+      </div>
+      <div class="search-results" data-search-results></div>
+    </div>
+  </div>
+  
+  <!-- Connect Overlay -->
+  <div class="connect-overlay" data-connect-overlay hidden>
+    <div class="connect-panel">
+      <div class="connect-head">
+        <div>
+          <h2 class="connect-title">Connect Cronus GPC docs to your AI</h2>
+          <p class="connect-sub">Give any MCP-capable agent live search &amp; read access to these docs.</p>
+        </div>
+        <button class="iconbtn connect-close" type="button" data-connect-close aria-label="Close">✕</button>
+      </div>
+      <div class="connect-url-label">MCP server URL</div>
+      <div class="connect-url">
+        <code>https://huoadf.github.io/cronus-docs/mcp</code>
+        <button class="copy-btn" type="button">Copy</button>
+      </div>
+      <div class="tabs connect-tabs" data-tabs>
+        <div class="tab-panel" data-tab="Claude Code">
+          <p class="connect-note">Run in your terminal:</p>
+          <div class="connect-snippet">
+            <pre><code>claude mcp add --transport http cronus-docs https://huoadf.github.io/cronus-docs/mcp</code></pre>
+            <button class="copy-btn" type="button">Copy</button>
+          </div>
+        </div>
+        <div class="tab-panel" data-tab="Cursor">
+          <p class="connect-note">Add to <code>.cursor/mcp.json</code>:</p>
+          <div class="connect-snippet">
+            <pre><code>{
+  &quot;mcpServers&quot;: {
+    &quot;cronus-docs&quot;: {
+      &quot;url&quot;: &quot;https://huoadf.github.io/cronus-docs/mcp&quot;
+    }
+  }
+}</code></pre>
+            <button class="copy-btn" type="button">Copy</button>
+          </div>
+        </div>
+        <div class="tab-panel" data-tab="VS Code">
+          <p class="connect-note">Add to <code>.vscode/mcp.json</code>:</p>
+          <div class="connect-snippet">
+            <pre><code>{
+  &quot;servers&quot;: {
+    &quot;cronus-docs&quot;: {
+      &quot;type&quot;: &quot;http&quot;,
+      &quot;url&quot;: &quot;https://huoadf.github.io/cronus-docs/mcp&quot;
+    }
+  }
+}</code></pre>
+            <button class="copy-btn" type="button">Copy</button>
+          </div>
+        </div>
+      </div>
+      <p class="connect-foot">No setup? Point any agent at <code>llms.txt</code> or <code>llms-full.txt</code>.</p>
+    </div>
+  </div>
+  
+  <!-- Scripts -->
+  <script src="../assets/highlight.min.js"></script>
+  <script src="../assets/client.js" defer></script>
+</body>
+</html>
