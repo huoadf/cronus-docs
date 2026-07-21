@@ -6,14 +6,20 @@ import json
 PAGES = [
     {"id": "getting-started", "title": "Getting started", "group": "", "src": "getting-started.md", "url": "index.html", "breadcrumb": "Getting started"},
     {"id": "syntax", "title": "Syntax basics", "group": "Scripting Basics", "src": "syntax.md", "url": "syntax/index.html", "breadcrumb": "Syntax basics"},
+    {"id": "new-32bit-updates", "title": "32-bit VM Updates", "group": "Scripting Basics", "src": "new-32bit-updates.md", "url": "new-32bit-updates/index.html", "breadcrumb": "32-bit VM Updates"},
     {"id": "user-functions", "title": "User Functions", "group": "Scripting Basics", "src": "user-functions.md", "url": "user-functions/index.html", "breadcrumb": "User Functions"},
+    {"id": "constants", "title": "System Constants", "group": "Scripting Basics", "src": "constants.md", "url": "constants/index.html", "breadcrumb": "System Constants"},
+    {"id": "identifiers", "title": "Controller Identifiers", "group": "Scripting Basics", "src": "identifiers.md", "url": "identifiers/index.html", "breadcrumb": "Controller Identifiers"},
     {"id": "input-output", "title": "Input & Output", "group": "API Reference", "src": "input-output.md", "url": "input-output/index.html", "breadcrumb": "Input & Output"},
     {"id": "combos-timing", "title": "Combos & Timing", "group": "API Reference", "src": "combos-timing.md", "url": "combos-timing/index.html", "breadcrumb": "Combos & Timing"},
     {"id": "controller", "title": "Controller Hardware", "group": "API Reference", "src": "controller.md", "url": "controller/index.html", "breadcrumb": "Controller Hardware"},
     {"id": "math", "title": "Math & Utilities", "group": "API Reference", "src": "math.md", "url": "math/index.html", "breadcrumb": "Math & Utilities"},
     {"id": "oled-display", "title": "OLED Display", "group": "API Reference", "src": "oled-display.md", "url": "oled-display/index.html", "breadcrumb": "OLED Display"},
     {"id": "bitwise-storage", "title": "Bitwise & Storage", "group": "API Reference", "src": "bitwise-storage.md", "url": "bitwise-storage/index.html", "breadcrumb": "Bitwise & Storage"},
+    {"id": "api-functions", "title": "Built-in GPC Functions", "group": "API Reference", "src": "api-functions.md", "url": "api-functions/index.html", "breadcrumb": "Built-in GPC Functions"},
     {"id": "advanced-guides", "title": "Advanced Guides & Macros", "group": "Guides", "src": "advanced-guides.md", "url": "advanced-guides/index.html", "breadcrumb": "Advanced Guides & Macros"},
+    {"id": "custom-oled-buttons", "title": "Custom OLED Button Prompts", "group": "Guides", "src": "custom-oled-buttons.md", "url": "custom-oled-buttons/index.html", "breadcrumb": "Custom OLED Button Prompts"},
+    {"id": "api-samples", "title": "API Samples", "group": "Guides", "src": "api-samples.md", "url": "api-samples/index.html", "breadcrumb": "API Samples"},
     {"id": "troubleshooting", "title": "Troubleshooting & Limits", "group": "Guides", "src": "troubleshooting.md", "url": "troubleshooting/index.html", "breadcrumb": "Troubleshooting & Limits"},
     {"id": "studio-interop", "title": "Zen Studio Interop", "group": "Guides", "src": "studio-interop.md", "url": "studio-interop/index.html", "breadcrumb": "Zen Studio Interop"}
 ]
@@ -434,14 +440,20 @@ llms_summary = """# Cronus GPC Docs
 ## Directory
 - [Getting started](https://huoadf.github.io/cronus-docs/) - Setup, compilation, and device loading.
 - [Syntax basics](https://huoadf.github.io/cronus-docs/syntax/) - Code structure, variables, loop concepts, compiler constraints.
+- [32-bit VM Updates](https://huoadf.github.io/cronus-docs/new-32bit-updates/) - 32-bit precision, polar coordinate conversion (get_polar/get_ipolar), and system performance query (get_info).
 - [User Functions](https://huoadf.github.io/cronus-docs/user-functions/) - Declaring functions with user parameters, scoping, recursion bans.
+- [System Constants](https://huoadf.github.io/cronus-docs/constants/) - General display, OLED button prompt glyphs, ASCII values, and PIO console/controller profiles.
+- [Controller Identifiers](https://huoadf.github.io/cronus-docs/identifiers/) - PlayStation 5, Xbox Series X/S, Switch cross-compatibility mappings and KBM inputs.
 - [Input & Output](https://huoadf.github.io/cronus-docs/input-output/) - Reading inputs, setting values, press and release events, blocking.
 - [Combos & Timing](https://huoadf.github.io/cronus-docs/combos-timing/) - Writing combos, wait timers, state time measurements.
 - [Controller Hardware](https://huoadf.github.io/cronus-docs/controller/) - Rumble motors, color LEDs, controller button aliases.
 - [Math & Utilities](https://huoadf.github.io/cronus-docs/math/) - Clamp, absolute values, random generators, fixed-point math patterns.
 - [OLED Display](https://huoadf.github.io/cronus-docs/oled-display/) - Cls, drawing lines/rects/circles, formatting text strings via buffers.
 - [Bitwise & Storage](https://huoadf.github.io/cronus-docs/bitwise-storage/) - Bits functions, persistent variables (get_pvar/set_pvar), and bit-packing methods.
+- [Built-in GPC Functions](https://huoadf.github.io/cronus-docs/api-functions/) - Alphabetical reference guide to all GPC API functions.
 - [Advanced Guides & Macros](https://huoadf.github.io/cronus-docs/advanced-guides/) - Progressive anti-recoil, adjustable rapid fire, slide cancellations, and CPU optimization.
+- [Custom OLED Button Prompts](https://huoadf.github.io/cronus-docs/custom-oled-buttons/) - Interfacing D-pad arrows and console buttons directly on the Zen screen.
+- [API Samples](https://huoadf.github.io/cronus-docs/api-samples/) - Code snippets for double-taps, menu wrappers, and packed profiles.
 - [Troubleshooting & Limits](https://huoadf.github.io/cronus-docs/troubleshooting/) - Bytecode optimization, watchdog timeout crashes, input lag, and TRACE debugger.
 - [Zen Studio Interop](https://huoadf.github.io/cronus-docs/studio-interop/) - Windows Messages (WM_COPYDATA) integration, C# interop commands.
 

@@ -3,8 +3,8 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Input & Output · Cronus GPC docs</title>
-  <meta name="description" content="Cronus Zen GPC scripting documentation - Input & Output">
+  <title>System Constants · Cronus GPC docs</title>
+  <meta name="description" content="Cronus Zen GPC scripting documentation - System Constants">
   <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%23050505'/%3E%3Ccircle cx='16' cy='16' r='6' fill='%2300f0ff'/%3E%3C/svg%3E">
   
   <!-- Fonts -->
@@ -90,11 +90,11 @@
         <a class="nav-item " href="../syntax/">Syntax basics</a>
         <a class="nav-item " href="../new-32bit-updates/">32-bit VM Updates</a>
         <a class="nav-item " href="../user-functions/">User Functions</a>
-        <a class="nav-item " href="../constants/">System Constants</a>
+        <a class="nav-item active" href="../constants/">System Constants</a>
         <a class="nav-item " href="../identifiers/">Controller Identifiers</a>
         
         <div class="nav-group">API Reference</div>
-        <a class="nav-item active" href="../input-output/">Input &amp; Output</a>
+        <a class="nav-item " href="../input-output/">Input &amp; Output</a>
         <a class="nav-item " href="../combos-timing/">Combos &amp; Timing</a>
         <a class="nav-item " href="../controller/">Controller Hardware</a>
         <a class="nav-item " href="../math/">Math &amp; Utilities</a>
@@ -116,154 +116,84 @@
         <div class="breadcrumb">
           <a href="../">Cronus GPC</a> 
           <span>/</span> 
-          Input & Output
+          System Constants
         </div>
-        <h1 id="input-output" tabindex="-1">
-          Input & Output 
-          <a class="header-anchor" href="#input-output" aria-hidden="true">#</a>
+        <h1 id="constants" tabindex="-1">
+          System Constants 
+          <a class="header-anchor" href="#constants" aria-hidden="true">#</a>
         </h1>
-        <h1 id="input-output-api" tabindex="-1">Input & Output API <a class="header-anchor" href="#input-output-api" aria-hidden="true">#</a></h1>
-<p>The core capability of GPC scripting is inspecting physical buttons and sticks, modifying their values, and outputting the results. This section details the functions used to interact with controller inputs.</p>
+        <h1 id="system-constants" tabindex="-1">System Constants <a class="header-anchor" href="#system-constants" aria-hidden="true">#</a></h1>
+<p>GPC provides a set of pre-defined system constants for managing the OLED screen, ASCII characters, and identifying connected hardware platforms.</p>
 <hr>
-<h2 id="reading-inputs" tabindex="-1">Reading Inputs <a class="header-anchor" href="#reading-inputs" aria-hidden="true">#</a></h2>
-<h3 id="get-val" tabindex="-1"><code>get_val</code> <a class="header-anchor" href="#get-val" aria-hidden="true">#</a></h3>
-<p>Reads the current value of a controller input.</p>
-<ul>
-<li><strong>Syntax</strong>: <code>get_val(<a href="identifier">identifier</a>)</code></li>
-<li><strong>Returns</strong>: An integer. For buttons and triggers, it returns <code>0</code> (released) to <code>100</code> (fully pressed). For analog sticks, it returns a value from <code>-100</code> to <code>100</code>.</li>
-<li><strong>Example</strong>:</li>
-<pre><code class="language-c">  main {
-      // Check if Right Stick Y-axis (vertical) is pushed down past 50%
-      if (get_val(XB1_RY) &gt; 50) {
-          // Do something
-      }
-  }</code></pre>
-</ul>
-<h3 id="get-lval" tabindex="-1"><code>get_lval</code> <a class="header-anchor" href="#get-lval" aria-hidden="true">#</a></h3>
-<p>Reads the value of a controller input from the *previous* execution frame. Useful for detecting changes in analog stick positions or trigger changes.</p>
-<ul>
-<li><strong>Syntax</strong>: <code>get_lval(<a href="identifier">identifier</a>)</code></li>
-<li><strong>Example</strong>:</li>
-<pre><code class="language-c">  main {
-      // Compare current stick value to previous frame
-      if (get_val(XB1_RX) != get_lval(XB1_RX)) {
-          // Right Stick X-axis is moving
-      }
-  }</code></pre>
-</ul>
-<hr>
-<h2 id="trigger-events" tabindex="-1">Trigger Events <a class="header-anchor" href="#trigger-events" aria-hidden="true">#</a></h2>
-<h3 id="event-press" tabindex="-1"><code>event_press</code> <a class="header-anchor" href="#event-press" aria-hidden="true">#</a></h3>
-<p>Detects if a button was pressed during the current frame. This function only returns <code>TRUE</code> once per button press event.</p>
-<ul>
-<li><strong>Syntax</strong>: <code>event_press(<a href="identifier">identifier</a>)</code></li>
-<li><strong>Returns</strong>: <code>TRUE</code> (1) if the button transitioned from released to pressed in the current cycle, otherwise <code>FALSE</code> (0).</li>
-<li><strong>Example</strong>:</li>
-<pre><code class="language-c">  main {
-      // Toggle a feature when pressing the button once
-      if (event_press(XB1_Y)) {
-          toggleState = !toggleState;
-      }
-  }</code></pre>
-</ul>
-<h3 id="event-release" tabindex="-1"><code>event_release</code> <a class="header-anchor" href="#event-release" aria-hidden="true">#</a></h3>
-<p>Detects if a button was released during the current frame.</p>
-<ul>
-<li><strong>Syntax</strong>: <code>event_release(<a href="identifier">identifier</a>)</code></li>
-<li><strong>Returns</strong>: <code>TRUE</code> (1) if the button transitioned from pressed to released, otherwise <code>FALSE</code> (0).</li>
-<li><strong>Example</strong>:</li>
-<pre><code class="language-c">  main {
-      // Run reload macro when reloading button is released
-      if (event_release(XB1_X)) {
-          combo_run(ReloadMacro);
-      }
-  }</code></pre>
-</ul>
-<hr>
-<h2 id="overwriting-blocking-outputs" tabindex="-1">Overwriting & Blocking Outputs <a class="header-anchor" href="#overwriting-blocking-outputs" aria-hidden="true">#</a></h2>
-<h3 id="set-val" tabindex="-1"><code>set_val</code> <a class="header-anchor" href="#set-val" aria-hidden="true">#</a></h3>
-<p>Overrides the physical value of a button or stick and sends the new value to the console or PC.</p>
-<ul>
-<li><strong>Syntax</strong>: <code>set_val(<a href="identifier">identifier</a>, <a href="value">value</a>)</code></li>
-<li><strong>Parameters</strong>:</li>
-<li><code><a href="identifier">identifier</a></code>: The controller button/axis to override.</li>
-<li><code><a href="value">value</a></code>: The value to set (integer between <code>-100</code> and <code>100</code>).</li>
-<li><strong>Example</strong>:</li>
-<pre><code class="language-c">  main {
-      // Auto-sprint: If pushing Left Stick forward (negative Y values), force press LS button
-      if (get_val(XB1_LY) &lt;a href=" -90) {
-          set_val(XB1_LS, 100);
-      }
-  }</code></pre>
-</ul>
-<h3 id="block" tabindex="-1"><code>block</code> <a class="header-anchor" href="#block" aria-hidden="true">#</a></h3>
-<p>Blocks output signals from a specific button from reaching the console for a specified duration.</p>
-<ul>
-<li><strong>Syntax</strong>: `block(<identifier"> -90) {</li>
-</ul>
-<p>set_val(XB1_LS, 100);</p>
-<p>}</p>
-<p>}</p>
-<pre><code class="language-txt">
-### `block`
-Blocks output signals from a specific button from reaching the console for a specified duration.
-* **Syntax**: `block(&lt;identifier&lt;/a&gt;, &lt;a href="time_ms"&gt;time_ms&lt;/a&gt;)`
-* **Example**:</code></pre>
-<p>main {</p>
-<p>// If pressing Menu button, block the signal for 200ms to allow local script action</p>
-<p>if (event_press(XB1_MENU)) {</p>
-<p>block(XB1_MENU, 200);</p>
-<p>combo_run(LocalMenuLogic);</p>
-<p>}</p>
-<p>}</p>
-<pre><code class="language-txt">
-## Remapping &amp; Unmapping
+<h2 id="oled-display-constants" tabindex="-1">OLED Display Constants <a class="header-anchor" href="#oled-display-constants" aria-hidden="true">#</a></h2>
+<p>Use these constants to format text sizes, layout coordinates, and define colors when drawing to the built-in screen.</p>
+<pre><code class="language-c">// General Display Properties
+define OLED_WIDTH = 128;         // Screen width in pixels
+define OLED_HEIGHT = 64;         // Screen height in pixels
+define OLED_WHITE = 1;           // Pixel ON color
+define OLED_BLACK = 0;           // Pixel OFF color
 
-Remapping changes how buttons are mapped from the controller to the console. GPC provides compile-time remappings and runtime modifications.
+// Font Size Identifiers
+define OLED_FONT_SMALL = 0;      // 5x7 pixel spacing
+define OLED_FONT_MEDIUM = 1;     // 8x12 pixel spacing
+define OLED_FONT_LARGE = 2;      // Larger bold typeface</code></pre>
+<h3 id="oled-button-prompt-glyphs" tabindex="-1">OLED Button Prompt Glyphs <a class="header-anchor" href="#oled-button-prompt-glyphs" aria-hidden="true">#</a></h3>
+<p>The Cronus Zen has built-in character assets for console button prompt glyphs. When passed to the text rendering buffers, they draw corresponding controller button symbols instead of text letters.</p>
+<ul>
+<li><code>OLED_CROSS</code> = <code>127</code></li>
+<li><code>OLED_CIRCLE</code> = <code>128</code></li>
+<li><code>OLED_SQUARE</code> = <code>129</code></li>
+<li><code>OLED_TRIANGLE</code> = <code>130</code></li>
+<li><code>OLED_UP</code> = <code>131</code></li>
+<li><code>OLED_DOWN</code> = <code>132</code></li>
+<li><code>OLED_LEFT</code> = <code>133</code></li>
+<li><code>OLED_RIGHT</code> = <code>134</code></li>
+<li><code>OLED_VIEW</code> = <code>135</code></li>
+<li><code>OLED_MENU</code> = <code>136</code></li>
+</ul>
+<hr>
+<h2 id="pio-peripheral-io-constants" tabindex="-1">PIO (Peripheral I/O) Constants <a class="header-anchor" href="#pio-peripheral-io-constants" aria-hidden="true">#</a></h2>
+<p>PIO constants represent gaming platforms and controller profiles. They are returned by the system query functions <code>get_console()</code> and <code>get_controller()</code>.</p>
+<pre><code class="language-c">define PIO_NONE = 0;             // No console / controller connected
+define PIO_AUTO = 0;             // Automatic detection profile
+define PIO_PS3 = 1;              // PlayStation 3
+define PIO_XB360 = 2;            // Xbox 360
+define PIO_WII = 3;              // Nintendo Wii
+define PIO_PS4 = 4;              // PlayStation 4
+define PIO_XB1 = 5;              // Xbox One / Series X|S
+define PIO_SWITCH = 6;           // Nintendo Switch
+define PIO_PS5 = 7;              // PlayStation 5</code></pre>
+<h3 id="example-adapting-layout-dynamically" tabindex="-1">Example: Adapting Layout Dynamically <a class="header-anchor" href="#example-adapting-layout-dynamically" aria-hidden="true">#</a></h3>
+<p>You can use PIO constants to write layouts that adapt automatically depending on whether a PlayStation or Xbox controller is plugged in.</p>
+<pre><code class="language-c">int jump_button;
 
-### `remap`
-Assigns a controller button to a different output destination.
-* **Syntax**: `remap &lt;a href="physical_input"&gt;physical_input&lt;/a&gt; -&gt; &lt;a href="virtual_output"&gt;virtual_output&lt;/a&gt;;`
-* **Placement**: Must be placed at the **very beginning of the script** (before `init` and `main`).
-* **Behavior**: Remappings are processed at the *end* of each tick. Therefore, in your GPC script logic (like `get_val`), **always reference the physical button**, not the remapped button.
-</code></pre>
-<p>// Force physical Cross/A button to send Square/X signals to the console</p>
-<p>remap PS4_CROSS -> PS4_SQUARE;</p>
-<p>main {</p>
-<p>// If the physical CROSS button is pressed</p>
-<p>if (event_press(PS4_CROSS)) {</p>
-<p>// Run logic. The console will still receive PS4_SQUARE.</p>
-<p>}</p>
-<p>}</p>
-<pre><code class="language-txt">
-### `unmap`
-Disconnects a button's output channel so the console never registers it, although the GPC script can still read it using `get_val()`.
-* **Syntax**: `unmap &lt;a href="identifier"&gt;identifier&lt;/a&gt;;`
-* **Syntax (Clear all)**: `unmap ALL_REMAPS;` (clears all current script remappings).
-* **Example**:</code></pre>
-<p>init {</p>
-<p>// Disconnect the Back/View button from the console so we can use it as a custom script toggle</p>
-<p>unmap(XB1_VIEW);</p>
-<p>}</p>
-<pre><code class="language-txt">
-### `swap`
-Swaps the values of two controller buttons at the software layer.
-* **Syntax**: `swap(&lt;a href="button_1"&gt;button_1&lt;/a&gt;, &lt;a href="button_2"&gt;button_2&lt;/a&gt;);`
-* **Example**:</code></pre>
-<p>init {</p>
-<p>// Flipped layout: Swap bumpers and triggers</p>
-<p>swap(XB1_LB, XB1_LT);</p>
-<p>swap(XB1_RB, XB1_RT);</p>
-<p>}</p>
+init {
+    // Detect which controller is plugged into the input slot
+    if (get_controller() == PIO_PS4 || get_controller() == PIO_PS5) {
+        jump_button = PS4_CROSS;
+    } else {
+        jump_button = XB1_A;
+    }
+}
+
+main {
+    if (event_press(jump_button)) {
+        // Run jump logic
+    }
+}</code></pre>
+<hr>
+<h2 id="ascii-character-constants" tabindex="-1">ASCII Character Constants <a class="header-anchor" href="#ascii-character-constants" aria-hidden="true">#</a></h2>
+<p>The table below lists common ASCII character constants used with <code>putc_oled()</code> to write characters to the screen buffer.</p>
+<table><thead><tr><th>Constant Name</th><th>Character</th><th>Integer Value</th></tr></thead><tbody><tr><td><code>ASCII_SPACE</code></td><td>(space)</td><td><code>32</code></td></tr><tr><td><code>ASCII_EXCLAMATION</code></td><td><code>!</code></td><td><code>33</code></td></tr><tr><td><code>ASCII_DOUBLE_QUOTE</code></td><td><code>"</code></td><td><code>34</code></td></tr><tr><td><code>ASCII_POUND</code></td><td><code>#</code></td><td><code>35</code></td></tr><tr><td><code>ASCII_PERCENT</code></td><td><code>%</code></td><td><code>37</code></td></tr><tr><td><code>ASCII_AMPERSAND</code></td><td><code>&</code></td><td><code>38</code></td></tr><tr><td><code>ASCII_DIGIT0</code> to <code>ASCII_DIGIT9</code></td><td><code>0</code> to <code>9</code></td><td><code>48</code> to <code>57</code></td></tr><tr><td><code>ASCII_COLON</code></td><td><code>:</code></td><td><code>58</code></td></tr><tr><td><code>ASCII_SEMICOLON</code></td><td><code>;</code></td><td><code>59</code></td></tr><tr><td><code>ASCII_EQUALS</code></td><td><code>=</code></td><td><code>61</code></td></tr><tr><td><code>ASCII_QUESTION</code></td><td><code>?</code></td><td><code>63</code></td></tr><tr><td><code>ASCII_A</code> to <code>ASCII_Z</code></td><td><code>A</code> to <code>Z</code></td><td><code>65</code> to <code>90</code></td></tr><tr><td><code>ASCII_a</code> to <code>ASCII_z</code></td><td><code>a</code> to <code>z</code></td><td><code>97</code> to <code>122</code></td></tr></tbody></table>
       </article>
       
       <nav class="pager">
-<a class="pager-link prev" href="../identifiers/">
+<a class="pager-link prev" href="../user-functions/">
 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="transform: rotate(180deg)"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
-<span><em>Previous</em>Controller Identifiers</span>
+<span><em>Previous</em>User Functions</span>
 </a>
-<a class="pager-link next" href="../combos-timing/">
-<span><em>Next</em>Combos & Timing</span>
+<a class="pager-link next" href="../identifiers/">
+<span><em>Next</em>Controller Identifiers</span>
 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
 </a>
 </nav>
@@ -272,15 +202,11 @@ Swaps the values of two controller buttons at the software layer.
     <aside class="toc">
       <div class="toc-title">On this page</div>
       <ul class="toc-list">
-<li class="toc-l2"><a href="#reading-inputs">Reading Inputs</a></li>
-<li class="toc-l3"><a href="#get-val">get_val</a></li>
-<li class="toc-l3"><a href="#get-lval">get_lval</a></li>
-<li class="toc-l2"><a href="#trigger-events">Trigger Events</a></li>
-<li class="toc-l3"><a href="#event-press">event_press</a></li>
-<li class="toc-l3"><a href="#event-release">event_release</a></li>
-<li class="toc-l2"><a href="#overwriting-blocking-outputs">Overwriting & Blocking Outputs</a></li>
-<li class="toc-l3"><a href="#set-val">set_val</a></li>
-<li class="toc-l3"><a href="#block">block</a></li>
+<li class="toc-l2"><a href="#oled-display-constants">OLED Display Constants</a></li>
+<li class="toc-l3"><a href="#oled-button-prompt-glyphs">OLED Button Prompt Glyphs</a></li>
+<li class="toc-l2"><a href="#pio-peripheral-io-constants">PIO (Peripheral I/O) Constants</a></li>
+<li class="toc-l3"><a href="#example-adapting-layout-dynamically">Example Adapting Layout Dynamically</a></li>
+<li class="toc-l2"><a href="#ascii-character-constants">ASCII Character Constants</a></li>
 </ul>
     </aside>
   </div>

@@ -3,8 +3,8 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Input & Output · Cronus GPC docs</title>
-  <meta name="description" content="Cronus Zen GPC scripting documentation - Input & Output">
+  <title>Controller Identifiers · Cronus GPC docs</title>
+  <meta name="description" content="Cronus Zen GPC scripting documentation - Controller Identifiers">
   <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%23050505'/%3E%3Ccircle cx='16' cy='16' r='6' fill='%2300f0ff'/%3E%3C/svg%3E">
   
   <!-- Fonts -->
@@ -91,10 +91,10 @@
         <a class="nav-item " href="../new-32bit-updates/">32-bit VM Updates</a>
         <a class="nav-item " href="../user-functions/">User Functions</a>
         <a class="nav-item " href="../constants/">System Constants</a>
-        <a class="nav-item " href="../identifiers/">Controller Identifiers</a>
+        <a class="nav-item active" href="../identifiers/">Controller Identifiers</a>
         
         <div class="nav-group">API Reference</div>
-        <a class="nav-item active" href="../input-output/">Input &amp; Output</a>
+        <a class="nav-item " href="../input-output/">Input &amp; Output</a>
         <a class="nav-item " href="../combos-timing/">Combos &amp; Timing</a>
         <a class="nav-item " href="../controller/">Controller Hardware</a>
         <a class="nav-item " href="../math/">Math &amp; Utilities</a>
@@ -116,154 +116,47 @@
         <div class="breadcrumb">
           <a href="../">Cronus GPC</a> 
           <span>/</span> 
-          Input & Output
+          Controller Identifiers
         </div>
-        <h1 id="input-output" tabindex="-1">
-          Input & Output 
-          <a class="header-anchor" href="#input-output" aria-hidden="true">#</a>
+        <h1 id="identifiers" tabindex="-1">
+          Controller Identifiers 
+          <a class="header-anchor" href="#identifiers" aria-hidden="true">#</a>
         </h1>
-        <h1 id="input-output-api" tabindex="-1">Input & Output API <a class="header-anchor" href="#input-output-api" aria-hidden="true">#</a></h1>
-<p>The core capability of GPC scripting is inspecting physical buttons and sticks, modifying their values, and outputting the results. This section details the functions used to interact with controller inputs.</p>
+        <h1 id="controller-identifiers" tabindex="-1">Controller Identifiers <a class="header-anchor" href="#controller-identifiers" aria-hidden="true">#</a></h1>
+<p>GPC scripts use platform-agnostic integer indices to represent controller inputs. Zen Studio automatically maps these indices to platform-specific labels (constants) to make scripts readable.</p>
 <hr>
-<h2 id="reading-inputs" tabindex="-1">Reading Inputs <a class="header-anchor" href="#reading-inputs" aria-hidden="true">#</a></h2>
-<h3 id="get-val" tabindex="-1"><code>get_val</code> <a class="header-anchor" href="#get-val" aria-hidden="true">#</a></h3>
-<p>Reads the current value of a controller input.</p>
+<h2 id="playstation-5-xbox-series-xs-identifiers" tabindex="-1">PlayStation 5 & Xbox Series X|S Identifiers <a class="header-anchor" href="#playstation-5-xbox-series-xs-identifiers" aria-hidden="true">#</a></h2>
+<p>Modern console controllers feature new buttons (like the Share/Capture button) which have dedicated identifiers on the Cronus Zen.</p>
+<h3 id="xbox-series-xs-mappings" tabindex="-1">Xbox Series X|S Mappings <a class="header-anchor" href="#xbox-series-xs-mappings" aria-hidden="true">#</a></h3>
 <ul>
-<li><strong>Syntax</strong>: <code>get_val(<a href="identifier">identifier</a>)</code></li>
-<li><strong>Returns</strong>: An integer. For buttons and triggers, it returns <code>0</code> (released) to <code>100</code> (fully pressed). For analog sticks, it returns a value from <code>-100</code> to <code>100</code>.</li>
-<li><strong>Example</strong>:</li>
-<pre><code class="language-c">  main {
-      // Check if Right Stick Y-axis (vertical) is pushed down past 50%
-      if (get_val(XB1_RY) &gt; 50) {
-          // Do something
-      }
-  }</code></pre>
+<li><strong><code>XB1_SHARE</code></strong>: Represents the physical Share button located in the center of the Xbox Series X|S controller.</li>
+<li>All other buttons (<code>XB1_A</code>, <code>XB1_B</code>, <code>XB1_RT</code>, etc.) retain their standard mappings from the Xbox One profile.</li>
 </ul>
-<h3 id="get-lval" tabindex="-1"><code>get_lval</code> <a class="header-anchor" href="#get-lval" aria-hidden="true">#</a></h3>
-<p>Reads the value of a controller input from the *previous* execution frame. Useful for detecting changes in analog stick positions or trigger changes.</p>
+<h3 id="playstation-5-mappings" tabindex="-1">PlayStation 5 Mappings <a class="header-anchor" href="#playstation-5-mappings" aria-hidden="true">#</a></h3>
 <ul>
-<li><strong>Syntax</strong>: <code>get_lval(<a href="identifier">identifier</a>)</code></li>
-<li><strong>Example</strong>:</li>
-<pre><code class="language-c">  main {
-      // Compare current stick value to previous frame
-      if (get_val(XB1_RX) != get_lval(XB1_RX)) {
-          // Right Stick X-axis is moving
-      }
-  }</code></pre>
+<li><strong><code>PS5_CREATE</code></strong>: Represents the physical Create/Share button on the DualSense controller.</li>
+<li><strong><code>PS5_TOUCH</code></strong>: Represents clicking the dual-point capacitive touchpad.</li>
+<li><strong><code>PS5_MUTE</code></strong>: Represents the built-in microphone mute button.</li>
+<li>Standard buttons use the <code>PS5_</code> prefixes (e.g. <code>PS5_CROSS</code>, <code>PS5_CIRCLE</code>, <code>PS5_L2</code>, <code>PS5_R2</code>).</li>
 </ul>
 <hr>
-<h2 id="trigger-events" tabindex="-1">Trigger Events <a class="header-anchor" href="#trigger-events" aria-hidden="true">#</a></h2>
-<h3 id="event-press" tabindex="-1"><code>event_press</code> <a class="header-anchor" href="#event-press" aria-hidden="true">#</a></h3>
-<p>Detects if a button was pressed during the current frame. This function only returns <code>TRUE</code> once per button press event.</p>
-<ul>
-<li><strong>Syntax</strong>: <code>event_press(<a href="identifier">identifier</a>)</code></li>
-<li><strong>Returns</strong>: <code>TRUE</code> (1) if the button transitioned from released to pressed in the current cycle, otherwise <code>FALSE</code> (0).</li>
-<li><strong>Example</strong>:</li>
-<pre><code class="language-c">  main {
-      // Toggle a feature when pressing the button once
-      if (event_press(XB1_Y)) {
-          toggleState = !toggleState;
-      }
-  }</code></pre>
-</ul>
-<h3 id="event-release" tabindex="-1"><code>event_release</code> <a class="header-anchor" href="#event-release" aria-hidden="true">#</a></h3>
-<p>Detects if a button was released during the current frame.</p>
-<ul>
-<li><strong>Syntax</strong>: <code>event_release(<a href="identifier">identifier</a>)</code></li>
-<li><strong>Returns</strong>: <code>TRUE</code> (1) if the button transitioned from pressed to released, otherwise <code>FALSE</code> (0).</li>
-<li><strong>Example</strong>:</li>
-<pre><code class="language-c">  main {
-      // Run reload macro when reloading button is released
-      if (event_release(XB1_X)) {
-          combo_run(ReloadMacro);
-      }
-  }</code></pre>
-</ul>
+<h2 id="universal-button-mapping-table" tabindex="-1">Universal Button Mapping Table <a class="header-anchor" href="#universal-button-mapping-table" aria-hidden="true">#</a></h2>
+<p>Because GPC buttons are compiled down to integer index positions (<code>0</code> to <code>20</code>), platform-specific aliases are interchangeable. A script written with <code>XB1_RT</code> runs identically when using a PS5 controller on a PS5 console.</p>
+<p>The table below lists the universal GPC indices and their equivalents:</p>
+<table><thead><tr><th>Index</th><th>Generic Name</th><th>Xbox Constant</th><th>PlayStation Constant</th><th>Switch Constant</th></tr></thead><tbody><tr><td><strong>0</strong></td><td><code>PS</code> / <code>HOME</code></td><td><code>XB1_HOME</code></td><td><code>PS4_PS</code> / <code>PS5_PS</code></td><td><code>SWITCH_HOME</code></td></tr><tr><td><strong>1</strong></td><td><code>SHARE</code> / <code>VIEW</code></td><td><code>XB1_VIEW</code> / <code>XB1_SHARE</code></td><td><code>PS4_SHARE</code> / <code>PS5_CREATE</code></td><td><code>SWITCH_CAPTURE</code></td></tr><tr><td><strong>2</strong></td><td><code>OPTIONS</code> / <code>MENU</code></td><td><code>XB1_MENU</code></td><td><code>PS4_OPTIONS</code> / <code>PS5_OPTIONS</code></td><td><code>SWITCH_PLUS</code></td></tr><tr><td><strong>3</strong></td><td><code>R1</code> / <code>RB</code></td><td><code>XB1_RB</code></td><td><code>PS4_R1</code> / <code>PS5_R1</code></td><td><code>SWITCH_R</code></td></tr><tr><td><strong>4</strong></td><td><code>R2</code> / <code>RT</code></td><td><code>XB1_RT</code></td><td><code>PS4_R2</code> / <code>PS5_R2</code></td><td><code>SWITCH_ZR</code></td></tr><tr><td><strong>5</strong></td><td><code>R3</code> / <code>RS</code></td><td><code>XB1_RS</code></td><td><code>PS4_R3</code> / <code>PS5_R3</code></td><td><code>SWITCH_SR</code></td></tr><tr><td><strong>6</strong></td><td><code>L1</code> / <code>LB</code></td><td><code>XB1_LB</code></td><td><code>PS4_L1</code> / <code>PS5_L1</code></td><td><code>SWITCH_L</code></td></tr><tr><td><strong>7</strong></td><td><code>L2</code> / <code>LT</code></td><td><code>XB1_LT</code></td><td><code>PS4_L2</code> / <code>PS5_L2</code></td><td><code>SWITCH_ZL</code></td></tr><tr><td><strong>8</strong></td><td><code>L3</code> / <code>LS</code></td><td><code>XB1_LS</code></td><td><code>PS4_L3</code> / <code>PS5_L3</code></td><td><code>SWITCH_SL</code></td></tr><tr><td><strong>9</strong></td><td><code>RX</code> (Right Stick X)</td><td><code>XB1_RX</code></td><td><code>PS4_RX</code> / <code>PS5_RX</code></td><td><code>SWITCH_RX</code></td></tr><tr><td><strong>10</strong></td><td><code>RY</code> (Right Stick Y)</td><td><code>XB1_RY</code></td><td><code>PS4_RY</code> / <code>PS5_RY</code></td><td><code>SWITCH_RY</code></td></tr><tr><td><strong>11</strong></td><td><code>LX</code> (Left Stick X)</td><td><code>XB1_LX</code></td><td><code>PS4_LX</code> / <code>PS5_LX</code></td><td><code>SWITCH_LX</code></td></tr><tr><td><strong>12</strong></td><td><code>LY</code> (Left Stick Y)</td><td><code>XB1_LY</code></td><td><code>PS4_LY</code> / <code>PS5_LY</code></td><td><code>SWITCH_LY</code></td></tr><tr><td><strong>13</strong></td><td><code>UP</code> (D-pad)</td><td><code>XB1_UP</code></td><td><code>PS4_UP</code> / <code>PS5_UP</code></td><td><code>SWITCH_UP</code></td></tr><tr><td><strong>14</strong></td><td><code>DOWN</code> (D-pad)</td><td><code>XB1_DOWN</code></td><td><code>PS4_DOWN</code> / <code>PS5_DOWN</code></td><td><code>SWITCH_DOWN</code></td></tr><tr><td><strong>15</strong></td><td><code>LEFT</code> (D-pad)</td><td><code>XB1_LEFT</code></td><td><code>PS4_LEFT</code> / <code>PS5_LEFT</code></td><td><code>SWITCH_LEFT</code></td></tr><tr><td><strong>16</strong></td><td><code>RIGHT</code> (D-pad)</td><td><code>XB1_RIGHT</code></td><td><code>PS4_RIGHT</code> / <code>PS5_RIGHT</code></td><td><code>SWITCH_RIGHT</code></td></tr><tr><td><strong>17</strong></td><td><code>TRIANGLE</code> / <code>Y</code></td><td><code>XB1_Y</code></td><td><code>PS4_TRIANGLE</code> / <code>PS5_TRIANGLE</code></td><td><code>SWITCH_X</code></td></tr><tr><td><strong>18</strong></td><td><code>CIRCLE</code> / <code>B</code></td><td><code>XB1_B</code></td><td><code>PS4_CIRCLE</code> / <code>PS5_CIRCLE</code></td><td><code>SWITCH_A</code></td></tr><tr><td><strong>19</strong></td><td><code>CROSS</code> / <code>A</code></td><td><code>XB1_A</code></td><td><code>PS4_CROSS</code> / <code>PS5_CROSS</code></td><td><code>SWITCH_B</code></td></tr><tr><td><strong>20</strong></td><td><code>SQUARE</code> / <code>X</code></td><td><code>XB1_X</code></td><td><code>PS4_SQUARE</code> / <code>PS5_SQUARE</code></td><td><code>SWITCH_Y</code></td></tr></tbody></table>
 <hr>
-<h2 id="overwriting-blocking-outputs" tabindex="-1">Overwriting & Blocking Outputs <a class="header-anchor" href="#overwriting-blocking-outputs" aria-hidden="true">#</a></h2>
-<h3 id="set-val" tabindex="-1"><code>set_val</code> <a class="header-anchor" href="#set-val" aria-hidden="true">#</a></h3>
-<p>Overrides the physical value of a button or stick and sends the new value to the console or PC.</p>
-<ul>
-<li><strong>Syntax</strong>: <code>set_val(<a href="identifier">identifier</a>, <a href="value">value</a>)</code></li>
-<li><strong>Parameters</strong>:</li>
-<li><code><a href="identifier">identifier</a></code>: The controller button/axis to override.</li>
-<li><code><a href="value">value</a></code>: The value to set (integer between <code>-100</code> and <code>100</code>).</li>
-<li><strong>Example</strong>:</li>
-<pre><code class="language-c">  main {
-      // Auto-sprint: If pushing Left Stick forward (negative Y values), force press LS button
-      if (get_val(XB1_LY) &lt;a href=" -90) {
-          set_val(XB1_LS, 100);
-      }
-  }</code></pre>
-</ul>
-<h3 id="block" tabindex="-1"><code>block</code> <a class="header-anchor" href="#block" aria-hidden="true">#</a></h3>
-<p>Blocks output signals from a specific button from reaching the console for a specified duration.</p>
-<ul>
-<li><strong>Syntax</strong>: `block(<identifier"> -90) {</li>
-</ul>
-<p>set_val(XB1_LS, 100);</p>
-<p>}</p>
-<p>}</p>
-<pre><code class="language-txt">
-### `block`
-Blocks output signals from a specific button from reaching the console for a specified duration.
-* **Syntax**: `block(&lt;identifier&lt;/a&gt;, &lt;a href="time_ms"&gt;time_ms&lt;/a&gt;)`
-* **Example**:</code></pre>
-<p>main {</p>
-<p>// If pressing Menu button, block the signal for 200ms to allow local script action</p>
-<p>if (event_press(XB1_MENU)) {</p>
-<p>block(XB1_MENU, 200);</p>
-<p>combo_run(LocalMenuLogic);</p>
-<p>}</p>
-<p>}</p>
-<pre><code class="language-txt">
-## Remapping &amp; Unmapping
-
-Remapping changes how buttons are mapped from the controller to the console. GPC provides compile-time remappings and runtime modifications.
-
-### `remap`
-Assigns a controller button to a different output destination.
-* **Syntax**: `remap &lt;a href="physical_input"&gt;physical_input&lt;/a&gt; -&gt; &lt;a href="virtual_output"&gt;virtual_output&lt;/a&gt;;`
-* **Placement**: Must be placed at the **very beginning of the script** (before `init` and `main`).
-* **Behavior**: Remappings are processed at the *end* of each tick. Therefore, in your GPC script logic (like `get_val`), **always reference the physical button**, not the remapped button.
-</code></pre>
-<p>// Force physical Cross/A button to send Square/X signals to the console</p>
-<p>remap PS4_CROSS -> PS4_SQUARE;</p>
-<p>main {</p>
-<p>// If the physical CROSS button is pressed</p>
-<p>if (event_press(PS4_CROSS)) {</p>
-<p>// Run logic. The console will still receive PS4_SQUARE.</p>
-<p>}</p>
-<p>}</p>
-<pre><code class="language-txt">
-### `unmap`
-Disconnects a button's output channel so the console never registers it, although the GPC script can still read it using `get_val()`.
-* **Syntax**: `unmap &lt;a href="identifier"&gt;identifier&lt;/a&gt;;`
-* **Syntax (Clear all)**: `unmap ALL_REMAPS;` (clears all current script remappings).
-* **Example**:</code></pre>
-<p>init {</p>
-<p>// Disconnect the Back/View button from the console so we can use it as a custom script toggle</p>
-<p>unmap(XB1_VIEW);</p>
-<p>}</p>
-<pre><code class="language-txt">
-### `swap`
-Swaps the values of two controller buttons at the software layer.
-* **Syntax**: `swap(&lt;a href="button_1"&gt;button_1&lt;/a&gt;, &lt;a href="button_2"&gt;button_2&lt;/a&gt;);`
-* **Example**:</code></pre>
-<p>init {</p>
-<p>// Flipped layout: Swap bumpers and triggers</p>
-<p>swap(XB1_LB, XB1_LT);</p>
-<p>swap(XB1_RB, XB1_RT);</p>
-<p>}</p>
+<h2 id="keyboard-mouse-mapping-kbm" tabindex="-1">Keyboard & Mouse Mapping (KBM) <a class="header-anchor" href="#keyboard-mouse-mapping-kbm" aria-hidden="true">#</a></h2>
+<p>When using a Keyboard and Mouse connected to the Cronus Zen, the Zen maps key presses and mouse movements to these same controller indices based on your <strong>Input Translator</strong> file (<code>.git</code> layout mapping configured in Zen Studio).</p>
+<p>For example, moving your physical mouse to the right sends a positive X value to the <code>XB1_RX</code> (Index 9) channel, and pressing <strong>W</strong> on your keyboard maps to a negative Y value on the <code>XB1_LY</code> (Index 12) channel.</p>
       </article>
       
       <nav class="pager">
-<a class="pager-link prev" href="../identifiers/">
+<a class="pager-link prev" href="../constants/">
 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="transform: rotate(180deg)"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
-<span><em>Previous</em>Controller Identifiers</span>
+<span><em>Previous</em>System Constants</span>
 </a>
-<a class="pager-link next" href="../combos-timing/">
-<span><em>Next</em>Combos & Timing</span>
+<a class="pager-link next" href="../input-output/">
+<span><em>Next</em>Input & Output</span>
 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
 </a>
 </nav>
@@ -272,15 +165,11 @@ Swaps the values of two controller buttons at the software layer.
     <aside class="toc">
       <div class="toc-title">On this page</div>
       <ul class="toc-list">
-<li class="toc-l2"><a href="#reading-inputs">Reading Inputs</a></li>
-<li class="toc-l3"><a href="#get-val">get_val</a></li>
-<li class="toc-l3"><a href="#get-lval">get_lval</a></li>
-<li class="toc-l2"><a href="#trigger-events">Trigger Events</a></li>
-<li class="toc-l3"><a href="#event-press">event_press</a></li>
-<li class="toc-l3"><a href="#event-release">event_release</a></li>
-<li class="toc-l2"><a href="#overwriting-blocking-outputs">Overwriting & Blocking Outputs</a></li>
-<li class="toc-l3"><a href="#set-val">set_val</a></li>
-<li class="toc-l3"><a href="#block">block</a></li>
+<li class="toc-l2"><a href="#playstation-5-xbox-series-xs-identifiers">PlayStation 5 & Xbox Series X|S Identifiers</a></li>
+<li class="toc-l3"><a href="#xbox-series-xs-mappings">Xbox Series X|S Mappings</a></li>
+<li class="toc-l3"><a href="#playstation-5-mappings">PlayStation 5 Mappings</a></li>
+<li class="toc-l2"><a href="#universal-button-mapping-table">Universal Button Mapping Table</a></li>
+<li class="toc-l2"><a href="#keyboard-mouse-mapping-kbm">Keyboard & Mouse Mapping (KBM)</a></li>
 </ul>
     </aside>
   </div>

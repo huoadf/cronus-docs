@@ -3,8 +3,8 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Input & Output · Cronus GPC docs</title>
-  <meta name="description" content="Cronus Zen GPC scripting documentation - Input & Output">
+  <title>32-bit VM Updates · Cronus GPC docs</title>
+  <meta name="description" content="Cronus Zen GPC scripting documentation - 32-bit VM Updates">
   <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%23050505'/%3E%3Ccircle cx='16' cy='16' r='6' fill='%2300f0ff'/%3E%3C/svg%3E">
   
   <!-- Fonts -->
@@ -88,13 +88,13 @@
         
         <div class="nav-group">Scripting Basics</div>
         <a class="nav-item " href="../syntax/">Syntax basics</a>
-        <a class="nav-item " href="../new-32bit-updates/">32-bit VM Updates</a>
+        <a class="nav-item active" href="../new-32bit-updates/">32-bit VM Updates</a>
         <a class="nav-item " href="../user-functions/">User Functions</a>
         <a class="nav-item " href="../constants/">System Constants</a>
         <a class="nav-item " href="../identifiers/">Controller Identifiers</a>
         
         <div class="nav-group">API Reference</div>
-        <a class="nav-item active" href="../input-output/">Input &amp; Output</a>
+        <a class="nav-item " href="../input-output/">Input &amp; Output</a>
         <a class="nav-item " href="../combos-timing/">Combos &amp; Timing</a>
         <a class="nav-item " href="../controller/">Controller Hardware</a>
         <a class="nav-item " href="../math/">Math &amp; Utilities</a>
@@ -116,154 +116,76 @@
         <div class="breadcrumb">
           <a href="../">Cronus GPC</a> 
           <span>/</span> 
-          Input & Output
+          32-bit VM Updates
         </div>
-        <h1 id="input-output" tabindex="-1">
-          Input & Output 
-          <a class="header-anchor" href="#input-output" aria-hidden="true">#</a>
+        <h1 id="new-32bit-updates" tabindex="-1">
+          32-bit VM Updates 
+          <a class="header-anchor" href="#new-32bit-updates" aria-hidden="true">#</a>
         </h1>
-        <h1 id="input-output-api" tabindex="-1">Input & Output API <a class="header-anchor" href="#input-output-api" aria-hidden="true">#</a></h1>
-<p>The core capability of GPC scripting is inspecting physical buttons and sticks, modifying their values, and outputting the results. This section details the functions used to interact with controller inputs.</p>
+        <h1 id="32-bit-vm-updates" tabindex="-1">32-bit VM Updates <a class="header-anchor" href="#32-bit-vm-updates" aria-hidden="true">#</a></h1>
+<p>The transition of the Cronus Zen Virtual Machine (VM) to 32-bit architecture is one of the most significant upgrades for GPC script developers. This page outlines the benefits of 32-bit support, variable changes, and the new functions introduced to exploit this architecture.</p>
 <hr>
-<h2 id="reading-inputs" tabindex="-1">Reading Inputs <a class="header-anchor" href="#reading-inputs" aria-hidden="true">#</a></h2>
-<h3 id="get-val" tabindex="-1"><code>get_val</code> <a class="header-anchor" href="#get-val" aria-hidden="true">#</a></h3>
-<p>Reads the current value of a controller input.</p>
+<h2 id="32-bit-architecture-advantages" tabindex="-1">32-bit Architecture Advantages <a class="header-anchor" href="#32-bit-architecture-advantages" aria-hidden="true">#</a></h2>
+<p>Older controller adapters compile GPC scripts on a 16-bit virtual machine. The modern Cronus Zen VM compiles in 32-bit.</p>
+<pre><code class="language-txt">16-bit: [ -32,768 ] ───────────────────────── [ 32,767 ] (Small Range)
+32-bit: [ -2,147,483,648 ] ─────────── [ 2,147,483,647 ] (Massive Range)</code></pre>
+<h3 id="1-expanded-value-range" tabindex="-1">1. Expanded Value Range <a class="header-anchor" href="#1-expanded-value-range" aria-hidden="true">#</a></h3>
+<p>The integer bounds change dramatically:</p>
 <ul>
-<li><strong>Syntax</strong>: <code>get_val(<a href="identifier">identifier</a>)</code></li>
-<li><strong>Returns</strong>: An integer. For buttons and triggers, it returns <code>0</code> (released) to <code>100</code> (fully pressed). For analog sticks, it returns a value from <code>-100</code> to <code>100</code>.</li>
-<li><strong>Example</strong>:</li>
-<pre><code class="language-c">  main {
-      // Check if Right Stick Y-axis (vertical) is pushed down past 50%
-      if (get_val(XB1_RY) &gt; 50) {
-          // Do something
-      }
-  }</code></pre>
+<li><strong>Old 16-bit bounds</strong>: <code>-32,768</code> to <code>32,767</code></li>
+<li><strong>New 32-bit bounds</strong>: <code>-2,147,483,648</code> to <code>2,147,483,647</code></li>
 </ul>
-<h3 id="get-lval" tabindex="-1"><code>get_lval</code> <a class="header-anchor" href="#get-lval" aria-hidden="true">#</a></h3>
-<p>Reads the value of a controller input from the *previous* execution frame. Useful for detecting changes in analog stick positions or trigger changes.</p>
+<h3 id="2-high-precision-math-anti-recoil-aim-assist" tabindex="-1">2. High-Precision Math (Anti-Recoil & Aim Assist) <a class="header-anchor" href="#2-high-precision-math-anti-recoil-aim-assist" aria-hidden="true">#</a></h3>
+<p>Without decimals, complex math relies on scaling integers up and down.</p>
 <ul>
-<li><strong>Syntax</strong>: <code>get_lval(<a href="identifier">identifier</a>)</code></li>
-<li><strong>Example</strong>:</li>
-<pre><code class="language-c">  main {
-      // Compare current stick value to previous frame
-      if (get_val(XB1_RX) != get_lval(XB1_RX)) {
-          // Right Stick X-axis is moving
-      }
-  }</code></pre>
+<li>Under 16-bit limits, multiplying a stick value by <code>1000</code> could easily exceed the <code>32,767</code> threshold, causing overflow bugs.</li>
+<li>Under 32-bit, developers can scale values into the millions to perform trigonometric calculations (sine, cosine for circular/polar aim assist) without any risk of overflow.</li>
 </ul>
 <hr>
-<h2 id="trigger-events" tabindex="-1">Trigger Events <a class="header-anchor" href="#trigger-events" aria-hidden="true">#</a></h2>
-<h3 id="event-press" tabindex="-1"><code>event_press</code> <a class="header-anchor" href="#event-press" aria-hidden="true">#</a></h3>
-<p>Detects if a button was pressed during the current frame. This function only returns <code>TRUE</code> once per button press event.</p>
+<h2 id="polar-stick-coordinates-api" tabindex="-1">Polar Stick Coordinates API <a class="header-anchor" href="#polar-stick-coordinates-api" aria-hidden="true">#</a></h2>
+<p>The 32-bit firmware introduces native polar coordinate translation functions. Instead of managing Cartesian coordinates (X and Y stick positions) manually, the VM can translate stick deflection into an angle and radius.</p>
+<pre><code class="language-txt">       Cartesian (X, Y)                       Polar (Angle, Radius)
+       
+              +Y                                      90° (Up)
+              |                                        |
+       -X ----+---- +X                        180° ----+---- 0° (Right)
+              |                                        |
+              -Y                                      270° (Down)</code></pre>
+<h3 id="get-polar" tabindex="-1"><code>get_polar</code> <a class="header-anchor" href="#get-polar" aria-hidden="true">#</a></h3>
+<p>Translates stick position into polar coordinates (direction and distance from the center).</p>
 <ul>
-<li><strong>Syntax</strong>: <code>event_press(<a href="identifier">identifier</a>)</code></li>
-<li><strong>Returns</strong>: <code>TRUE</code> (1) if the button transitioned from released to pressed in the current cycle, otherwise <code>FALSE</code> (0).</li>
-<li><strong>Example</strong>:</li>
-<pre><code class="language-c">  main {
-      // Toggle a feature when pressing the button once
-      if (event_press(XB1_Y)) {
-          toggleState = !toggleState;
-      }
-  }</code></pre>
-</ul>
-<h3 id="event-release" tabindex="-1"><code>event_release</code> <a class="header-anchor" href="#event-release" aria-hidden="true">#</a></h3>
-<p>Detects if a button was released during the current frame.</p>
-<ul>
-<li><strong>Syntax</strong>: <code>event_release(<a href="identifier">identifier</a>)</code></li>
-<li><strong>Returns</strong>: <code>TRUE</code> (1) if the button transitioned from pressed to released, otherwise <code>FALSE</code> (0).</li>
-<li><strong>Example</strong>:</li>
-<pre><code class="language-c">  main {
-      // Run reload macro when reloading button is released
-      if (event_release(XB1_X)) {
-          combo_run(ReloadMacro);
-      }
-  }</code></pre>
-</ul>
-<hr>
-<h2 id="overwriting-blocking-outputs" tabindex="-1">Overwriting & Blocking Outputs <a class="header-anchor" href="#overwriting-blocking-outputs" aria-hidden="true">#</a></h2>
-<h3 id="set-val" tabindex="-1"><code>set_val</code> <a class="header-anchor" href="#set-val" aria-hidden="true">#</a></h3>
-<p>Overrides the physical value of a button or stick and sends the new value to the console or PC.</p>
-<ul>
-<li><strong>Syntax</strong>: <code>set_val(<a href="identifier">identifier</a>, <a href="value">value</a>)</code></li>
+<li><strong>Syntax</strong>: <code>get_polar(<a href="stick_id">stick_id</a>, <a href="coordinate_type">coordinate_type</a>);</code></li>
 <li><strong>Parameters</strong>:</li>
-<li><code><a href="identifier">identifier</a></code>: The controller button/axis to override.</li>
-<li><code><a href="value">value</a></code>: The value to set (integer between <code>-100</code> and <code>100</code>).</li>
-<li><strong>Example</strong>:</li>
-<pre><code class="language-c">  main {
-      // Auto-sprint: If pushing Left Stick forward (negative Y values), force press LS button
-      if (get_val(XB1_LY) &lt;a href=" -90) {
-          set_val(XB1_LS, 100);
-      }
-  }</code></pre>
+<li><code><a href="stick_id">stick_id</a></code>: <code>XB1_LX</code> or <code>XB1_RX</code>.</li>
+<li><code><a href="coordinate_type">coordinate_type</a></code>:</li>
+<li><code>POLAR_ANGLE</code> (Returns <code>0</code> to <code>359</code> degrees, where <code>0</code> is Right, <code>90</code> is Up, <code>180</code> is Left, <code>270</code> is Down).</li>
+<li><code>POLAR_RADIUS</code> (Returns <code>0</code> to <code>32767</code>, representing the distance the stick is pushed from the center).</li>
 </ul>
-<h3 id="block" tabindex="-1"><code>block</code> <a class="header-anchor" href="#block" aria-hidden="true">#</a></h3>
-<p>Blocks output signals from a specific button from reaching the console for a specified duration.</p>
+<h3 id="get-ipolar" tabindex="-1"><code>get_ipolar</code> <a class="header-anchor" href="#get-ipolar" aria-hidden="true">#</a></h3>
+<p>Retrieves the <strong>original, unmodified</strong> polar stick values directly from the controller before any script transformations (e.g. anti-recoil offsets) were applied.</p>
 <ul>
-<li><strong>Syntax</strong>: `block(<identifier"> -90) {</li>
+<li><strong>Syntax</strong>: <code>get_ipolar(<a href="stick_id">stick_id</a>, <a href="coordinate_type">coordinate_type</a>);</code></li>
 </ul>
-<p>set_val(XB1_LS, 100);</p>
-<p>}</p>
-<p>}</p>
-<pre><code class="language-txt">
-### `block`
-Blocks output signals from a specific button from reaching the console for a specified duration.
-* **Syntax**: `block(&lt;identifier&lt;/a&gt;, &lt;a href="time_ms"&gt;time_ms&lt;/a&gt;)`
-* **Example**:</code></pre>
-<p>main {</p>
-<p>// If pressing Menu button, block the signal for 200ms to allow local script action</p>
-<p>if (event_press(XB1_MENU)) {</p>
-<p>block(XB1_MENU, 200);</p>
-<p>combo_run(LocalMenuLogic);</p>
-<p>}</p>
-<p>}</p>
-<pre><code class="language-txt">
-## Remapping &amp; Unmapping
-
-Remapping changes how buttons are mapped from the controller to the console. GPC provides compile-time remappings and runtime modifications.
-
-### `remap`
-Assigns a controller button to a different output destination.
-* **Syntax**: `remap &lt;a href="physical_input"&gt;physical_input&lt;/a&gt; -&gt; &lt;a href="virtual_output"&gt;virtual_output&lt;/a&gt;;`
-* **Placement**: Must be placed at the **very beginning of the script** (before `init` and `main`).
-* **Behavior**: Remappings are processed at the *end* of each tick. Therefore, in your GPC script logic (like `get_val`), **always reference the physical button**, not the remapped button.
-</code></pre>
-<p>// Force physical Cross/A button to send Square/X signals to the console</p>
-<p>remap PS4_CROSS -> PS4_SQUARE;</p>
-<p>main {</p>
-<p>// If the physical CROSS button is pressed</p>
-<p>if (event_press(PS4_CROSS)) {</p>
-<p>// Run logic. The console will still receive PS4_SQUARE.</p>
-<p>}</p>
-<p>}</p>
-<pre><code class="language-txt">
-### `unmap`
-Disconnects a button's output channel so the console never registers it, although the GPC script can still read it using `get_val()`.
-* **Syntax**: `unmap &lt;a href="identifier"&gt;identifier&lt;/a&gt;;`
-* **Syntax (Clear all)**: `unmap ALL_REMAPS;` (clears all current script remappings).
-* **Example**:</code></pre>
-<p>init {</p>
-<p>// Disconnect the Back/View button from the console so we can use it as a custom script toggle</p>
-<p>unmap(XB1_VIEW);</p>
-<p>}</p>
-<pre><code class="language-txt">
-### `swap`
-Swaps the values of two controller buttons at the software layer.
-* **Syntax**: `swap(&lt;a href="button_1"&gt;button_1&lt;/a&gt;, &lt;a href="button_2"&gt;button_2&lt;/a&gt;);`
-* **Example**:</code></pre>
-<p>init {</p>
-<p>// Flipped layout: Swap bumpers and triggers</p>
-<p>swap(XB1_LB, XB1_LT);</p>
-<p>swap(XB1_RB, XB1_RT);</p>
-<p>}</p>
+<hr>
+<h2 id="performance-functions" tabindex="-1">Performance Functions <a class="header-anchor" href="#performance-functions" aria-hidden="true">#</a></h2>
+<h3 id="get-info" tabindex="-1"><code>get_info</code> <a class="header-anchor" href="#get-info" aria-hidden="true">#</a></h3>
+<p>Retrieves internal processor diagnostics and script slot runtime statistics.</p>
+<ul>
+<li><strong>Syntax</strong>: <code>get_info(<a href="info_type">info_type</a>);</code></li>
+<li><strong>Common Info Types</strong>:</li>
+<li><code>INFO_CPU_LOAD</code>: Returns the current CPU usage of the GPC Virtual Machine as a percentage (<code>0</code> to <code>100</code>). Keep this under <code>80</code> to avoid lag.</li>
+<li><code>INFO_SLOT</code>: Returns the current active memory slot index number (<code>1</code> to <code>8</code>).</li>
+<li><code>INFO_VM_SPEED</code>: Returns the execution frequency cycle rate of the script.</li>
+</ul>
       </article>
       
       <nav class="pager">
-<a class="pager-link prev" href="../identifiers/">
+<a class="pager-link prev" href="../syntax/">
 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="transform: rotate(180deg)"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
-<span><em>Previous</em>Controller Identifiers</span>
+<span><em>Previous</em>Syntax basics</span>
 </a>
-<a class="pager-link next" href="../combos-timing/">
-<span><em>Next</em>Combos & Timing</span>
+<a class="pager-link next" href="../user-functions/">
+<span><em>Next</em>User Functions</span>
 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
 </a>
 </nav>
@@ -272,15 +194,14 @@ Swaps the values of two controller buttons at the software layer.
     <aside class="toc">
       <div class="toc-title">On this page</div>
       <ul class="toc-list">
-<li class="toc-l2"><a href="#reading-inputs">Reading Inputs</a></li>
-<li class="toc-l3"><a href="#get-val">get_val</a></li>
-<li class="toc-l3"><a href="#get-lval">get_lval</a></li>
-<li class="toc-l2"><a href="#trigger-events">Trigger Events</a></li>
-<li class="toc-l3"><a href="#event-press">event_press</a></li>
-<li class="toc-l3"><a href="#event-release">event_release</a></li>
-<li class="toc-l2"><a href="#overwriting-blocking-outputs">Overwriting & Blocking Outputs</a></li>
-<li class="toc-l3"><a href="#set-val">set_val</a></li>
-<li class="toc-l3"><a href="#block">block</a></li>
+<li class="toc-l2"><a href="#32-bit-architecture-advantages">32-bit Architecture Advantages</a></li>
+<li class="toc-l3"><a href="#1-expanded-value-range">1. Expanded Value Range</a></li>
+<li class="toc-l3"><a href="#2-high-precision-math-anti-recoil-aim-assist">2. High-Precision Math (Anti-Recoil & Aim Assist)</a></li>
+<li class="toc-l2"><a href="#polar-stick-coordinates-api">Polar Stick Coordinates API</a></li>
+<li class="toc-l3"><a href="#get-polar">get_polar</a></li>
+<li class="toc-l3"><a href="#get-ipolar">get_ipolar</a></li>
+<li class="toc-l2"><a href="#performance-functions">Performance Functions</a></li>
+<li class="toc-l3"><a href="#get-info">get_info</a></li>
 </ul>
     </aside>
   </div>

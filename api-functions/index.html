@@ -1,0 +1,484 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Built-in GPC Functions · Cronus GPC docs</title>
+  <meta name="description" content="Cronus Zen GPC scripting documentation - Built-in GPC Functions">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%23050505'/%3E%3Ccircle cx='16' cy='16' r='6' fill='%2300f0ff'/%3E%3C/svg%3E">
+  
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap">
+  
+  <!-- Theme CSS -->
+  <link rel="stylesheet" href="../assets/main.css">
+  <style>:root{--accent:#00f0ff}</style>
+  
+  <script>
+    (function(){try{var t=localStorage.getItem("wd-theme");if(t)document.documentElement.dataset.theme=t;}catch(e){}})();
+  </script>
+</head>
+<body data-project="cronus" data-search-path="../search-index.json">
+  <header class="topbar">
+    <button class="iconbtn menu-btn" data-menu aria-label="Open navigation">
+      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M4 6h16M4 12h16M4 18h16"/>
+      </svg>
+    </button>
+    <a class="brand" href="../">
+      <span class="brand-dot" style="background:#00f0ff"></span>Cronus GPC docs
+    </a>
+    <div class="switcher">
+      <button class="switcher-btn" data-switcher aria-haspopup="true" aria-expanded="false">
+        Cronus GPC
+        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="14" height="14">
+          <path d="m6 9 6 6 6-6"/>
+        </svg>
+      </button>
+      <div class="switcher-menu" data-switcher-menu hidden>
+        <a href="../" class="switcher-item active">
+          <span>Cronus GPC</span>
+          <em>Zen Scripting documentation</em>
+        </a>
+      </div>
+    </div>
+    
+    <div class="topbar-spacer"></div>
+    
+    <button class="searchbtn" data-search-open>
+      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <circle cx="11" cy="11" r="7"/>
+        <path d="m21 21-4.3-4.3"/>
+      </svg>
+      <span>Search</span>
+      <kbd>⌘K</kbd>
+    </button>
+    
+    <button class="connectbtn" data-connect-open aria-label="Connect to AI">
+      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M9 2v6M15 2v6"/>
+        <path d="M6 8h12v2a6 6 0 0 1-6 6 6 6 0 0 1-6-6z"/>
+        <path d="M12 16v6"/>
+      </svg>
+      <span>Connect</span>
+    </button>
+    
+    <button class="iconbtn" data-theme-toggle aria-label="Toggle theme">
+      <span class="theme-sun">
+        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="12" cy="12" r="4"/>
+          <path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/>
+        </svg>
+      </span>
+      <span class="theme-moon">
+        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/>
+        </svg>
+      </span>
+    </button>
+  </header>
+  
+  <div class="layout">
+    <div class="scrim" data-scrim></div>
+    <nav class="sidebar" data-sidebar>
+      <div class="sidebar-inner">
+        <a class="nav-item " href="../">Getting started</a>
+        
+        <div class="nav-group">Scripting Basics</div>
+        <a class="nav-item " href="../syntax/">Syntax basics</a>
+        <a class="nav-item " href="../new-32bit-updates/">32-bit VM Updates</a>
+        <a class="nav-item " href="../user-functions/">User Functions</a>
+        <a class="nav-item " href="../constants/">System Constants</a>
+        <a class="nav-item " href="../identifiers/">Controller Identifiers</a>
+        
+        <div class="nav-group">API Reference</div>
+        <a class="nav-item " href="../input-output/">Input &amp; Output</a>
+        <a class="nav-item " href="../combos-timing/">Combos &amp; Timing</a>
+        <a class="nav-item " href="../controller/">Controller Hardware</a>
+        <a class="nav-item " href="../math/">Math &amp; Utilities</a>
+        <a class="nav-item " href="../oled-display/">OLED Display</a>
+        <a class="nav-item " href="../bitwise-storage/">Bitwise &amp; Storage</a>
+        <a class="nav-item active" href="../api-functions/">Built-in GPC Functions</a>
+        
+        <div class="nav-group">Guides</div>
+        <a class="nav-item " href="../advanced-guides/">Advanced Guides &amp; Macros</a>
+        <a class="nav-item " href="../custom-oled-buttons/">Custom OLED Button Prompts</a>
+        <a class="nav-item " href="../api-samples/">API Samples</a>
+        <a class="nav-item " href="../troubleshooting/">Troubleshooting &amp; Limits</a>
+        <a class="nav-item " href="../studio-interop/">Zen Studio Interop</a>
+      </div>
+    </nav>
+    
+    <main class="content">
+      <article class="prose">
+        <div class="breadcrumb">
+          <a href="../">Cronus GPC</a> 
+          <span>/</span> 
+          Built-in GPC Functions
+        </div>
+        <h1 id="api-functions" tabindex="-1">
+          Built-in GPC Functions 
+          <a class="header-anchor" href="#api-functions" aria-hidden="true">#</a>
+        </h1>
+        <h1 id="built-in-gpc-functions" tabindex="-1">Built-in GPC Functions <a class="header-anchor" href="#built-in-gpc-functions" aria-hidden="true">#</a></h1>
+<p>This page provides an exhaustive alphabetical reference for the built-in API functions supported by the Cronus Zen GPC language.</p>
+<hr>
+<h2 id="combo-execution-functions" tabindex="-1">Combo & Execution Functions <a class="header-anchor" href="#combo-execution-functions" aria-hidden="true">#</a></h2>
+<h3 id="combo-run" tabindex="-1"><code>combo_run</code> <a class="header-anchor" href="#combo-run" aria-hidden="true">#</a></h3>
+<p>Triggers a combo block to start running asynchronously.</p>
+<ul>
+<li><strong>Syntax</strong>: <code>combo_run(<a href="combo_name">combo_name</a>);</code></li>
+</ul>
+<h3 id="combo-stop" tabindex="-1"><code>combo_stop</code> <a class="header-anchor" href="#combo-stop" aria-hidden="true">#</a></h3>
+<p>Stops a currently running combo block immediately.</p>
+<ul>
+<li><strong>Syntax</strong>: <code>combo_stop(<a href="combo_name">combo_name</a>);</code></li>
+</ul>
+<h3 id="combo-restart" tabindex="-1"><code>combo_restart</code> <a class="header-anchor" href="#combo-restart" aria-hidden="true">#</a></h3>
+<p>Restarts a combo from its first instruction, even if the combo is already active.</p>
+<ul>
+<li><strong>Syntax</strong>: <code>combo_restart(<a href="combo_name">combo_name</a>);</code></li>
+</ul>
+<hr>
+<h2 id="controller-input-output-functions" tabindex="-1">Controller Input / Output Functions <a class="header-anchor" href="#controller-input-output-functions" aria-hidden="true">#</a></h2>
+<h3 id="get-val" tabindex="-1"><code>get_val</code> <a class="header-anchor" href="#get-val" aria-hidden="true">#</a></h3>
+<p>Reads the current value of a controller button or axis.</p>
+<ul>
+<li><strong>Syntax</strong>: <code>get_val(<a href="button_id">button_id</a>);</code></li>
+<li><strong>Returns</strong>: <code>0</code> to <code>100</code> (for buttons/triggers); <code>-100</code> to <code>100</code> (for analog axes).</li>
+</ul>
+<h3 id="set-val" tabindex="-1"><code>set_val</code> <a class="header-anchor" href="#set-val" aria-hidden="true">#</a></h3>
+<p>Overrides the output value of a button or axis sent to the console.</p>
+<ul>
+<li><strong>Syntax</strong>: <code>set_val(<a href="button_id">button_id</a>, <a href="value">value</a>);</code></li>
+</ul>
+<h3 id="get-lval" tabindex="-1"><code>get_lval</code> <a class="header-anchor" href="#get-lval" aria-hidden="true">#</a></h3>
+<p>Reads the value of a button/axis from the previous execution loop tick.</p>
+<ul>
+<li><strong>Syntax</strong>: <code>get_lval(<a href="button_id">button_id</a>);</code></li>
+</ul>
+<h3 id="event-press" tabindex="-1"><code>event_press</code> <a class="header-anchor" href="#event-press" aria-hidden="true">#</a></h3>
+<p>Detects if a button was just pressed (transitioned from released to pressed).</p>
+<ul>
+<li><strong>Syntax</strong>: <code>event_press(<a href="button_id">button_id</a>);</code></li>
+<li><strong>Returns</strong>: <code>TRUE</code> (1) once per press event, otherwise <code>FALSE</code> (0).</li>
+</ul>
+<h3 id="event-release" tabindex="-1"><code>event_release</code> <a class="header-anchor" href="#event-release" aria-hidden="true">#</a></h3>
+<p>Detects if a button was just released (transitioned from pressed to released).</p>
+<ul>
+<li><strong>Syntax</strong>: <code>event_release(<a href="button_id">button_id</a>);</code></li>
+</ul>
+<h3 id="get-ptime" tabindex="-1"><code>get_ptime</code> <a class="header-anchor" href="#get-ptime" aria-hidden="true">#</a></h3>
+<p>Returns the duration in milliseconds that a button has remained in its current state.</p>
+<ul>
+<li><strong>Syntax</strong>: <code>get_ptime(<a href="button_id">button_id</a>);</code></li>
+</ul>
+<h3 id="block" tabindex="-1"><code>block</code> <a class="header-anchor" href="#block" aria-hidden="true">#</a></h3>
+<p>Blocks a button's output signal from reaching the console for a set duration.</p>
+<ul>
+<li><strong>Syntax</strong>: <code>block(<a href="button_id">button_id</a>, <a href="time_ms">time_ms</a>);</code></li>
+</ul>
+<h3 id="unmap" tabindex="-1"><code>unmap</code> <a class="header-anchor" href="#unmap" aria-hidden="true">#</a></h3>
+<p>Disables a button's output entirely. Use <code>unmap ALL_REMAPS;</code> to clear all remappings.</p>
+<ul>
+<li><strong>Syntax</strong>: <code>unmap(<a href="button_id">button_id</a>);</code></li>
+</ul>
+<h3 id="swap" tabindex="-1"><code>swap</code> <a class="header-anchor" href="#swap" aria-hidden="true">#</a></h3>
+<p>Swaps the logic values of two buttons at the software layer.</p>
+<ul>
+<li><strong>Syntax</strong>: <code>swap(<a href="button_id_1">button_id_1</a>, <a href="button_id_2">button_id_2</a>);</code></li>
+</ul>
+<hr>
+<h2 id="math-trigonometry-functions" tabindex="-1">Math & Trigonometry Functions <a class="header-anchor" href="#math-trigonometry-functions" aria-hidden="true">#</a></h2>
+<h3 id="clamp" tabindex="-1"><code>clamp</code> <a class="header-anchor" href="#clamp" aria-hidden="true">#</a></h3>
+<p>Restricts an integer value within a specific range.</p>
+<ul>
+<li><strong>Syntax</strong>: <code>clamp(<a href="value">value</a>, <a href="min">min</a>, <a href="max">max</a>);</code></li>
+</ul>
+<h3 id="abs" tabindex="-1"><code>abs</code> <a class="header-anchor" href="#abs" aria-hidden="true">#</a></h3>
+<p>Returns the absolute (positive) value of an integer.</p>
+<ul>
+<li><strong>Syntax</strong>: <code>abs(<a href="value">value</a>);</code></li>
+</ul>
+<h3 id="random" tabindex="-1"><code>random</code> <a class="header-anchor" href="#random" aria-hidden="true">#</a></h3>
+<p>Generates a pseudo-random integer within the specified range (inclusive).</p>
+<ul>
+<li><strong>Syntax</strong>: <code>random(<a href="min">min</a>, <a href="max">max</a>);</code></li>
+</ul>
+<h3 id="inv" tabindex="-1"><code>inv</code> <a class="header-anchor" href="#inv" aria-hidden="true">#</a></h3>
+<p>Inverts the sign of a number (multiplies by <code>-1</code>).</p>
+<ul>
+<li><strong>Syntax</strong>: <code>inv(<a href="value">value</a>);</code></li>
+</ul>
+<h3 id="get-polar" tabindex="-1"><code>get_polar</code> <a class="header-anchor" href="#get-polar" aria-hidden="true">#</a></h3>
+<p>Translates Cartesian stick axes coordinates (X, Y) into polar coordinates.</p>
+<ul>
+<li><strong>Syntax</strong>: <code>get_polar(<a href="stick_id">stick_id</a>, <a href="polar_type">polar_type</a>);</code></li>
+<li><strong>Types</strong>: <code>POLAR_ANGLE</code> (0 to 359), <code>POLAR_RADIUS</code> (0 to 32767).</li>
+</ul>
+<h3 id="get-ipolar" tabindex="-1"><code>get_ipolar</code> <a class="header-anchor" href="#get-ipolar" aria-hidden="true">#</a></h3>
+<p>Retrieves original polar coordinate values directly from the controller before any script overrides.</p>
+<ul>
+<li><strong>Syntax</strong>: <code>get_ipolar(<a href="stick_id">stick_id</a>, <a href="polar_type">polar_type</a>);</code></li>
+</ul>
+<hr>
+<h2 id="device-platform-diagnostics" tabindex="-1">Device & Platform Diagnostics <a class="header-anchor" href="#device-platform-diagnostics" aria-hidden="true">#</a></h2>
+<h3 id="get-console" tabindex="-1"><code>get_console</code> <a class="header-anchor" href="#get-console" aria-hidden="true">#</a></h3>
+<p>Returns the platform identifier representing the console the Zen is plugged into.</p>
+<ul>
+<li><strong>Syntax</strong>: <code>get_console();</code></li>
+<li><strong>Returns</strong>: A <code>PIO_</code> constant (e.g. <code>PIO_PS5</code>, <code>PIO_XB1</code>).</li>
+</ul>
+<h3 id="get-controller" tabindex="-1"><code>get_controller</code> <a class="header-anchor" href="#get-controller" aria-hidden="true">#</a></h3>
+<p>Returns the platform profile of the controller currently plugged into the Zen.</p>
+<ul>
+<li><strong>Syntax</strong>: <code>get_controller();</code></li>
+</ul>
+<h3 id="get-rtime" tabindex="-1"><code>get_rtime</code> <a class="header-anchor" href="#get-rtime" aria-hidden="true">#</a></h3>
+<p>Returns the execution loop cycle duration of the main script block in milliseconds.</p>
+<ul>
+<li><strong>Syntax</strong>: <code>get_rtime();</code></li>
+</ul>
+<h3 id="get-info" tabindex="-1"><code>get_info</code> <a class="header-anchor" href="#get-info" aria-hidden="true">#</a></h3>
+<p>Queries real-time hardware status metrics.</p>
+<ul>
+<li><strong>Syntax</strong>: <code>get_info(<a href="info_type">info_type</a>);</code></li>
+<li><strong>Types</strong>: <code>INFO_CPU_LOAD</code> (0-100), <code>INFO_SLOT</code> (1-8), <code>INFO_VM_SPEED</code>.</li>
+</ul>
+<hr>
+<h2 id="storage-memory-functions" tabindex="-1">Storage & Memory Functions <a class="header-anchor" href="#storage-memory-functions" aria-hidden="true">#</a></h2>
+<h3 id="get-pvar" tabindex="-1"><code>get_pvar</code> <a class="header-anchor" href="#get-pvar" aria-hidden="true">#</a></h3>
+<p>Reads a saved variable value from the slot's private EEPROM storage.</p>
+<ul>
+<li><strong>Syntax</strong>: <code>get_pvar(<a href="spvar_id">spvar_id</a>, <a href="min">min</a>, <a href="max">max</a>, <a href="default_value">default_value</a>);</code></li>
+</ul>
+<h3 id="set-pvar" tabindex="-1"><code>set_pvar</code> <a class="header-anchor" href="#set-pvar" aria-hidden="true">#</a></h3>
+<p>Saves an integer value to a slot-private persistent EEPROM variable.</p>
+<ul>
+<li><strong>Syntax</strong>: <code>set_pvar(<a href="spvar_id">spvar_id</a>, <a href="value">value</a>);</code></li>
+<li><strong>Note</strong>: Do not call this continuously in the <code>main</code> loop to protect EEPROM longevity.</li>
+</ul>
+<hr>
+<h2 id="bitwise-manipulation-functions" tabindex="-1">Bitwise Manipulation Functions <a class="header-anchor" href="#bitwise-manipulation-functions" aria-hidden="true">#</a></h2>
+<h3 id="set-bit" tabindex="-1"><code>set_bit</code> <a class="header-anchor" href="#set-bit" aria-hidden="true">#</a></h3>
+<p>Forces a specific bit index inside a variable to <code>1</code>.</p>
+<ul>
+<li><strong>Syntax</strong>: <code>set_bit(<a href="variable">variable</a>, <a href="bit_index">bit_index</a>);</code></li>
+</ul>
+<h3 id="clear-bit" tabindex="-1"><code>clear_bit</code> <a class="header-anchor" href="#clear-bit" aria-hidden="true">#</a></h3>
+<p>Forces a specific bit index inside a variable to <code>0</code>.</p>
+<ul>
+<li><strong>Syntax</strong>: <code>clear_bit(<a href="variable">variable</a>, <a href="bit_index">bit_index</a>);</code></li>
+</ul>
+<h3 id="test-bit" tabindex="-1"><code>test_bit</code> <a class="header-anchor" href="#test-bit" aria-hidden="true">#</a></h3>
+<p>Reads the state of a specific bit.</p>
+<ul>
+<li><strong>Syntax</strong>: <code>test_bit(<a href="value">value</a>, <a href="bit_index">bit_index</a>);</code></li>
+<li><strong>Returns</strong>: <code>TRUE</code> if the bit is <code>1</code>, <code>FALSE</code> if the bit is <code>0</code>.</li>
+</ul>
+<hr>
+<h2 id="oled-screen-functions" tabindex="-1">OLED Screen Functions <a class="header-anchor" href="#oled-screen-functions" aria-hidden="true">#</a></h2>
+<h3 id="cls-oled" tabindex="-1"><code>cls_oled</code> <a class="header-anchor" href="#cls-oled" aria-hidden="true">#</a></h3>
+<p>Clears the OLED screen to black (<code>0</code>) or white (<code>1</code>).</p>
+<ul>
+<li><strong>Syntax</strong>: <code>cls_oled(<a href="color">color</a>);</code></li>
+</ul>
+<h3 id="pixel-oled" tabindex="-1"><code>pixel_oled</code> <a class="header-anchor" href="#pixel-oled" aria-hidden="true">#</a></h3>
+<p>Draws a single pixel at coordinate (X, Y).</p>
+<ul>
+<li><strong>Syntax</strong>: <code>pixel_oled(<a href="x">x</a>, <a href="y">y</a>, <a href="color">color</a>);</code></li>
+</ul>
+<h3 id="line-oled" tabindex="-1"><code>line_oled</code> <a class="header-anchor" href="#line-oled" aria-hidden="true">#</a></h3>
+<p>Draws a line from one point to another.</p>
+<ul>
+<li><strong>Syntax</strong>: <code>line_oled(<a href="x1">x1</a>, <a href="y1">y1</a>, <a href="x2">x2</a>, <a href="y2">y2</a>, <a href="thickness">thickness</a>, <a href="color">color</a>);</code></li>
+</ul>
+<h3 id="rect-oled" tabindex="-1"><code>rect_oled</code> <a class="header-anchor" href="#rect-oled" aria-hidden="true">#</a></h3>
+<p>Draws an outlined or filled rectangle.</p>
+<ul>
+<li><strong>Syntax</strong>: <code>rect_oled(<a href="x">x</a>, <a href="y">y</a>, <a href="width">width</a>, <a href="height">height</a>, <a href="fill_flag">fill_flag</a>, <a href="color">color</a>);</code></li>
+</ul>
+<h3 id="circle-oled" tabindex="-1"><code>circle_oled</code> <a class="header-anchor" href="#circle-oled" aria-hidden="true">#</a></h3>
+<p>Draws an outlined or filled circle.</p>
+<ul>
+<li><strong>Syntax</strong>: <code>circle_oled(<a href="x">x</a>, <a href="y">y</a>, <a href="radius">radius</a>, <a href="fill_flag">fill_flag</a>, <a href="color">color</a>);</code></li>
+</ul>
+<h3 id="putc-oled" tabindex="-1"><code>putc_oled</code> <a class="header-anchor" href="#putc-oled" aria-hidden="true">#</a></h3>
+<p>Pushes a character code into the rendering string buffer.</p>
+<ul>
+<li><strong>Syntax</strong>: <code>putc_oled(<a href="buffer_index">buffer_index</a>, <a href="char_code">char_code</a>);</code></li>
+</ul>
+<h3 id="puts-oled" tabindex="-1"><code>puts_oled</code> <a class="header-anchor" href="#puts-oled" aria-hidden="true">#</a></h3>
+<p>Renders the character string buffer at a specific coordinate.</p>
+<ul>
+<li><strong>Syntax</strong>: <code>puts_oled(<a href="x">x</a>, <a href="y">y</a>, <a href="font_id">font_id</a>, <a href="num_chars">num_chars</a>, <a href="color">color</a>);</code></li>
+</ul>
+<hr>
+<h2 id="rumble-led-feedback-functions" tabindex="-1">Rumble & LED Feedback Functions <a class="header-anchor" href="#rumble-led-feedback-functions" aria-hidden="true">#</a></h2>
+<h3 id="set-rumble" tabindex="-1"><code>set_rumble</code> <a class="header-anchor" href="#set-rumble" aria-hidden="true">#</a></h3>
+<p>Triggers vibration on a specific motor.</p>
+<ul>
+<li><strong>Syntax</strong>: <code>set_rumble(<a href="rumble_id">rumble_id</a>, <a href="strength">strength</a>);</code></li>
+<li><strong>IDs</strong>: <code>RUMBLE_A</code> (heavy motor), <code>RUMBLE_B</code> (light motor).</li>
+</ul>
+<h3 id="reset-rumble" tabindex="-1"><code>reset_rumble</code> <a class="header-anchor" href="#reset-rumble" aria-hidden="true">#</a></h3>
+<p>Turns off all rumble motor vibration.</p>
+<ul>
+<li><strong>Syntax</strong>: <code>reset_rumble();</code></li>
+</ul>
+<h3 id="set-led" tabindex="-1"><code>set_led</code> <a class="header-anchor" href="#set-led" aria-hidden="true">#</a></h3>
+<p>Overrides an individual LED color channel on the controller or device.</p>
+<ul>
+<li><strong>Syntax</strong>: <code>set_led(<a href="led_id">led_id</a>, <a href="state">state</a>);</code></li>
+<li><strong>IDs</strong>: <code>LED_1</code> (Blue), <code>LED_2</code> (Red), <code>LED_3</code> (Green), <code>LED_4</code> (Yellow).</li>
+<li><strong>States</strong>: <code>0</code> (Off), <code>1</code> (On).</li>
+</ul>
+<h3 id="reset-leds" tabindex="-1"><code>reset_leds</code> <a class="header-anchor" href="#reset-leds" aria-hidden="true">#</a></h3>
+<p>Resets LED color channels back to default system mappings.</p>
+<ul>
+<li><strong>Syntax</strong>: <code>reset_leds();</code></li>
+</ul>
+      </article>
+      
+      <nav class="pager">
+<a class="pager-link prev" href="../bitwise-storage/">
+<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="transform: rotate(180deg)"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+<span><em>Previous</em>Bitwise & Storage</span>
+</a>
+<a class="pager-link next" href="../advanced-guides/">
+<span><em>Next</em>Advanced Guides & Macros</span>
+<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+</a>
+</nav>
+    </main>
+    
+    <aside class="toc">
+      <div class="toc-title">On this page</div>
+      <ul class="toc-list">
+<li class="toc-l2"><a href="#combo-execution-functions">Combo & Execution Functions</a></li>
+<li class="toc-l3"><a href="#combo-run">combo_run</a></li>
+<li class="toc-l3"><a href="#combo-stop">combo_stop</a></li>
+<li class="toc-l3"><a href="#combo-restart">combo_restart</a></li>
+<li class="toc-l2"><a href="#controller-input-output-functions">Controller Input / Output Functions</a></li>
+<li class="toc-l3"><a href="#get-val">get_val</a></li>
+<li class="toc-l3"><a href="#set-val">set_val</a></li>
+<li class="toc-l3"><a href="#get-lval">get_lval</a></li>
+<li class="toc-l3"><a href="#event-press">event_press</a></li>
+<li class="toc-l3"><a href="#event-release">event_release</a></li>
+<li class="toc-l3"><a href="#get-ptime">get_ptime</a></li>
+<li class="toc-l3"><a href="#block">block</a></li>
+<li class="toc-l3"><a href="#unmap">unmap</a></li>
+<li class="toc-l3"><a href="#swap">swap</a></li>
+<li class="toc-l2"><a href="#math-trigonometry-functions">Math & Trigonometry Functions</a></li>
+<li class="toc-l3"><a href="#clamp">clamp</a></li>
+<li class="toc-l3"><a href="#abs">abs</a></li>
+<li class="toc-l3"><a href="#random">random</a></li>
+<li class="toc-l3"><a href="#inv">inv</a></li>
+<li class="toc-l3"><a href="#get-polar">get_polar</a></li>
+<li class="toc-l3"><a href="#get-ipolar">get_ipolar</a></li>
+<li class="toc-l2"><a href="#device-platform-diagnostics">Device & Platform Diagnostics</a></li>
+<li class="toc-l3"><a href="#get-console">get_console</a></li>
+<li class="toc-l3"><a href="#get-controller">get_controller</a></li>
+<li class="toc-l3"><a href="#get-rtime">get_rtime</a></li>
+<li class="toc-l3"><a href="#get-info">get_info</a></li>
+<li class="toc-l2"><a href="#storage-memory-functions">Storage & Memory Functions</a></li>
+<li class="toc-l3"><a href="#get-pvar">get_pvar</a></li>
+<li class="toc-l3"><a href="#set-pvar">set_pvar</a></li>
+<li class="toc-l2"><a href="#bitwise-manipulation-functions">Bitwise Manipulation Functions</a></li>
+<li class="toc-l3"><a href="#set-bit">set_bit</a></li>
+<li class="toc-l3"><a href="#clear-bit">clear_bit</a></li>
+<li class="toc-l3"><a href="#test-bit">test_bit</a></li>
+<li class="toc-l2"><a href="#oled-screen-functions">OLED Screen Functions</a></li>
+<li class="toc-l3"><a href="#cls-oled">cls_oled</a></li>
+<li class="toc-l3"><a href="#pixel-oled">pixel_oled</a></li>
+<li class="toc-l3"><a href="#line-oled">line_oled</a></li>
+<li class="toc-l3"><a href="#rect-oled">rect_oled</a></li>
+<li class="toc-l3"><a href="#circle-oled">circle_oled</a></li>
+<li class="toc-l3"><a href="#putc-oled">putc_oled</a></li>
+<li class="toc-l3"><a href="#puts-oled">puts_oled</a></li>
+<li class="toc-l2"><a href="#rumble-led-feedback-functions">Rumble & LED Feedback Functions</a></li>
+<li class="toc-l3"><a href="#set-rumble">set_rumble</a></li>
+<li class="toc-l3"><a href="#reset-rumble">reset_rumble</a></li>
+<li class="toc-l3"><a href="#set-led">set_led</a></li>
+<li class="toc-l3"><a href="#reset-leds">reset_leds</a></li>
+</ul>
+    </aside>
+  </div>
+  
+  <!-- Search Overlay -->
+  <div class="search-overlay" data-search-overlay hidden>
+    <div class="search-panel">
+      <div class="search-head">
+        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="11" cy="11" r="7"/>
+          <path d="m21 21-4.3-4.3"/>
+        </svg>
+        <input type="search" placeholder="Search Cronus GPC docs" data-search-input autocomplete="off" spellcheck="false">
+        <kbd>Esc</kbd>
+      </div>
+      <div class="search-results" data-search-results></div>
+    </div>
+  </div>
+  
+  <!-- Connect Overlay -->
+  <div class="connect-overlay" data-connect-overlay hidden>
+    <div class="connect-panel">
+      <div class="connect-head">
+        <div>
+          <h2 class="connect-title">Connect Cronus GPC docs to your AI</h2>
+          <p class="connect-sub">Give any MCP-capable agent live search &amp; read access to these docs.</p>
+        </div>
+        <button class="iconbtn connect-close" type="button" data-connect-close aria-label="Close">✕</button>
+      </div>
+      <div class="connect-url-label">MCP server URL</div>
+      <div class="connect-url">
+        <code>https://huoadf.github.io/cronus-docs/mcp</code>
+        <button class="copy-btn" type="button">Copy</button>
+      </div>
+      <div class="tabs connect-tabs" data-tabs>
+        <div class="tab-panel" data-tab="Claude Code">
+          <p class="connect-note">Run in your terminal:</p>
+          <div class="connect-snippet">
+            <pre><code>claude mcp add --transport http cronus-docs https://huoadf.github.io/cronus-docs/mcp</code></pre>
+            <button class="copy-btn" type="button">Copy</button>
+          </div>
+        </div>
+        <div class="tab-panel" data-tab="Cursor">
+          <p class="connect-note">Add to <code>.cursor/mcp.json</code>:</p>
+          <div class="connect-snippet">
+            <pre><code>{
+  &quot;mcpServers&quot;: {
+    &quot;cronus-docs&quot;: {
+      &quot;url&quot;: &quot;https://huoadf.github.io/cronus-docs/mcp&quot;
+    }
+  }
+}</code></pre>
+            <button class="copy-btn" type="button">Copy</button>
+          </div>
+        </div>
+        <div class="tab-panel" data-tab="VS Code">
+          <p class="connect-note">Add to <code>.vscode/mcp.json</code>:</p>
+          <div class="connect-snippet">
+            <pre><code>{
+  &quot;servers&quot;: {
+    &quot;cronus-docs&quot;: {
+      &quot;type&quot;: &quot;http&quot;,
+      &quot;url&quot;: &quot;https://huoadf.github.io/cronus-docs/mcp&quot;
+    }
+  }
+}</code></pre>
+            <button class="copy-btn" type="button">Copy</button>
+          </div>
+        </div>
+      </div>
+      <p class="connect-foot">No setup? Point any agent at <code>llms.txt</code> or <code>llms-full.txt</code>.</p>
+    </div>
+  </div>
+  
+  <!-- Scripts -->
+  <script src="../assets/highlight.min.js"></script>
+  <script src="../assets/client.js" defer></script>
+</body>
+</html>

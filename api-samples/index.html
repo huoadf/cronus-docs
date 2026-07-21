@@ -3,8 +3,8 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Input & Output · Cronus GPC docs</title>
-  <meta name="description" content="Cronus Zen GPC scripting documentation - Input & Output">
+  <title>API Samples · Cronus GPC docs</title>
+  <meta name="description" content="Cronus Zen GPC scripting documentation - API Samples">
   <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%23050505'/%3E%3Ccircle cx='16' cy='16' r='6' fill='%2300f0ff'/%3E%3C/svg%3E">
   
   <!-- Fonts -->
@@ -94,7 +94,7 @@
         <a class="nav-item " href="../identifiers/">Controller Identifiers</a>
         
         <div class="nav-group">API Reference</div>
-        <a class="nav-item active" href="../input-output/">Input &amp; Output</a>
+        <a class="nav-item " href="../input-output/">Input &amp; Output</a>
         <a class="nav-item " href="../combos-timing/">Combos &amp; Timing</a>
         <a class="nav-item " href="../controller/">Controller Hardware</a>
         <a class="nav-item " href="../math/">Math &amp; Utilities</a>
@@ -105,7 +105,7 @@
         <div class="nav-group">Guides</div>
         <a class="nav-item " href="../advanced-guides/">Advanced Guides &amp; Macros</a>
         <a class="nav-item " href="../custom-oled-buttons/">Custom OLED Button Prompts</a>
-        <a class="nav-item " href="../api-samples/">API Samples</a>
+        <a class="nav-item active" href="../api-samples/">API Samples</a>
         <a class="nav-item " href="../troubleshooting/">Troubleshooting &amp; Limits</a>
         <a class="nav-item " href="../studio-interop/">Zen Studio Interop</a>
       </div>
@@ -116,154 +116,162 @@
         <div class="breadcrumb">
           <a href="../">Cronus GPC</a> 
           <span>/</span> 
-          Input & Output
+          API Samples
         </div>
-        <h1 id="input-output" tabindex="-1">
-          Input & Output 
-          <a class="header-anchor" href="#input-output" aria-hidden="true">#</a>
+        <h1 id="api-samples" tabindex="-1">
+          API Samples 
+          <a class="header-anchor" href="#api-samples" aria-hidden="true">#</a>
         </h1>
-        <h1 id="input-output-api" tabindex="-1">Input & Output API <a class="header-anchor" href="#input-output-api" aria-hidden="true">#</a></h1>
-<p>The core capability of GPC scripting is inspecting physical buttons and sticks, modifying their values, and outputting the results. This section details the functions used to interact with controller inputs.</p>
+        <h1 id="api-samples" tabindex="-1">API Samples <a class="header-anchor" href="#api-samples" aria-hidden="true">#</a></h1>
+<p>This page provides various GPC API code samples demonstrating advanced implementations such as Bit-Packing states, runtime adjustments, and SendMsgAppSample interop hooks.</p>
 <hr>
-<h2 id="reading-inputs" tabindex="-1">Reading Inputs <a class="header-anchor" href="#reading-inputs" aria-hidden="true">#</a></h2>
-<h3 id="get-val" tabindex="-1"><code>get_val</code> <a class="header-anchor" href="#get-val" aria-hidden="true">#</a></h3>
-<p>Reads the current value of a controller input.</p>
-<ul>
-<li><strong>Syntax</strong>: <code>get_val(<a href="identifier">identifier</a>)</code></li>
-<li><strong>Returns</strong>: An integer. For buttons and triggers, it returns <code>0</code> (released) to <code>100</code> (fully pressed). For analog sticks, it returns a value from <code>-100</code> to <code>100</code>.</li>
-<li><strong>Example</strong>:</li>
-<pre><code class="language-c">  main {
-      // Check if Right Stick Y-axis (vertical) is pushed down past 50%
-      if (get_val(XB1_RY) &gt; 50) {
-          // Do something
-      }
-  }</code></pre>
-</ul>
-<h3 id="get-lval" tabindex="-1"><code>get_lval</code> <a class="header-anchor" href="#get-lval" aria-hidden="true">#</a></h3>
-<p>Reads the value of a controller input from the *previous* execution frame. Useful for detecting changes in analog stick positions or trigger changes.</p>
-<ul>
-<li><strong>Syntax</strong>: <code>get_lval(<a href="identifier">identifier</a>)</code></li>
-<li><strong>Example</strong>:</li>
-<pre><code class="language-c">  main {
-      // Compare current stick value to previous frame
-      if (get_val(XB1_RX) != get_lval(XB1_RX)) {
-          // Right Stick X-axis is moving
-      }
-  }</code></pre>
-</ul>
-<hr>
-<h2 id="trigger-events" tabindex="-1">Trigger Events <a class="header-anchor" href="#trigger-events" aria-hidden="true">#</a></h2>
-<h3 id="event-press" tabindex="-1"><code>event_press</code> <a class="header-anchor" href="#event-press" aria-hidden="true">#</a></h3>
-<p>Detects if a button was pressed during the current frame. This function only returns <code>TRUE</code> once per button press event.</p>
-<ul>
-<li><strong>Syntax</strong>: <code>event_press(<a href="identifier">identifier</a>)</code></li>
-<li><strong>Returns</strong>: <code>TRUE</code> (1) if the button transitioned from released to pressed in the current cycle, otherwise <code>FALSE</code> (0).</li>
-<li><strong>Example</strong>:</li>
-<pre><code class="language-c">  main {
-      // Toggle a feature when pressing the button once
-      if (event_press(XB1_Y)) {
-          toggleState = !toggleState;
-      }
-  }</code></pre>
-</ul>
-<h3 id="event-release" tabindex="-1"><code>event_release</code> <a class="header-anchor" href="#event-release" aria-hidden="true">#</a></h3>
-<p>Detects if a button was released during the current frame.</p>
-<ul>
-<li><strong>Syntax</strong>: <code>event_release(<a href="identifier">identifier</a>)</code></li>
-<li><strong>Returns</strong>: <code>TRUE</code> (1) if the button transitioned from pressed to released, otherwise <code>FALSE</code> (0).</li>
-<li><strong>Example</strong>:</li>
-<pre><code class="language-c">  main {
-      // Run reload macro when reloading button is released
-      if (event_release(XB1_X)) {
-          combo_run(ReloadMacro);
-      }
-  }</code></pre>
-</ul>
-<hr>
-<h2 id="overwriting-blocking-outputs" tabindex="-1">Overwriting & Blocking Outputs <a class="header-anchor" href="#overwriting-blocking-outputs" aria-hidden="true">#</a></h2>
-<h3 id="set-val" tabindex="-1"><code>set_val</code> <a class="header-anchor" href="#set-val" aria-hidden="true">#</a></h3>
-<p>Overrides the physical value of a button or stick and sends the new value to the console or PC.</p>
-<ul>
-<li><strong>Syntax</strong>: <code>set_val(<a href="identifier">identifier</a>, <a href="value">value</a>)</code></li>
-<li><strong>Parameters</strong>:</li>
-<li><code><a href="identifier">identifier</a></code>: The controller button/axis to override.</li>
-<li><code><a href="value">value</a></code>: The value to set (integer between <code>-100</code> and <code>100</code>).</li>
-<li><strong>Example</strong>:</li>
-<pre><code class="language-c">  main {
-      // Auto-sprint: If pushing Left Stick forward (negative Y values), force press LS button
-      if (get_val(XB1_LY) &lt;a href=" -90) {
-          set_val(XB1_LS, 100);
-      }
-  }</code></pre>
-</ul>
-<h3 id="block" tabindex="-1"><code>block</code> <a class="header-anchor" href="#block" aria-hidden="true">#</a></h3>
-<p>Blocks output signals from a specific button from reaching the console for a specified duration.</p>
-<ul>
-<li><strong>Syntax</strong>: `block(<identifier"> -90) {</li>
-</ul>
-<p>set_val(XB1_LS, 100);</p>
-<p>}</p>
-<p>}</p>
-<pre><code class="language-txt">
-### `block`
-Blocks output signals from a specific button from reaching the console for a specified duration.
-* **Syntax**: `block(&lt;identifier&lt;/a&gt;, &lt;a href="time_ms"&gt;time_ms&lt;/a&gt;)`
-* **Example**:</code></pre>
-<p>main {</p>
-<p>// If pressing Menu button, block the signal for 200ms to allow local script action</p>
-<p>if (event_press(XB1_MENU)) {</p>
-<p>block(XB1_MENU, 200);</p>
-<p>combo_run(LocalMenuLogic);</p>
-<p>}</p>
-<p>}</p>
-<pre><code class="language-txt">
-## Remapping &amp; Unmapping
+<h2 id="sample-1-bit-packed-option-menus" tabindex="-1">Sample 1: Bit-Packed Option Menus <a class="header-anchor" href="#sample-1-bit-packed-option-menus" aria-hidden="true">#</a></h2>
+<p>This script stores 4 separate configuration settings (Auto-Sprint, Rapid Fire, Anti-Recoil Strength, and Target Assist) inside a single persistent variable (<code>SPVAR_1</code>), conserving EEPROM slots.</p>
+<pre><code class="language-c">// Setting bounds
+define MAX_RECOIL = 60;
+define MIN_RECOIL = 5;
 
-Remapping changes how buttons are mapped from the controller to the console. GPC provides compile-time remappings and runtime modifications.
+// Variables
+int auto_sprint;  // 0 - 1 (1 bit)
+int rapid_fire;   // 0 - 1 (1 bit)
+int assist_type;  // 0 - 3 (2 bits)
+int recoil_force; // 5 - 60 (6 bits)
 
-### `remap`
-Assigns a controller button to a different output destination.
-* **Syntax**: `remap &lt;a href="physical_input"&gt;physical_input&lt;/a&gt; -&gt; &lt;a href="virtual_output"&gt;virtual_output&lt;/a&gt;;`
-* **Placement**: Must be placed at the **very beginning of the script** (before `init` and `main`).
-* **Behavior**: Remappings are processed at the *end* of each tick. Therefore, in your GPC script logic (like `get_val`), **always reference the physical button**, not the remapped button.
-</code></pre>
-<p>// Force physical Cross/A button to send Square/X signals to the console</p>
-<p>remap PS4_CROSS -> PS4_SQUARE;</p>
-<p>main {</p>
-<p>// If the physical CROSS button is pressed</p>
-<p>if (event_press(PS4_CROSS)) {</p>
-<p>// Run logic. The console will still receive PS4_SQUARE.</p>
-<p>}</p>
-<p>}</p>
-<pre><code class="language-txt">
-### `unmap`
-Disconnects a button's output channel so the console never registers it, although the GPC script can still read it using `get_val()`.
-* **Syntax**: `unmap &lt;a href="identifier"&gt;identifier&lt;/a&gt;;`
-* **Syntax (Clear all)**: `unmap ALL_REMAPS;` (clears all current script remappings).
-* **Example**:</code></pre>
-<p>init {</p>
-<p>// Disconnect the Back/View button from the console so we can use it as a custom script toggle</p>
-<p>unmap(XB1_VIEW);</p>
-<p>}</p>
-<pre><code class="language-txt">
-### `swap`
-Swaps the values of two controller buttons at the software layer.
-* **Syntax**: `swap(&lt;a href="button_1"&gt;button_1&lt;/a&gt;, &lt;a href="button_2"&gt;button_2&lt;/a&gt;);`
-* **Example**:</code></pre>
-<p>init {</p>
-<p>// Flipped layout: Swap bumpers and triggers</p>
-<p>swap(XB1_LB, XB1_LT);</p>
-<p>swap(XB1_RB, XB1_RT);</p>
-<p>}</p>
+init {
+    // 1. Retrieve the packed value from persistent storage (default to 0)
+    int packed = get_pvar(SPVAR_1, 0, 32767, 0);
+    
+    // 2. Unpack the values using shift and mask logic
+    auto_sprint  = packed &amp; 0x01;          // Bit 0
+    rapid_fire   = (packed &gt;&gt; 1) &amp; 0x01;   // Bit 1
+    assist_type  = (packed &gt;&gt; 2) &amp; 0x03;   // Bits 2-3
+    recoil_force = (packed &gt;&gt; 4) &amp; 0x3F;   // Bits 4-9
+    
+    // 3. Fallback defaults if first-time run
+    if (recoil_force == 0) {
+        recoil_force = 20; // Default recoil
+    }
+}
+
+main {
+    // Save settings trigger: Press VIEW + MENU simultaneously
+    if (get_val(XB1_VIEW) &amp;&amp; event_press(XB1_MENU)) {
+        // Pack the states back into a single integer
+        int packed = auto_sprint | (rapid_fire &lt;a href="&lt; 1) | (assist_type &lt;&lt; 2) | (recoil_force &lt;&lt; 4);
+        
+        // Save to slot private memory
+        set_pvar(SPVAR_1, packed);
+        combo_run(RumbleConfirm);
+    }
+}
+
+combo RumbleConfirm {
+    set_rumble(RUMBLE_B, 40);
+    wait(150);
+    reset_rumble();
+}</code></pre>
+<hr>
+<h2 id="sample-2-double-tap-activation" tabindex="-1">Sample 2: Double-Tap Activation <a class="header-anchor" href="#sample-2-double-tap-activation" aria-hidden="true">#</a></h2>
+<p>Detects if a user double-taps a specific button within a set time window, which is useful for activating macros like a slide cancel or quick reload.</p>
+<pre><code class="language-c">define DOUBLE_TAP_WINDOW = 250; // Milliseconds allowed between taps
+
+int tap_timer = 0;
+int tap_count = 0;
+
+main {
+    // Decrement tap window timer
+    if (tap_timer "&gt;&lt; 1) | (assist_type &lt;&lt; 2) | (recoil_force &lt;&lt; 4);
+        
+        // Save to slot private memory
+        set_pvar(SPVAR_1, packed);
+        combo_run(RumbleConfirm);
+    }
+}
+
+combo RumbleConfirm {
+    set_rumble(RUMBLE_B, 40);
+    wait(150);
+    reset_rumble();
+}</code></pre>
+<hr>
+<h2 id="sample-2-double-tap-activation" tabindex="-1">Sample 2: Double-Tap Activation <a class="header-anchor" href="#sample-2-double-tap-activation" aria-hidden="true">#</a></h2>
+<p>Detects if a user double-taps a specific button within a set time window, which is useful for activating macros like a slide cancel or quick reload.</p>
+<pre><code class="language-c">define DOUBLE_TAP_WINDOW = 250; // Milliseconds allowed between taps
+
+int tap_timer = 0;
+int tap_count = 0;
+
+main {
+    // Decrement tap window timer
+    if (tap_timer &lt;/a&gt; 0) {
+        tap_timer = tap_timer - get_rtime();
+    } else {
+        tap_count = 0; // Window closed, reset count
+    }
+
+    // Monitor reload button tap event
+    if (event_press(XB1_X)) {
+        tap_count = tap_count + 1;
+        
+        if (tap_count == 1) {
+            tap_timer = DOUBLE_TAP_WINDOW; // Start window
+        } else if (tap_count == 2 &amp;&amp; tap_timer &gt; 0) {
+            // Success: Double tap detected!
+            combo_run(QuickReloadCancel);
+            tap_count = 0;
+            tap_timer = 0;
+        }
+    }
+}
+
+combo QuickReloadCancel {
+    // Trigger double tap macro action
+    set_val(XB1_Y, 100);
+    wait(50);
+    set_val(XB1_Y, 0);
+    wait(50);
+    set_val(XB1_Y, 100);
+    wait(50);
+    set_val(XB1_Y, 0);
+}</code></pre>
+<hr>
+<h2 id="sample-3-custom-oled-menu-wrapper-function" tabindex="-1">Sample 3: Custom OLED Menu Wrapper Function <a class="header-anchor" href="#sample-3-custom-oled-menu-wrapper-function" aria-hidden="true">#</a></h2>
+<p>This script wraps the text buffer calls into a modular, reusable function, saving bytecode space compared to repetitive inline code block arrays.</p>
+<pre><code class="language-c">define OLED_FONT_SMALL = 0;
+
+main {
+    if (event_press(XB1_UP)) {
+        // Clear screen and draw menu title
+        cls_oled(0);
+        draw_text_string(0, 0, "MENU ACTIVE");
+    }
+}
+
+// Custom wrapper function (defined at the very end of the GPC script)
+function draw_text_string(x, y, string_ptr) {
+    int i = 0;
+    int character;
+    
+    // GPC strings are arrays of character bytes passed by reference
+    // Loop until we reach the string null-terminator (ASCII 0)
+    while (string_ptr[i] != 0) {
+        character = string_ptr[i];
+        putc_oled(i, character);
+        i = i + 1;
+    }
+    
+    // Render string to coordinates
+    puts_oled(x, y, OLED_FONT_SMALL, i, 1);
+}</code></pre>
       </article>
       
       <nav class="pager">
-<a class="pager-link prev" href="../identifiers/">
+<a class="pager-link prev" href="../custom-oled-buttons/">
 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="transform: rotate(180deg)"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
-<span><em>Previous</em>Controller Identifiers</span>
+<span><em>Previous</em>Custom OLED Button Prompts</span>
 </a>
-<a class="pager-link next" href="../combos-timing/">
-<span><em>Next</em>Combos & Timing</span>
+<a class="pager-link next" href="../troubleshooting/">
+<span><em>Next</em>Troubleshooting & Limits</span>
 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
 </a>
 </nav>
@@ -272,15 +280,10 @@ Swaps the values of two controller buttons at the software layer.
     <aside class="toc">
       <div class="toc-title">On this page</div>
       <ul class="toc-list">
-<li class="toc-l2"><a href="#reading-inputs">Reading Inputs</a></li>
-<li class="toc-l3"><a href="#get-val">get_val</a></li>
-<li class="toc-l3"><a href="#get-lval">get_lval</a></li>
-<li class="toc-l2"><a href="#trigger-events">Trigger Events</a></li>
-<li class="toc-l3"><a href="#event-press">event_press</a></li>
-<li class="toc-l3"><a href="#event-release">event_release</a></li>
-<li class="toc-l2"><a href="#overwriting-blocking-outputs">Overwriting & Blocking Outputs</a></li>
-<li class="toc-l3"><a href="#set-val">set_val</a></li>
-<li class="toc-l3"><a href="#block">block</a></li>
+<li class="toc-l2"><a href="#sample-1-bit-packed-option-menus">Sample 1 Bit-Packed Option Menus</a></li>
+<li class="toc-l2"><a href="#sample-2-double-tap-activation">Sample 2 Double-Tap Activation</a></li>
+<li class="toc-l2"><a href="#sample-2-double-tap-activation">Sample 2 Double-Tap Activation</a></li>
+<li class="toc-l2"><a href="#sample-3-custom-oled-menu-wrapper-function">Sample 3 Custom OLED Menu Wrapper Function</a></li>
 </ul>
     </aside>
   </div>
