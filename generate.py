@@ -11,7 +11,8 @@ PAGES = [
     {"id": "combos-timing", "title": "Combos & Timing", "group": "API Reference", "src": "combos-timing.md", "url": "combos-timing/index.html", "breadcrumb": "Combos & Timing"},
     {"id": "controller", "title": "Controller Hardware", "group": "API Reference", "src": "controller.md", "url": "controller/index.html", "breadcrumb": "Controller Hardware"},
     {"id": "math", "title": "Math & Utilities", "group": "API Reference", "src": "math.md", "url": "math/index.html", "breadcrumb": "Math & Utilities"},
-    {"id": "advanced-guides", "title": "Advanced Guides & Macros", "group": "Guides", "src": "advanced-guides.md", "url": "advanced-guides/index.html", "breadcrumb": "Advanced Guides & Macros"}
+    {"id": "advanced-guides", "title": "Advanced Guides & Macros", "group": "Guides", "src": "advanced-guides.md", "url": "advanced-guides/index.html", "breadcrumb": "Advanced Guides & Macros"},
+    {"id": "troubleshooting", "title": "Troubleshooting & Limits", "group": "Guides", "src": "troubleshooting.md", "url": "troubleshooting/index.html", "breadcrumb": "Troubleshooting & Limits"}
 ]
 
 # Load layout template
@@ -436,6 +437,7 @@ llms_summary = """# Cronus GPC Docs
 - [Controller Hardware](https://huoadf.github.io/cronus-docs/controller/) - Rumble motors, color LEDs, controller button aliases.
 - [Math & Utilities](https://huoadf.github.io/cronus-docs/math/) - Clamp, absolute values, random generators, fixed-point math patterns.
 - [Advanced Guides & Macros](https://huoadf.github.io/cronus-docs/advanced-guides/) - Progressive anti-recoil, adjustable rapid fire, slide cancellations, and CPU optimization.
+- [Troubleshooting & Limits](https://huoadf.github.io/cronus-docs/troubleshooting/) - Bytecode optimization, watchdog timeout crashes, input lag, and TRACE debugger.
 
 For the full detailed documentation text, visit [llms-full.txt](https://huoadf.github.io/cronus-docs/llms-full.txt).
 """

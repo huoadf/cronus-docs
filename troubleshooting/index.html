@@ -1,0 +1,304 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Troubleshooting & Limits · Cronus GPC docs</title>
+  <meta name="description" content="Cronus Zen GPC scripting documentation - Troubleshooting & Limits">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%23050505'/%3E%3Ccircle cx='16' cy='16' r='6' fill='%2300f0ff'/%3E%3C/svg%3E">
+  
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap">
+  
+  <!-- Theme CSS -->
+  <link rel="stylesheet" href="../assets/main.css">
+  <style>:root{--accent:#00f0ff}</style>
+  
+  <script>
+    (function(){try{var t=localStorage.getItem("wd-theme");if(t)document.documentElement.dataset.theme=t;}catch(e){}})();
+  </script>
+</head>
+<body data-project="cronus" data-search-path="../search-index.json">
+  <header class="topbar">
+    <button class="iconbtn menu-btn" data-menu aria-label="Open navigation">
+      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M4 6h16M4 12h16M4 18h16"/>
+      </svg>
+    </button>
+    <a class="brand" href="../">
+      <span class="brand-dot" style="background:#00f0ff"></span>Cronus GPC docs
+    </a>
+    <div class="switcher">
+      <button class="switcher-btn" data-switcher aria-haspopup="true" aria-expanded="false">
+        Cronus GPC
+        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="14" height="14">
+          <path d="m6 9 6 6 6-6"/>
+        </svg>
+      </button>
+      <div class="switcher-menu" data-switcher-menu hidden>
+        <a href="../" class="switcher-item active">
+          <span>Cronus GPC</span>
+          <em>Zen Scripting documentation</em>
+        </a>
+      </div>
+    </div>
+    
+    <div class="topbar-spacer"></div>
+    
+    <button class="searchbtn" data-search-open>
+      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <circle cx="11" cy="11" r="7"/>
+        <path d="m21 21-4.3-4.3"/>
+      </svg>
+      <span>Search</span>
+      <kbd>⌘K</kbd>
+    </button>
+    
+    <button class="connectbtn" data-connect-open aria-label="Connect to AI">
+      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M9 2v6M15 2v6"/>
+        <path d="M6 8h12v2a6 6 0 0 1-6 6 6 6 0 0 1-6-6z"/>
+        <path d="M12 16v6"/>
+      </svg>
+      <span>Connect</span>
+    </button>
+    
+    <button class="iconbtn" data-theme-toggle aria-label="Toggle theme">
+      <span class="theme-sun">
+        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="12" cy="12" r="4"/>
+          <path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/>
+        </svg>
+      </span>
+      <span class="theme-moon">
+        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/>
+        </svg>
+      </span>
+    </button>
+  </header>
+  
+  <div class="layout">
+    <div class="scrim" data-scrim></div>
+    <nav class="sidebar" data-sidebar>
+      <div class="sidebar-inner">
+        <a class="nav-item " href="../">Getting started</a>
+        
+        <div class="nav-group">Scripting Basics</div>
+        <a class="nav-item " href="../syntax/">Syntax basics</a>
+        <a class="nav-item " href="../user-functions/">User Functions</a>
+        
+        <div class="nav-group">API Reference</div>
+        <a class="nav-item " href="../input-output/">Input &amp; Output</a>
+        <a class="nav-item " href="../combos-timing/">Combos &amp; Timing</a>
+        <a class="nav-item " href="../controller/">Controller Hardware</a>
+        <a class="nav-item " href="../math/">Math &amp; Utilities</a>
+        
+        <div class="nav-group">Guides</div>
+        <a class="nav-item " href="../advanced-guides/">Advanced Guides &amp; Macros</a>
+        <a class="nav-item active" href="../troubleshooting/">Troubleshooting &amp; Limits</a>
+      </div>
+    </nav>
+    
+    <main class="content">
+      <article class="prose">
+        <div class="breadcrumb">
+          <a href="../">Cronus GPC</a> 
+          <span>/</span> 
+          Troubleshooting & Limits
+        </div>
+        <h1 id="troubleshooting" tabindex="-1">
+          Troubleshooting & Limits 
+          <a class="header-anchor" href="#troubleshooting" aria-hidden="true">#</a>
+        </h1>
+        <h1 id="troubleshooting-limits" tabindex="-1">Troubleshooting & Limits <a class="header-anchor" href="#troubleshooting-limits" aria-hidden="true">#</a></h1>
+<p>When writing scripts for embedded hardware like the Cronus Zen, you are working under strict memory and processor limits. This guide covers debugging techniques, optimization tips, and troubleshooting common GPC VM crashes.</p>
+<hr>
+<h2 id="bytecode-memory-limits" tabindex="-1">Bytecode & Memory Limits <a class="header-anchor" href="#bytecode-memory-limits" aria-hidden="true">#</a></h2>
+<p>Cronus Zen memory slots have a physical file size cap. GPC compiles down to VM bytecode, which must fit within <strong>4,096 bytes (4KB)</strong> per script slot.</p>
+<h3 id="checking-code-size" tabindex="-1">Checking Code Size <a class="header-anchor" href="#checking-code-size" aria-hidden="true">#</a></h3>
+<p>When you compile your script in Zen Studio (by pressing <strong>F7</strong>), look at the compiler output status bar:</p>
+<ul>
+<li>It will show the percentage of bytecode slot memory consumed (e.g. <code>GPC Compiler: Success. Bytecode size: 1024 bytes (25%)</code>).</li>
+<li>If your script exceeds 100%, it will fail to program onto the device.</li>
+</ul>
+<h3 id="bytecode-optimization-tips" tabindex="-1">Bytecode Optimization Tips <a class="header-anchor" href="#bytecode-optimization-tips" aria-hidden="true">#</a></h3>
+<p>If you are running out of space, use these techniques to shrink your bytecode size:</p>
+<ul>
+<li><strong>Use <code>define</code> Instead of Variables</strong>:</li>
+</ul>
+<p>Constants declared with <code>define</code> do not take up variable memory slots.</p>
+<pre><code class="language-c">  // Bad (uses variable space):
+  int RAPID_FIRE_DELAY = 40;
+  
+  // Good (compile-time replacement, 0 byte overhead):
+  define RAPID_FIRE_DELAY = 40;</code></pre>
+<ul>
+<li><strong>Avoid Duplicate Code Blocks</strong>:</li>
+</ul>
+<p>If you are running the same calculations (like stick scaling or coordinate mappings) in multiple places, move them to a <strong>user-defined function</strong> at the bottom of the script.</p>
+<ul>
+<li><strong>Consolidate Variables</strong>:</li>
+</ul>
+<p>Do not create separate boolean variables for every toggle. You can store multiple boolean flags inside a single integer using bitwise operations, or reuse utility variables (e.g., <code>temp_val</code>).</p>
+<ul>
+<li><strong>Reduce Combo Counts</strong>:</li>
+</ul>
+<p>Combos take up significant space. If multiple features do similar button sequences, write a single parametric combo or function.</p>
+<hr>
+<h2 id="vm-watchdog-timeouts" tabindex="-1">VM Watchdog Timeouts <a class="header-anchor" href="#vm-watchdog-timeouts" aria-hidden="true">#</a></h2>
+<p>The Cronus Zen operates on a <strong>Watchdog Timer</strong> system. The GPC Virtual Machine expects your <code>main {}</code> block to complete execution and exit within a few milliseconds so the hardware can process device communications.</p>
+<div class="callout callout-danger"><span class="callout-ico" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="m15 9-6 6M9 9l6 6"/></svg></span><div class="callout-body"><p><strong>Watchdog Timeout Error</strong></p>
+<p>If the virtual machine is blocked for too long, the watchdog timer triggers, resetting the Cronus Zen. This causes your controller to disconnect, freeze, or cycle through a connection loop.</p></div></div>
+<h3 id="the-cause-blocking-loops" tabindex="-1">The Cause: Blocking Loops <a class="header-anchor" href="#the-cause-blocking-loops" aria-hidden="true">#</a></h3>
+<p>Watchdog timeouts are almost always caused by writing blocking loops (like <code>while</code> or <code>for</code> loops) inside <code>main {}</code>.</p>
+<pre><code class="language-c">// CRITICAL ERROR: This script will trigger a watchdog reset instantly!
+main {
+    if (get_val(XB1_RT)) {
+        // This loop freezes the VM and blocks hardware USB communications!
+        while (get_val(XB1_RT)) { 
+            set_val(XB1_RT, 100);
+        }
+    }
+}</code></pre>
+<h3 id="the-solution-timed-combos" tabindex="-1">The Solution: Timed Combos <a class="header-anchor" href="#the-solution-timed-combos" aria-hidden="true">#</a></h3>
+<p>Never use loops to manage durations. Use <strong>combos</strong> and the <code>wait()</code> instruction. The <code>wait()</code> command tells the combo to pause execution and release control back to the VM, allowing the <code>main</code> block to continue running in parallel on every tick.</p>
+<hr>
+<h2 id="vm-cpu-overload-input-lag" tabindex="-1">VM CPU Overload & Input Lag <a class="header-anchor" href="#vm-cpu-overload-input-lag" aria-hidden="true">#</a></h2>
+<p>Even if your script doesn't crash the watchdog, it can suffer from high CPU load. If CPU load exceeds <strong>80%</strong>, the Cronus Zen will experience <strong>input lag</strong> (noticeable delay between pressing a button and the action happening in-game) or dropped inputs.</p>
+<h3 id="optimizing-cpu-load" tabindex="-1">Optimizing CPU Load <a class="header-anchor" href="#optimizing-cpu-load" aria-hidden="true">#</a></h3>
+<ol>
+<li><strong>Reduce Active Combos</strong>: Avoid running multiple combos simultaneously if they read or write the same buttons.</li>
+<li><strong>Conditional Calculations</strong>: Do not perform complex calculations (like progressive recoil math) continuously. Wrap them in conditional statements so they only run when they are actually needed (e.g. only when firing).</li>
+<pre><code class="language-c">   main {
+       // Bad: Calculates progressive math on every frame
+       int pull = calculate_recoil(); 
+       
+       // Good: Only calculates when actually firing
+       if (get_val(XB1_RT)) {
+           int pull = calculate_recoil();
+           set_val(XB1_RY, pull);
+       }
+   }</code></pre>
+</ol>
+<hr>
+<h2 id="debugging-with-trace-logs" tabindex="-1">Debugging with Trace Logs <a class="header-anchor" href="#debugging-with-trace-logs" aria-hidden="true">#</a></h2>
+<p>Because GPC scripts run on an embedded chip without a screen output, you cannot use a standard debugger or <code>print</code> statements. Instead, you write debug values to <strong>Trace Slots</strong>.</p>
+<h3 id="using-trace-variables" tabindex="-1">Using TRACE variables <a class="header-anchor" href="#using-trace-variables" aria-hidden="true">#</a></h3>
+<p>Zen Studio has 6 trace variables: <code>TRACE_1</code>, <code>TRACE_2</code>, <code>TRACE_3</code>, <code>TRACE_4</code>, <code>TRACE_5</code>, and <code>TRACE_6</code>. You can write variables to these slots inside your script.</p>
+<pre><code class="language-c">main {
+    // Write current recoil force to TRACE_1 so we can inspect it
+    set_val(TRACE_1, active_recoil_force);
+}</code></pre>
+<h3 id="reading-trace-values" tabindex="-1">Reading Trace Values <a class="header-anchor" href="#reading-trace-values" aria-hidden="true">#</a></h3>
+<ol>
+<li>Connect your Zen to your PC via the <strong>PROG</strong> port.</li>
+<li>Open Zen Studio and navigate to the <strong>Compiler</strong> tab.</li>
+<li>Open the <strong>Device Monitor</strong> panel (on the bottom right).</li>
+<li>Run your script. The Device Monitor will show live values updating inside the <code>TRACE_1</code> to <code>TRACE_6</code> output boxes.</li>
+</ol>
+      </article>
+      
+      <nav class="pager">
+<a class="pager-link prev" href="../advanced-guides/">
+<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="transform: rotate(180deg)"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+<span><em>Previous</em>Advanced Guides & Macros</span>
+</a>
+</nav>
+    </main>
+    
+    <aside class="toc">
+      <div class="toc-title">On this page</div>
+      <ul class="toc-list">
+<li class="toc-l2"><a href="#bytecode-memory-limits">Bytecode & Memory Limits</a></li>
+<li class="toc-l3"><a href="#checking-code-size">Checking Code Size</a></li>
+<li class="toc-l3"><a href="#bytecode-optimization-tips">Bytecode Optimization Tips</a></li>
+<li class="toc-l2"><a href="#vm-watchdog-timeouts">VM Watchdog Timeouts</a></li>
+<li class="toc-l3"><a href="#the-cause-blocking-loops">The Cause Blocking Loops</a></li>
+<li class="toc-l3"><a href="#the-solution-timed-combos">The Solution Timed Combos</a></li>
+<li class="toc-l2"><a href="#vm-cpu-overload-input-lag">VM CPU Overload & Input Lag</a></li>
+<li class="toc-l3"><a href="#optimizing-cpu-load">Optimizing CPU Load</a></li>
+<li class="toc-l2"><a href="#debugging-with-trace-logs">Debugging with Trace Logs</a></li>
+<li class="toc-l3"><a href="#using-trace-variables">Using TRACE variables</a></li>
+<li class="toc-l3"><a href="#reading-trace-values">Reading Trace Values</a></li>
+</ul>
+    </aside>
+  </div>
+  
+  <!-- Search Overlay -->
+  <div class="search-overlay" data-search-overlay hidden>
+    <div class="search-panel">
+      <div class="search-head">
+        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="11" cy="11" r="7"/>
+          <path d="m21 21-4.3-4.3"/>
+        </svg>
+        <input type="search" placeholder="Search Cronus GPC docs" data-search-input autocomplete="off" spellcheck="false">
+        <kbd>Esc</kbd>
+      </div>
+      <div class="search-results" data-search-results></div>
+    </div>
+  </div>
+  
+  <!-- Connect Overlay -->
+  <div class="connect-overlay" data-connect-overlay hidden>
+    <div class="connect-panel">
+      <div class="connect-head">
+        <div>
+          <h2 class="connect-title">Connect Cronus GPC docs to your AI</h2>
+          <p class="connect-sub">Give any MCP-capable agent live search &amp; read access to these docs.</p>
+        </div>
+        <button class="iconbtn connect-close" type="button" data-connect-close aria-label="Close">✕</button>
+      </div>
+      <div class="connect-url-label">MCP server URL</div>
+      <div class="connect-url">
+        <code>https://huoadf.github.io/cronus-docs/mcp</code>
+        <button class="copy-btn" type="button">Copy</button>
+      </div>
+      <div class="tabs connect-tabs" data-tabs>
+        <div class="tab-panel" data-tab="Claude Code">
+          <p class="connect-note">Run in your terminal:</p>
+          <div class="connect-snippet">
+            <pre><code>claude mcp add --transport http cronus-docs https://huoadf.github.io/cronus-docs/mcp</code></pre>
+            <button class="copy-btn" type="button">Copy</button>
+          </div>
+        </div>
+        <div class="tab-panel" data-tab="Cursor">
+          <p class="connect-note">Add to <code>.cursor/mcp.json</code>:</p>
+          <div class="connect-snippet">
+            <pre><code>{
+  &quot;mcpServers&quot;: {
+    &quot;cronus-docs&quot;: {
+      &quot;url&quot;: &quot;https://huoadf.github.io/cronus-docs/mcp&quot;
+    }
+  }
+}</code></pre>
+            <button class="copy-btn" type="button">Copy</button>
+          </div>
+        </div>
+        <div class="tab-panel" data-tab="VS Code">
+          <p class="connect-note">Add to <code>.vscode/mcp.json</code>:</p>
+          <div class="connect-snippet">
+            <pre><code>{
+  &quot;servers&quot;: {
+    &quot;cronus-docs&quot;: {
+      &quot;type&quot;: &quot;http&quot;,
+      &quot;url&quot;: &quot;https://huoadf.github.io/cronus-docs/mcp&quot;
+    }
+  }
+}</code></pre>
+            <button class="copy-btn" type="button">Copy</button>
+          </div>
+        </div>
+      </div>
+      <p class="connect-foot">No setup? Point any agent at <code>llms.txt</code> or <code>llms-full.txt</code>.</p>
+    </div>
+  </div>
+  
+  <!-- Scripts -->
+  <script src="../assets/highlight.min.js"></script>
+  <script src="../assets/client.js" defer></script>
+</body>
+</html>
